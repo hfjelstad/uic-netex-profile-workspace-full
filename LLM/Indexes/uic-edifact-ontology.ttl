@@ -1,0 +1,844 @@
+﻿## -----------------------------------------------------------------
+## UIC EDIFACT <-> NeTEx Migration Ontology (Nordic Profile)
+## -----------------------------------------------------------------
+## A machine-readable knowledge graph of the UIC EDIFACT message
+## format (SKDUPD/TSDUPD) and its mapping to NeTEx objects,
+## aligned with the Nordic Profile conventions.
+##
+## Purpose:   Encode EDIFACT segment semantics, field-level mappings
+##            to NeTEx (Nordic Profile), and code translation tables.
+## Generated: 2026-04-20
+## Source:    Guides/UIC_EDIFACT_Migration/ mapping files and examples
+## Profile:   Nordic Profile (NP) - uses passingTimes (not Calls),
+##            operator codespaces, RICS in keyList, TypeOfService
+## -----------------------------------------------------------------
+
+@prefix uic:     <https://uic.org/edifact#> .
+@prefix netex:   <https://netex-cen.eu/ontology#> .
+@prefix map:     <https://uic.org/edifact/mapping#> .
+@prefix code:    <https://uic.org/edifact/codes#> .
+@prefix doc:     <https://netex-cen.eu/doc#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix profile: <https://netex-cen.eu/profile#> .
+
+## =================================================================
+## NORDIC PROFILE CONVENTIONS
+## =================================================================
+
+uic:NordicProfileAlignment a owl:Class ;
+    rdfs:label "Nordic Profile Alignment" ;
+    skos:definition "This ontology follows the Nordic Profile conventions for NeTEx rail timetable data." ;
+    skos:note "Key conventions: (1) Use Calls inside ServiceJourney, not passingTimes. (2) Operator codespace as ID prefix (e.g. VR:). (3) RICS stored as typed privateCodes/PrivateCode. (4) TypeOfService for service brands. (5) External registry refs omit @version. (6) UIC codes stored as privateCodes/PrivateCode with type='uicCode'." .
+
+uic:NP_PassingTimesPattern a uic:NordicProfileConvention ;
+    rdfs:label "passingTimes-based stop times" ;
+    skos:definition "For UIC migration, use TimetabledPassingTime elements inside ServiceJourney.passingTimes, referencing stops via StopPointInJourneyPatternRef. Do NOT use Call elements - they are more complex and not suitable for UIC migration at this stage." ;
+    skos:note "EDIFACT POR segments map to TimetabledPassingTime elements with ArrivalTime/DepartureTime. Boarding restrictions (TRF/ASD) are modelled on StopPointInJourneyPattern in the JourneyPattern, not on the passing times." .
+
+uic:NP_Codespace a uic:NordicProfileConvention ;
+    rdfs:label "Operator codespace" ;
+    skos:definition "Each operator defines a codespace with their prefix (e.g. VR, SJ, NSB). All IDs follow pattern: <Codespace>:<ObjectType>:<LocalId>." ;
+    skos:example "VR:ServiceJourney:1, VR:StopPlace:001002326, VR:OperatingDay:2026-01-04" .
+
+uic:NP_TypeOfService a uic:NordicProfileConvention ;
+    rdfs:label "TypeOfService for brands" ;
+    skos:definition "EDIFACT brand codes map to TypeOfService objects in ResourceFrame, referenced from ServiceJourney via TypeOfServiceRef. Distinct from TransportSubmode." ;
+    skos:example "VR:TypeOfService:HighSpeed (PrivateCode=8), VR:TypeOfService:InterCity (PrivateCode=9)" .
+
+uic:NP_TrainNumber a uic:NordicProfileConvention ;
+    rdfs:label "PrivateCode + PublicCode" ;
+    skos:definition "Train numbers from EDIFACT PRD map to both PrivateCode (internal/production) and PublicCode (passenger-facing) on ServiceJourney." .
+
+uic:NP_RICS a uic:NordicProfileConvention ;
+    rdfs:label "RICS code storage" ;
+    skos:definition "RICS operator code stored as PrivateCode AND in keyList as KeyValue with Key='RICS' on both DataSource and Operator/Authority objects." .
+
+uic:NP_ExternalRefs a uic:NordicProfileConvention ;
+    rdfs:label "External registry references" ;
+    skos:definition "References to objects from external registries (NSR, Tiamat) omit the @version attribute. Only same-delivery references include @version." .
+
+uic:NP_JourneyVariants a uic:NordicProfileConvention ;
+    rdfs:label "Day-of-week journey variants" ;
+    skos:definition "Different stop patterns for days of week (e.g. Sunday shorter route) are modelled as separate ServiceJourney + JourneyPattern variants. DatedServiceJourney selects the correct variant per date." ;
+    skos:example "VR:ServiceJourney:1 (weekday, 13 stops) vs VR:ServiceJourney:1_Sun (Sunday, 5 stops)" .
+
+## =================================================================
+## MESSAGE TYPES
+## =================================================================
+
+uic:SKDUPD a owl:Class ;
+    rdfs:label "SKDUPD" ;
+    skos:definition "Schedule and Calendar Update - UIC EDIFACT message for railway timetable data. Contains train services with stops, times, operating calendars, and on-board facilities." ;
+    skos:note "Primary message type. One message typically describes one train service." ;
+    uic:contains uic:UIB , uic:UIH , uic:MSD , uic:ORG , uic:HDR ,
+                 uic:PRD , uic:POP , uic:POR , uic:TRF , uic:ASD ,
+                 uic:MES , uic:ODI , uic:PDT , uic:RFR , uic:UIT , uic:UIZ .
+
+uic:TSDUPD a owl:Class ;
+    rdfs:label "TSDUPD" ;
+    skos:definition "Timetable Schedule Data Update - UIC EDIFACT message for station/stop infrastructure data. Contains station codes, names, coordinates, and platform information." ;
+    map:mapsTo netex:SiteFrame ;
+    uic:contains uic:StationRecord .
+
+## =================================================================
+## EDIFACT SEGMENTS
+## =================================================================
+
+## -----------------------------------------------------------------
+## Envelope segments
+## -----------------------------------------------------------------
+
+uic:UIB a owl:Class ;
+    rdfs:label "UIB" ;
+    skos:definition "Message envelope header. Contains syntax identifier and message reference." ;
+    uic:format "UIB+UNOB:4+<reference>'" ;
+    uic:partOf uic:SKDUPD .
+
+uic:UIH a owl:Class ;
+    rdfs:label "UIH" ;
+    skos:definition "Update header. Identifies the message type (SKDUPD), version, and sequence." ;
+    uic:format "UIH+SKDUPD:D:04A+<sequence>+<reference>'" ;
+    uic:partOf uic:SKDUPD .
+
+uic:MSD a owl:Class ;
+    rdfs:label "MSD" ;
+    skos:definition "Message status descriptor. Identifies the type of update (AAR = add/amend/replace)." ;
+    uic:format "MSD+AAR:61'" ;
+    uic:partOf uic:SKDUPD .
+
+uic:ORG a owl:Class ;
+    rdfs:label "ORG" ;
+    skos:definition "Organisation segment. Sender identification using RICS code." ;
+    uic:format "ORG+<RICS code>+++<RICS code>'" ;
+    map:mapsTo netex:Operator ;
+    uic:partOf uic:SKDUPD .
+
+uic:HDR a owl:Class ;
+    rdfs:label "HDR" ;
+    skos:definition "Header segment. Contains update type, validity dates, and importance level." ;
+    uic:format "HDR+<type>+<validity dates>*<importance>+<reference>'" ;
+    uic:partOf uic:SKDUPD .
+
+uic:UIT a owl:Class ;
+    rdfs:label "UIT" ;
+    skos:definition "Message trailer. Contains message sequence and segment count." ;
+    uic:format "UIT+<sequence>+<segment count>'" ;
+    uic:partOf uic:SKDUPD .
+
+uic:UIZ a owl:Class ;
+    rdfs:label "UIZ" ;
+    skos:definition "Message close. Final segment with reference and message count." ;
+    uic:format "UIZ+<reference>+<count>'" ;
+    uic:partOf uic:SKDUPD .
+
+## -----------------------------------------------------------------
+## Data segments
+## -----------------------------------------------------------------
+
+uic:PRD a owl:Class ;
+    rdfs:label "PRD (Product)" ;
+    skos:definition "Train/service definition. Contains service number, transport mode, service name, operator RICS code, and brand code." ;
+    uic:format "PRD+<service number>:::<mode code>:::+<provider RICS>**<brand code>'" ;
+    map:mapsTo netex:ServiceJourney , netex:Line , netex:Operator ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:PRD_ServiceNumber ,
+                 uic:PRD_ServiceMode ,
+                 uic:PRD_ServiceProvider ,
+                 uic:PRD_ServiceName ,
+                 uic:PRD_BrandCode .
+
+uic:POP a owl:Class ;
+    rdfs:label "POP (Period of Operation)" ;
+    skos:definition "Operating calendar. Defines a date range and a bitfield pattern indicating which days within the range the service operates (1=runs, 0=does not run)." ;
+    uic:format "POP+273+<start YYYYMMDD>:<end YYYYMMDD>++++<bit pattern>'" ;
+    map:mapsTo netex:OperatingDay , netex:DatedServiceJourney , netex:DayType ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:POP_QualifierCode ,
+                 uic:POP_StartDate ,
+                 uic:POP_EndDate ,
+                 uic:POP_BitPattern .
+
+uic:POR a owl:Class ;
+    rdfs:label "POR (Port/Stop)" ;
+    skos:definition "Stop call. Contains UIC station code, arrival/departure times, platform numbers, and day offset flags for overnight services." ;
+    uic:format "POR+<UIC code>+<arr>*<dep>+<platform arr>*<platform dep>'" ;
+    map:mapsTo netex:TimetabledPassingTime , netex:ScheduledStopPoint , netex:PassengerStopAssignment ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:POR_UICCode ,
+                 uic:POR_ArrivalTime ,
+                 uic:POR_DepartureTime ,
+                 uic:POR_ArrivalDayOffset ,
+                 uic:POR_DepartureDayOffset ,
+                 uic:POR_PlatformArrival ,
+                 uic:POR_PlatformDeparture .
+
+uic:TRF a owl:Class ;
+    rdfs:label "TRF (Tariff/Traffic Restriction)" ;
+    skos:definition "Boarding and alighting restrictions at a stop." ;
+    uic:format "TRF+<restriction code>'" ;
+    map:mapsTo netex:StopPointInJourneyPattern ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:TRF_RestrictionCode .
+
+uic:ASD a owl:Class ;
+    rdfs:label "ASD (Attribute State Definition)" ;
+    skos:definition "Service restrictions and attribute codes at a stop. Encodes boarding/alighting limitations and other stop-level properties." ;
+    uic:format "ASD+<restriction code>::<value>'" ;
+    map:mapsTo netex:StopPointInJourneyPattern ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:ASD_RestrictionCode .
+
+uic:MES a owl:Class ;
+    rdfs:label "MES (Message)" ;
+    skos:definition "Stop-level textual message or notice." ;
+    uic:format "MES+<message text>'" ;
+    map:mapsTo netex:Notice ;
+    uic:partOf uic:SKDUPD .
+
+uic:ODI a owl:Class ;
+    rdfs:label "ODI (Origin-Destination Information)" ;
+    skos:definition "Defines a point-to-point segment within a journey for applying facilities, equipment, and tariff information." ;
+    uic:format "ODI+<from stop position>+<to stop position>'" ;
+    map:mapsTo netex:JourneyPart ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:ODI_FromStop ,
+                 uic:ODI_ToStop .
+
+uic:PDT a owl:Class ;
+    rdfs:label "PDT (Product Detail)" ;
+    skos:definition "Per-segment equipment, reservation, and tariff details. Follows an ODI segment to describe facilities between two stops." ;
+    uic:format "PDT+<equipment>+<reservation>+<facility codes>'" ;
+    map:mapsTo netex:ServiceFacilitySet ;
+    uic:partOf uic:SKDUPD ;
+    uic:hasField uic:PDT_EquipmentCode ,
+                 uic:PDT_ReservationCode ,
+                 uic:PDT_FacilityCodes .
+
+uic:RFR a owl:Class ;
+    rdfs:label "RFR (Reference)" ;
+    skos:definition "Additional cross-references to connecting or related services." ;
+    uic:format "RFR+<service reference>'" ;
+    map:mapsTo netex:Interchange ;
+    uic:partOf uic:SKDUPD .
+
+## =================================================================
+## EDIFACT FIELDS
+## =================================================================
+
+## --- PRD fields ---
+
+uic:PRD_ServiceNumber a owl:DatatypeProperty ;
+    rdfs:label "Service number" ;
+    skos:definition "Train number or public service identifier" ;
+    rdfs:domain uic:PRD ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:PrivateCode ;
+    map:mapsToClass netex:ServiceJourney ;
+    skos:example "1880" .
+
+uic:PRD_ServiceMode a owl:DatatypeProperty ;
+    rdfs:label "Service mode" ;
+    skos:definition "Transport mode code (37=rail, 32=bus, 34=taxi)" ;
+    rdfs:domain uic:PRD ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:TransportMode ;
+    map:mapsToClass netex:ServiceJourney ;
+    skos:example "37" .
+
+uic:PRD_ServiceProvider a owl:DatatypeProperty ;
+    rdfs:label "Service provider (RICS)" ;
+    skos:definition "RICS code identifying the operating company" ;
+    rdfs:domain uic:PRD ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:PrivateCode ;
+    map:mapsToClass netex:Operator ;
+    skos:example "1076" .
+
+uic:PRD_ServiceName a owl:DatatypeProperty ;
+    rdfs:label "Service name" ;
+    skos:definition "Commercial name of the train service" ;
+    rdfs:domain uic:PRD ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:Name ;
+    map:mapsToClass netex:Line ;
+    skos:example "InterCity" .
+
+uic:PRD_BrandCode a owl:DatatypeProperty ;
+    rdfs:label "Brand code" ;
+    skos:definition "UIC brand/subtype code for the service" ;
+    rdfs:domain uic:PRD ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:TransportSubmode ;
+    map:mapsToClass netex:ServiceJourney ;
+    skos:example "92" .
+
+## --- POP fields ---
+
+uic:POP_QualifierCode a owl:DatatypeProperty ;
+    rdfs:label "Qualifier code" ;
+    skos:definition "Type of date specification. 273 = date range with bit pattern." ;
+    rdfs:domain uic:POP ;
+    rdfs:range xsd:integer ;
+    skos:example "273" .
+
+uic:POP_StartDate a owl:DatatypeProperty ;
+    rdfs:label "Start date" ;
+    skos:definition "First day of the operating period (YYYYMMDD)" ;
+    rdfs:domain uic:POP ;
+    rdfs:range xsd:date ;
+    map:mapsToProperty netex:CalendarDate ;
+    map:mapsToClass netex:OperatingDay ;
+    skos:example "20241205" .
+
+uic:POP_EndDate a owl:DatatypeProperty ;
+    rdfs:label "End date" ;
+    skos:definition "Last day of the operating period (YYYYMMDD)" ;
+    rdfs:domain uic:POP ;
+    rdfs:range xsd:date ;
+    map:mapsToClass netex:OperatingDay ;
+    skos:example "20241214" .
+
+uic:POP_BitPattern a owl:DatatypeProperty ;
+    rdfs:label "Bit pattern" ;
+    skos:definition "Binary string where each position corresponds to one day in the date range. 1 = service operates, 0 = does not operate. First position = start date." ;
+    rdfs:domain uic:POP ;
+    rdfs:range xsd:string ;
+    map:mapsToClass netex:DatedServiceJourney ;
+    skos:note "Each '1' in the bit pattern generates one DatedServiceJourney + OperatingDay pair in NeTEx. Alternatively, recurring patterns can be expressed as DayType + DayTypeAssignment." ;
+    skos:example "1111100111" .
+
+## --- POR fields ---
+
+uic:POR_UICCode a owl:DatatypeProperty ;
+    rdfs:label "UIC station code" ;
+    skos:definition "Numeric station identifier per UIC Leaflet 920-1. Typically 9 digits: 2-digit country + 5-digit station + 2-digit check." ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:uicCode ;
+    map:mapsToClass netex:StopPlace ;
+    skos:note "In NeTEx v2.0 guidance, store this as privateCodes/PrivateCode with type='uicCode'. ScheduledStopPoint links to StopPlace/Quay via PassengerStopAssignment." ;
+    skos:example "007602361" .
+
+uic:POR_ArrivalTime a owl:DatatypeProperty ;
+    rdfs:label "Arrival time" ;
+    skos:definition "Arrival time at the stop in HHMM format" ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:ArrivalTime ;
+    map:mapsToClass netex:TimetabledPassingTime ;
+    skos:note "Convert HHMM to HH:MM:SS for NeTEx. Empty = first stop (departure only)." ;
+    skos:example "0903" .
+
+uic:POR_DepartureTime a owl:DatatypeProperty ;
+    rdfs:label "Departure time" ;
+    skos:definition "Departure time from the stop in HHMM format" ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:DepartureTime ;
+    map:mapsToClass netex:TimetabledPassingTime ;
+    skos:note "Convert HHMM to HH:MM:SS for NeTEx. Empty = last stop (arrival only)." ;
+    skos:example "0905" .
+
+uic:POR_ArrivalDayOffset a owl:DatatypeProperty ;
+    rdfs:label "Arrival day offset" ;
+    skos:definition "Day offset for arrival (:::1 = next day). Used for overnight services." ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:ArrivalDayOffset ;
+    map:mapsToClass netex:TimetabledPassingTime ;
+    skos:example "1" .
+
+uic:POR_DepartureDayOffset a owl:DatatypeProperty ;
+    rdfs:label "Departure day offset" ;
+    skos:definition "Day offset for departure (:::1 = next day). Used for overnight services." ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:DepartureDayOffset ;
+    map:mapsToClass netex:TimetabledPassingTime ;
+    skos:example "1" .
+
+uic:POR_PlatformArrival a owl:DatatypeProperty ;
+    rdfs:label "Platform (arrival)" ;
+    skos:definition "Platform/track number for arrival" ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:PublicCode ;
+    map:mapsToClass netex:Quay ;
+    skos:example "4" .
+
+uic:POR_PlatformDeparture a owl:DatatypeProperty ;
+    rdfs:label "Platform (departure)" ;
+    skos:definition "Platform/track number for departure" ;
+    rdfs:domain uic:POR ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:PublicCode ;
+    map:mapsToClass netex:Quay ;
+    skos:example "4" .
+
+## --- TRF / ASD fields ---
+
+uic:TRF_RestrictionCode a owl:DatatypeProperty ;
+    rdfs:label "Traffic restriction code" ;
+    skos:definition "Boarding/alighting restriction at a stop" ;
+    rdfs:domain uic:TRF ;
+    rdfs:range xsd:integer ;
+    map:mapsToClass netex:StopPointInJourneyPattern .
+
+uic:ASD_RestrictionCode a owl:DatatypeProperty ;
+    rdfs:label "ASD restriction code" ;
+    skos:definition "Stop-level attribute code for restrictions" ;
+    rdfs:domain uic:ASD ;
+    rdfs:range xsd:integer ;
+    map:mapsToClass netex:StopPointInJourneyPattern .
+
+## --- ODI / PDT fields ---
+
+uic:ODI_FromStop a owl:DatatypeProperty ;
+    rdfs:label "From stop position" ;
+    skos:definition "Ordinal position of the origin stop in the journey sequence (1-based)" ;
+    rdfs:domain uic:ODI ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:FromStopPointRef ;
+    map:mapsToClass netex:JourneyPart ;
+    skos:example "1" .
+
+uic:ODI_ToStop a owl:DatatypeProperty ;
+    rdfs:label "To stop position" ;
+    skos:definition "Ordinal position of the destination stop in the journey sequence (1-based)" ;
+    rdfs:domain uic:ODI ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:ToStopPointRef ;
+    map:mapsToClass netex:JourneyPart ;
+    skos:example "9" .
+
+uic:PDT_EquipmentCode a owl:DatatypeProperty ;
+    rdfs:label "Equipment/brand code" ;
+    skos:definition "UIC brand code for the equipment used on this segment (e.g. 92=regional rail)" ;
+    rdfs:domain uic:PDT ;
+    rdfs:range xsd:integer ;
+    map:mapsToProperty netex:TransportSubmode ;
+    skos:example "92" .
+
+uic:PDT_ReservationCode a owl:DatatypeProperty ;
+    rdfs:label "Reservation code" ;
+    skos:definition "Reservation requirement or option (e.g. R11=reservations possible)" ;
+    rdfs:domain uic:PDT ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:ServiceReservationFacilityList ;
+    map:mapsToClass netex:ServiceFacilitySet ;
+    skos:example "R11" .
+
+uic:PDT_FacilityCodes a owl:DatatypeProperty ;
+    rdfs:label "Facility codes" ;
+    skos:definition "Colon-separated list of facility codes (F=facility, S=service)" ;
+    rdfs:domain uic:PDT ;
+    rdfs:range xsd:string ;
+    map:mapsToClass netex:ServiceFacilitySet ;
+    skos:example "F5:F28:S46" .
+
+## =================================================================
+## TSDUPD FIELDS (Station Data)
+## =================================================================
+
+uic:StationRecord a owl:Class ;
+    rdfs:label "Station record" ;
+    skos:definition "Station/stop infrastructure record in the TSDUPD message" ;
+    map:mapsTo netex:StopPlace ;
+    uic:partOf uic:TSDUPD ;
+    uic:hasField uic:Station_UICCode ,
+                 uic:Station_Name ,
+                 uic:Station_Country ,
+                 uic:Station_Coordinates ,
+                 uic:Station_Platform .
+
+uic:Station_UICCode a owl:DatatypeProperty ;
+    rdfs:label "Station UIC code" ;
+    rdfs:domain uic:StationRecord ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:uicCode ;
+    map:mapsToClass netex:StopPlace ;
+    skos:example "007602361" .
+
+uic:Station_Name a owl:DatatypeProperty ;
+    rdfs:label "Station name" ;
+    rdfs:domain uic:StationRecord ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:Name ;
+    map:mapsToClass netex:StopPlace ;
+    skos:example "Helsinki" .
+
+uic:Station_Country a owl:DatatypeProperty ;
+    rdfs:label "Country code" ;
+    rdfs:domain uic:StationRecord ;
+    rdfs:range xsd:string ;
+    skos:note "First 2 digits of UIC code. In NeTEx, use TopographicPlace or CountryRef." ;
+    skos:example "00" .
+
+uic:Station_Coordinates a owl:DatatypeProperty ;
+    rdfs:label "Station coordinates" ;
+    rdfs:domain uic:StationRecord ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:Location ;
+    map:mapsToClass netex:StopPlace ;
+    skos:note "Maps to StopPlace > Centroid > Location with Longitude/Latitude in WGS84 (srsName=4326)." .
+
+uic:Station_Platform a owl:DatatypeProperty ;
+    rdfs:label "Platform/track" ;
+    rdfs:domain uic:StationRecord ;
+    rdfs:range xsd:string ;
+    map:mapsToProperty netex:PublicCode ;
+    map:mapsToClass netex:Quay ;
+    skos:note "Each platform becomes a Quay child of the StopPlace." .
+
+## =================================================================
+## CODE MAPPING: Transport Mode
+## =================================================================
+## Source: Guides/UIC_EDIFACT_Migration/mapping_service_mode.txt
+## Direction: EDIFACT code -> NeTEx TransportMode
+## -----------------------------------------------------------------
+
+code:Mode_37 a uic:TransportModeMapping ;
+    rdfs:label "Rail" ;
+    uic:edifactCode "37" ;
+    uic:netexTransportMode "rail" ;
+    skos:definition "Conventional railway service" .
+
+code:Mode_32 a uic:TransportModeMapping ;
+    rdfs:label "Bus" ;
+    uic:edifactCode "32" ;
+    uic:netexTransportMode "bus" ;
+    skos:definition "Bus service (including rail replacement)" .
+
+code:Mode_34 a uic:TransportModeMapping ;
+    rdfs:label "Taxi" ;
+    uic:edifactCode "34" ;
+    uic:netexTransportMode "taxi" ;
+    skos:definition "Taxi or demand-responsive service" .
+
+## =================================================================
+## CODE MAPPING: Brand / Transport Submode
+## =================================================================
+## Source: Guides/UIC_EDIFACT_Migration/mapping_brand.txt
+## Direction: EDIFACT brand code -> NeTEx RailSubmode
+## -----------------------------------------------------------------
+
+code:Brand_63 a uic:BrandMapping ;
+    rdfs:label "Long distance" ;
+    uic:edifactCode "63" ;
+    uic:netexRailSubmode "longDistance" ;
+    skos:definition "Long-distance / intercity rail service" .
+
+code:Brand_92 a uic:BrandMapping ;
+    rdfs:label "Regional rail" ;
+    uic:edifactCode "92" ;
+    uic:netexRailSubmode "regionalRail" ;
+    skos:definition "Regional or commuter rail service" .
+
+code:Brand_101 a uic:BrandMapping ;
+    rdfs:label "Night rail" ;
+    uic:edifactCode "101" ;
+    uic:netexRailSubmode "nightRail" ;
+    skos:definition "Overnight sleeper or couchette train" .
+
+code:Brand_162 a uic:BrandMapping ;
+    rdfs:label "Rail replacement bus" ;
+    uic:edifactCode "162" ;
+    uic:netexTransportMode "bus" ;
+    uic:netexBusSubmode "railReplacementBus" ;
+    skos:definition "Bus service replacing a scheduled rail service" ;
+    skos:note "Mode switches from rail to bus. Use TransportMode=bus with BusSubmode=railReplacementBus." .
+
+## =================================================================
+## CODE MAPPING: Facilities
+## =================================================================
+## Source: Guides/UIC_EDIFACT_Migration/mapping_facility.txt
+## Direction: EDIFACT facility code -> NeTEx ServiceFacilitySet property
+## Prefix F = accommodation/facility class
+## Prefix S = service amenity
+## Prefix R = reservation
+## -----------------------------------------------------------------
+
+code:F4 a uic:FacilityMapping ;
+    rdfs:label "Premium class" ;
+    uic:edifactCode "F4" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "AccommodationAccessList" ;
+    uic:netexValue "premiumClass" .
+
+code:F5 a uic:FacilityMapping ;
+    rdfs:label "Second class" ;
+    uic:edifactCode "F5" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "AccommodationAccessList" ;
+    uic:netexValue "secondClass" .
+
+code:F11 a uic:FacilityMapping ;
+    rdfs:label "Single sleeper" ;
+    uic:edifactCode "F11" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "AccommodationAccessList" ;
+    uic:netexValue "singleSleeper" .
+
+code:F13 a uic:FacilityMapping ;
+    rdfs:label "Double sleeper" ;
+    uic:edifactCode "F13" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "AccommodationAccessList" ;
+    uic:netexValue "doubleSleeper" .
+
+code:F24 a uic:FacilityMapping ;
+    rdfs:label "Baby compartment" ;
+    uic:edifactCode "F24" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "AccommodationAccessList" ;
+    uic:netexValue "babyCompartment" .
+
+code:F26 a uic:FacilityMapping ;
+    rdfs:label "Cycles allowed in van" ;
+    uic:edifactCode "F26" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "ServiceFacilityList" ;
+    uic:netexValue "cyclesAllowed" .
+
+code:F28 a uic:FacilityMapping ;
+    rdfs:label "Wheelchair accessible" ;
+    uic:edifactCode "F28" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "MobilityFacilityList" ;
+    uic:netexValue "wheelchair" ;
+    skos:note "Also used for pushchair suitability (suitableForPushchairs maps to same code)." .
+
+code:F47 a uic:FacilityMapping ;
+    rdfs:label "Bistro / cafÃ©" ;
+    uic:edifactCode "F47" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "ServiceFacilityList" ;
+    uic:netexValue "bistro" .
+
+code:F48 a uic:FacilityMapping ;
+    rdfs:label "Family carriage" ;
+    uic:edifactCode "F48" ;
+    uic:edifactPrefix "F" ;
+    uic:netexProperty "ServiceFacilityList" ;
+    uic:netexValue "familyCarriage" .
+
+code:S25 a uic:FacilityMapping ;
+    rdfs:label "Trolley service" ;
+    uic:edifactCode "S25" ;
+    uic:edifactPrefix "S" ;
+    uic:netexProperty "ServiceFacilityList" ;
+    uic:netexValue "trolley" .
+
+code:S46 a uic:FacilityMapping ;
+    rdfs:label "Public wifi" ;
+    uic:edifactCode "S46" ;
+    uic:edifactPrefix "S" ;
+    uic:netexProperty "ServiceFacilityList" ;
+    uic:netexValue "wifi" ;
+    skos:note "Covers both 'publicWifi' and 'freeWifi' NeTEx values." .
+
+code:R11 a uic:FacilityMapping ;
+    rdfs:label "Reservations possible" ;
+    uic:edifactCode "R11" ;
+    uic:edifactPrefix "R" ;
+    uic:netexProperty "ServiceReservationFacilityList" ;
+    uic:netexValue "reservationsPossible" .
+
+## =================================================================
+## CODE MAPPING: Traffic Restrictions
+## =================================================================
+## Direction: EDIFACT restriction code -> NeTEx StopPointInJourneyPattern
+## -----------------------------------------------------------------
+
+code:Restriction_1 a uic:TrafficRestrictionMapping ;
+    rdfs:label "No alighting" ;
+    uic:edifactCode "1" ;
+    uic:netexProperty "ForAlighting" ;
+    uic:netexValue "false" ;
+    skos:definition "Passengers cannot alight at this stop" .
+
+code:Restriction_2 a uic:TrafficRestrictionMapping ;
+    rdfs:label "No boarding" ;
+    uic:edifactCode "2" ;
+    uic:netexProperty "ForBoarding" ;
+    uic:netexValue "false" ;
+    skos:definition "Passengers cannot board at this stop" .
+
+code:Restriction_4 a uic:TrafficRestrictionMapping ;
+    rdfs:label "No boarding or alighting" ;
+    uic:edifactCode "4" ;
+    uic:netexProperty "ForAlighting" , "ForBoarding" ;
+    uic:netexValue "false" ;
+    skos:definition "Passengers can neither board nor alight (passing stop)" .
+
+code:Restriction_230 a uic:TrafficRestrictionMapping ;
+    rdfs:label "Request stop" ;
+    uic:edifactCode "230" ;
+    uic:netexProperty "RequestStop" ;
+    uic:netexValue "true" ;
+    skos:definition "Stop on request only" .
+
+## =================================================================
+## CONVERSION PIPELINE
+## =================================================================
+## Documents the NeTEx <-> EDIFACT conversion pipeline stages.
+## Original converter source has been removed; these stages
+## document the conceptual pipeline for reference.
+## -----------------------------------------------------------------
+
+uic:ConversionPipeline a owl:Class ;
+    rdfs:label "NeTEx -> EDIFACT Conversion Pipeline" ;
+    skos:definition "Automated pipeline that converts NeTEx Nordic Profile XML files into UIC EDIFACT SKDUPD messages via a CSV intermediate format." ;
+    skos:note "Original source removed. Mapping files preserved at Guides/UIC_EDIFACT_Migration/." .
+
+uic:Stage_1_Download a uic:PipelineStage ;
+    rdfs:label "1. Download NeTEx" ;
+    skos:definition "Download NeTEx XML files from cloud storage" ;
+    uic:order 1 .
+
+uic:Stage_2_Unzip a uic:PipelineStage ;
+    rdfs:label "2. Extract archives" ;
+    skos:definition "Unzip downloaded NeTEx .zip files" ;
+    uic:order 2 .
+
+uic:Stage_3_NeTEx2CSV a uic:PipelineStage ;
+    rdfs:label "3. NeTEx -> CSV" ;
+    skos:definition "Parse NeTEx XML and extract data into intermediate CSV tables: SKDUPD_TRAIN.csv, SKDUPD_POR.csv, SKDUPD_ODI.csv, SKDUPD_RELATION.csv" ;
+    uic:order 3 .
+
+uic:Stage_4_CSV2SKDUPD a uic:PipelineStage ;
+    rdfs:label "4. CSV -> EDIFACT" ;
+    skos:definition "Convert CSV intermediate tables into EDIFACT SKDUPD segment messages" ;
+    uic:order 4 .
+
+uic:Stage_5_Zip a uic:PipelineStage ;
+    rdfs:label "5. Compress" ;
+    skos:definition "Zip EDIFACT output files for FTP transfer" ;
+    uic:order 5 .
+
+uic:Stage_6_Upload a uic:PipelineStage ;
+    rdfs:label "6. Upload to MERITS" ;
+    skos:definition "Upload SKDUPD .zip to MERITS FTP server (TEST or PROD)" ;
+    uic:order 6 .
+
+## =================================================================
+## CSV INTERMEDIATE FORMAT
+## =================================================================
+## Documents the intermediate CSV tables used by the converter
+## -----------------------------------------------------------------
+
+uic:CSV_TRAIN a owl:Class ;
+    rdfs:label "SKDUPD_TRAIN.csv" ;
+    skos:definition "Train/service definition table. One row per service." ;
+    uic:hasColumn "ID" , "Service_number" , "Reservation" , "Tariff" ,
+                  "Service_Mode" , "Service_Name" , "Service_Provider" ,
+                  "First_day" , "Last_day" , "Operation_days" ,
+                  "Second_service_number" , "Reservation_company" ;
+    uic:csvDelimiter ";" .
+
+uic:CSV_POR a owl:Class ;
+    rdfs:label "SKDUPD_POR.csv" ;
+    skos:definition "Stop/passing-time table. One row per stop call per service." ;
+    uic:hasColumn "ID" , "Stop_number" , "UIC" ,
+                  "Arrival_time" , "Departure_time" ,
+                  "Arrival_offset" , "Departure_offset" ,
+                  "Platform_arrival" , "Platform_departure" ,
+                  "Stop_property" , "Traffic_restriction" ;
+    uic:csvDelimiter ";" .
+
+uic:CSV_ODI a owl:Class ;
+    rdfs:label "SKDUPD_ODI.csv" ;
+    skos:definition "Origin-destination facility table. One row per segment-facility combination." ;
+    uic:hasColumn "ID" , "FromStopNumber" , "ToStopNumber" ,
+                  "ASD_or_SER_or_TFF" , "Equipment" ,
+                  "Reservation_in_equipment" , "Tariff" ;
+    uic:csvDelimiter ";" .
+
+uic:CSV_RELATION a owl:Class ;
+    rdfs:label "SKDUPD_RELATION.csv" ;
+    skos:definition "Interchange/connection table. One row per connection between services." ;
+    uic:hasColumn "ID" , "Stop_position" , "Service" ,
+                  "Relation" , "Transfer_time" , "Certainty" ;
+    uic:csvDelimiter ";" .
+
+## =================================================================
+## CROSS-ONTOLOGY RELATIONSHIPS
+## =================================================================
+## Links between UIC EDIFACT concepts and the NeTEx ontology
+## (netex-ontology.ttl in the same directory)
+## -----------------------------------------------------------------
+
+## --- Frame-level mapping ---
+uic:SKDUPD  map:mapsToFrame netex:ServiceFrame ,
+                            netex:TimetableFrame ,
+                            netex:ServiceCalendarFrame ,
+                            netex:ResourceFrame .
+
+uic:TSDUPD  map:mapsToFrame netex:SiteFrame .
+
+## --- Segment -> NeTEx object summary ---
+uic:PRD  map:primaryTarget netex:ServiceJourney ;
+         map:secondaryTarget netex:Line , netex:Operator .
+
+uic:POP  map:primaryTarget netex:DatedServiceJourney ;
+         map:secondaryTarget netex:OperatingDay .
+
+uic:POR  map:primaryTarget netex:TimetabledPassingTime ;
+         map:secondaryTarget netex:ScheduledStopPoint , netex:PassengerStopAssignment .
+
+uic:TRF  map:primaryTarget netex:StopPointInJourneyPattern .
+uic:ASD  map:primaryTarget netex:StopPointInJourneyPattern .
+
+uic:ODI  map:primaryTarget netex:JourneyPart .
+uic:PDT  map:primaryTarget netex:ServiceFacilitySet .
+
+uic:RFR  map:primaryTarget netex:Interchange .
+uic:MES  map:primaryTarget netex:Notice .
+
+## =================================================================
+## NeTEx FILE STRUCTURE (for migrated rail data)
+## =================================================================
+
+uic:SharedDataFile a uic:FileTemplate ;
+    rdfs:label "Shared data file (_shared_data.xml)" ;
+    skos:definition "Contains data reused across all lines" ;
+    uic:containsFrame netex:ResourceFrame ,
+                      netex:SiteFrame ,
+                      netex:ServiceCalendarFrame ;
+    uic:containsPartial netex:ServiceFrame ;
+    skos:note "ServiceFrame in shared file contains ScheduledStopPoints, PassengerStopAssignments, DestinationDisplays, and Notices. Does NOT contain Lines, Routes, or JourneyPatterns." .
+
+uic:LineDataFile a uic:FileTemplate ;
+    rdfs:label "Line data file (Line_<ID>.xml)" ;
+    skos:definition "Contains line-specific routes, patterns, and journeys" ;
+    uic:containsPartial netex:ServiceFrame ;
+    uic:containsFrame netex:TimetableFrame ;
+    skos:note "ServiceFrame in line file contains Line, Routes, and JourneyPatterns for this line only. TimetableFrame contains ServiceJourneys and DatedServiceJourneys." .
+
+## =================================================================
+## ERA / NORWEGIAN PROFILE EXAMPLES
+## =================================================================
+## Reference NeTEx files from Finnish Railways (VR) for the UIC
+## ERA NeTEx profile.
+## -----------------------------------------------------------------
+
+uic:ERA_VR_Example a uic:ExampleDataset ;
+    rdfs:label "VR InterCity ERA example" ;
+    skos:definition "Finnish Railways (VR) InterCity service modelled in NeTEx for the UIC ERA profile" ;
+    uic:operatorRICS "0010" ;
+    uic:operatorName "Valtionrautatiet (VR)" .
+
+## =================================================================
+## MIGRATION GUIDE REFERENCE
+## =================================================================
+
+uic:MigrationGuide a doc:Guide ;
+    rdfs:label "UIC EDIFACT to NeTEx Migration Guide" ;
+    skos:definition "Step-by-step guide for migrating from UIC EDIFACT (SKDUPD/TSDUPD) to NeTEx XML" .
+
+## =================================================================
+## END OF ONTOLOGY
+## =================================================================

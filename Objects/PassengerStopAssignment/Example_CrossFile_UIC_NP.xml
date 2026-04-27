@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cross-file bridge example — UIC code as the matching key (Nordic Profile)
+
+  Two separate files are delivered:
+    1. Location file  — SiteFrame with StopPlace + Quay (owned by NSR)
+    2. Timetable file — ServiceFrame with ScheduledStopPoint + PassengerStopAssignment (owned by VR)
+
+  The UIC code (007600100 = Oslo S) is carried as privateCodes/PrivateCode type="uicCode" on BOTH sides.
+  Neither file changes its @id to harmonize — the typed PrivateCode is the durable matching key.
+  External references (QuayRef, StopPlaceRef) omit @version because they point across files.
+
+  Both files are shown here in one PublicationDelivery for readability only;
+  in a real delivery they are separate publications.
+-->
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-04-23T12:00:00Z</PublicationTimestamp>
+  <ParticipantRef>NSR</ParticipantRef>
+  <dataObjects>
+
+    <!-- ============================================================
+         FILE 1 — Location file (SiteFrame, owned by NSR)
+         ============================================================ -->
+    <SiteFrame version="1" id="NSR:SiteFrame:1">
+      <stopPlaces>
+        <StopPlace version="1" id="NSR:StopPlace:337">
+          <privateCodes>
+            <PrivateCode type="uicCode">007600100</PrivateCode>
+          </privateCodes>
+          <Name lang="no">Oslo S</Name>
+          <Centroid>
+            <Location>
+              <Longitude>10.752245</Longitude>
+              <Latitude>59.910924</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+          <quays>
+            <Quay version="1" id="NSR:Quay:107401">
+              <Name lang="no">Spor 1</Name>
+              <PublicCode>1</PublicCode>
+            </Quay>
+          </quays>
+        </StopPlace>
+      </stopPlaces>
+    </SiteFrame>
+
+    <!-- ============================================================
+         FILE 2 — Timetable file (ServiceFrame, owned by VR)
+         ============================================================ -->
+    <ServiceFrame version="1" id="VR:ServiceFrame:1">
+      <scheduledStopPoints>
+        <!--
+          The @id uses the operator's own codespace.
+          privateCodes/PrivateCode type="uicCode" carries the same value as on StopPlace above —
+          this is the matching key a consumer uses to join the two files.
+        -->
+        <ScheduledStopPoint version="1" id="VR:ScheduledStopPoint:007600100">
+          <privateCodes>
+            <PrivateCode type="uicCode">007600100</PrivateCode>
+          </privateCodes>
+          <Name>Oslo S</Name>
+          <TimingPointStatus>timingPoint</TimingPointStatus>
+        </ScheduledStopPoint>
+      </scheduledStopPoints>
+
+      <stopAssignments>
+        <!--
+          PassengerStopAssignment is the cross-file bridge.
+          StopPlaceRef and QuayRef point into the location file (external) — no @version.
+          ScheduledStopPointRef points to VR's own object — includes @version.
+        -->
+        <PassengerStopAssignment order="1" version="1"
+            id="VR:PassengerStopAssignment:007600100">
+          <ScheduledStopPointRef ref="VR:ScheduledStopPoint:007600100" version="1"/>
+          <StopPlaceRef ref="NSR:StopPlace:337"/>
+          <QuayRef ref="NSR:Quay:107401"/>
+        </PassengerStopAssignment>
+      </stopAssignments>
+    </ServiceFrame>
+
+  </dataObjects>
+</PublicationDelivery>

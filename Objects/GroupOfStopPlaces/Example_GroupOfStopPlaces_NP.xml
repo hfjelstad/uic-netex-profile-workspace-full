@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-04-23T12:00:00Z</PublicationTimestamp>
+  <ParticipantRef>NSR</ParticipantRef>
+  <dataObjects>
+    <CompositeFrame version="1" id="NSR:CompositeFrame:OsloS">
+      <FrameDefaults>
+        <DefaultLocale>
+          <TimeZone>Europe/Oslo</TimeZone>
+          <DefaultLanguage>no</DefaultLanguage>
+        </DefaultLocale>
+        <DefaultLocationSystem>4326</DefaultLocationSystem>
+      </FrameDefaults>
+      <frames>
+
+        <!-- PurposeOfGrouping is a TypeOfValue defined in ResourceFrame,
+             then referenced by @ref from GroupOfStopPlaces -->
+        <ResourceFrame version="1" id="NSR:ResourceFrame:1">
+          <typesOfValue>
+            <PurposeOfGrouping version="1" id="NSR:PurposeOfGrouping:interchange">
+              <Name>Interchange hub</Name>
+            </PurposeOfGrouping>
+          </typesOfValue>
+        </ResourceFrame>
+
+        <SiteFrame version="1" id="NSR:SiteFrame:OsloS">
+          <stopPlaces>
+
+            <!-- Oslo S — rail station -->
+            <StopPlace version="1" id="NSR:StopPlace:337">
+              <privateCodes>
+                <!-- NeTEx 2.0: multiple typed codes in one container.
+                     @type must be unique within the privateCodes block. -->
+                <PrivateCode type="uicCode">007600100</PrivateCode>
+              </privateCodes>
+              <Name lang="no">Oslo S</Name>
+              <Centroid>
+                <Location>
+                  <Longitude>10.752245</Longitude>
+                  <Latitude>59.910924</Latitude>
+                </Location>
+              </Centroid>
+              <TransportMode>rail</TransportMode>
+              <StopPlaceType>railStation</StopPlaceType>
+              <Weighting>interchangeAllowed</Weighting>
+              <quays>
+                <Quay version="1" id="NSR:Quay:107401">
+                  <Name lang="no">Spor 1</Name>
+                  <PublicCode>1</PublicCode>
+                </Quay>
+              </quays>
+            </StopPlace>
+
+            <!-- Oslo Bussterminal — co-located at the same interchange hub -->
+            <StopPlace version="1" id="NSR:StopPlace:59872">
+              <Name lang="no">Oslo Bussterminal</Name>
+              <Centroid>
+                <Location>
+                  <Longitude>10.756300</Longitude>
+                  <Latitude>59.912100</Latitude>
+                </Location>
+              </Centroid>
+              <TransportMode>bus</TransportMode>
+              <StopPlaceType>busStation</StopPlaceType>
+              <Weighting>interchangeAllowed</Weighting>
+              <quays>
+                <Quay version="1" id="NSR:Quay:110001">
+                  <PublicCode>1</PublicCode>
+                </Quay>
+              </quays>
+            </StopPlace>
+
+          </stopPlaces>
+
+          <groupsOfStopPlaces>
+            <GroupOfStopPlaces version="1" id="NSR:GroupOfStopPlaces:OsloS">
+              <Name lang="no">Oslo S — sentralt knutepunkt</Name>
+              <ShortName lang="no">Oslo S</ShortName>
+              <!-- References the PurposeOfGrouping defined in ResourceFrame above -->
+              <PurposeOfGroupingRef ref="NSR:PurposeOfGrouping:interchange" version="1"/>
+              <Centroid>
+                <Location>
+                  <Longitude>10.752245</Longitude>
+                  <Latitude>59.910924</Latitude>
+                </Location>
+              </Centroid>
+              <members>
+                <StopPlaceRef ref="NSR:StopPlace:337" version="1"/>
+                <StopPlaceRef ref="NSR:StopPlace:59872" version="1"/>
+              </members>
+            </GroupOfStopPlaces>
+          </groupsOfStopPlaces>
+
+        </SiteFrame>
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>

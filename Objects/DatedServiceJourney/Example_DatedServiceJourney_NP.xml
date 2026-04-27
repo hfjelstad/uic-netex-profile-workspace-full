@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-03-17T12:00:00Z</PublicationTimestamp>
+  <ParticipantRef>EuPro</ParticipantRef>
+  <dataObjects>
+    <TimetableFrame id="NP:TimetableFrame:MANDATORY" version="1">
+      <vehicleJourneys>
+        <ServiceJourney id="NP:ServiceJourney:21_F6" version="0">
+          <Name>Line 21 weekday pattern</Name>
+        </ServiceJourney>
+        <DatedServiceJourney id="NP:DatedServiceJourney:21_2026-06-01" version="1">
+          <ServiceJourneyRef ref="NP:ServiceJourney:21_F6" version="0"/>
+          <OperatingDayRef ref="NP:OperatingDay:2026-06-01"/>
+        </DatedServiceJourney>
+      </vehicleJourneys>
+    </TimetableFrame>
+    <TimetableFrame id="NP:TimetableFrame:OPTIONAL" version="1">
+      <vehicleJourneys>
+        <ServiceJourney id="NP:ServiceJourney:21_F6" version="1">
+          <Name>Line 21 weekday pattern</Name>
+        </ServiceJourney>
+        <DatedServiceJourney id="NP:DatedServiceJourney:21_2026-06-01" version="2">
+          <ServiceAlteration>replaced</ServiceAlteration>
+          <BlockRef ref="NP:Block:21_1"/>
+          <ServiceJourneyRef ref="NP:ServiceJourney:21_F6" version="1"/>
+          <replacedJourneys>
+            <DatedVehicleJourneyRef ref="NP:DatedServiceJourney:21_2026-05-31"/>
+          </replacedJourneys>
+          <OperatingDayRef ref="NP:OperatingDay:2026-06-01"/>
+        </DatedServiceJourney>
+      </vehicleJourneys>
+    </TimetableFrame>
+  </dataObjects>
+</PublicationDelivery>

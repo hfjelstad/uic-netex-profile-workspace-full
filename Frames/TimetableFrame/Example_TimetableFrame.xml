@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+  <PublicationTimestamp>2026-02-25T14:22:00Z</PublicationTimestamp>
+  <ParticipantRef>EuPro</ParticipantRef>
+  <dataObjects>
+    <TimetableFrame version="1" id="ERP:TimetableFrame:Core">
+      <vehicleJourneys>
+        <ServiceJourney version="1" id="ERP:ServiceJourney:1"/>
+        <DatedServiceJourney version="1" id="ERP:DatedServiceJourney:1"/>
+        <DatedVehicleJourney version="1" id="ERP:DatedVehicleJourney:1"/>
+        <DeadRun version="1" id="ERP:DeadRun:1"/>
+      </vehicleJourneys>
+      <coupledJourneys>
+        <CoupledJourney version="1" id="ERP:CoupledJourney:1"/>
+      </coupledJourneys>
+      <interchangeRules>
+        <InterchangeRule version="1" id="ERP:InterchangeRule:1"/>
+      </interchangeRules>
+    </TimetableFrame>
+  </dataObjects>
+</PublicationDelivery>

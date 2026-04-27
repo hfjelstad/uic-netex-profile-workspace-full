@@ -1,0 +1,42 @@
+## Structure Overview
+
+```text
+Route
+ ├─ @id (1..1)
+ ├─ @version (1..1)
+ ├─ Name (1..1)
+ ├─ ShortName (0..1)
+ ├─ Description (0..1)
+ ├─ PublicCode (0..1)
+ ├─ privateCodes (0..1)
+ │  └─ PrivateCode @type (1..n)
+ ├─ PrivateCode (0..1)            ← legacy single-code pattern
+ ├─ LineRef/@ref (1..1)
+ ├─ DirectionType (0..1)
+ ├─ InverseRouteRef/@ref (0..1)
+ └─ pointsInSequence (1..1)
+    └─ PointOnRoute (1..n)
+       ├─ @order (1..1)
+       ├─ ScheduledStopPointRef/@ref (1..1)
+       └─ RoutePointRef/@ref (0..1)
+```
+
+## Table
+
+| Element | Type | XSD | ERP | NP | Description | Path |
+|---------|------|-----|-----|-----|-------------|------|
+| @id | ID | 1..1 | 1..1 | 1..1 | Unique identifier for the Route | Route/@id |
+| @version | String | 1..1 | 1..1 | 1..1 | Version label | Route/@version |
+| Name | String | 0..1 | 1..1 | 1..1 | Display name for the route | Route/Name |
+| ShortName | String | 0..1 | 0..1 | 0..1 | Short name or number | Route/ShortName |
+| Description | String | 0..1 | 0..1 |  | Extended description | Route/Description |
+| PublicCode | String | 0..1 | 0..1 |  | Public-facing code or number | Route/PublicCode |
+| privateCodes | Container | 0..1 |  |  | Preferred NeTEx v2.0 container for typed internal/external identifiers | Route/privateCodes |
+| PrivateCode (@type) | String | 1..n |  |  | Typed code within `privateCodes`; `@type` should identify code system and be unique in container | Route/privateCodes/PrivateCode |
+| PrivateCode | String | 0..1 |  |  | Legacy single-code form kept for compatibility; prefer `privateCodes/PrivateCode` in v2.0 datasets | Route/PrivateCode |
+| [Line](../Line/Table_Line.md)@ref | Reference | 0..1 | 1..1 | 1..1 | Reference to the Line this route belongs to | Route/LineRef/@ref |
+| DirectionType | Enum | 0..1 | 0..1 | 0..1 | Direction indicator (inbound, outbound, clockwise, counterclockwise) | Route/DirectionType |
+| InverseRouteRef/@ref | Reference | 0..1 |  |  | Reference to the inverse (return) route | Route/InverseRouteRef/@ref |
+| @order | Integer | 1..1 | 1..1 | 1..1 | Sequence number for the point in the route | Route/pointsInSequence/PointOnRoute/@order |
+| [ScheduledStopPoint](../ScheduledStopPoint/Table_ScheduledStopPoint.md)@ref | Reference | 0..1 | 1..1 |  | Reference to a ScheduledStopPoint | Route/pointsInSequence/PointOnRoute/ScheduledStopPointRef/@ref |
+| RoutePointRef/@ref | Reference | 0..1 |  | 0..1 | Reference to a RoutePoint (used in NP profile) | Route/pointsInSequence/PointOnRoute/RoutePointRef/@ref |

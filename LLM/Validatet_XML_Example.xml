@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+    <PublicationTimestamp>2026-03-01T00:00:00Z</PublicationTimestamp>
+    <ParticipantRef>EuPro</ParticipantRef>
+    <Description>Eksempel: DatedServiceJourney avgang Oslo S til Trondheim S</Description>
+    <dataObjects>
+        <CompositeFrame id="ERP:Example:1" version="1">
+            <frames>
+                <ResourceFrame version="1" id="ERP:resources">
+                    <organisations>
+                        <Operator version="1" id="Vy">
+                            <Name>Vy</Name>
+                        </Operator>
+                    </organisations>
+                </ResourceFrame>
+                <ServiceCalendarFrame id="ERP:Example:1" version="1">
+                    <operatingDays>
+                        <OperatingDay version="1" id="OD:2026-03-01" >
+                            <CalendarDate>2026-03-01</CalendarDate>
+                        </OperatingDay>
+                    </operatingDays>
+                </ServiceCalendarFrame>
+                <ServiceFrame id="ERP:Example:1" version="1">
+                    <lines>
+                        <Line id="LINE:RE10" version="1">
+                            <Name>RE10</Name>
+                            <PublicCode>RE10</PublicCode>
+                        </Line>
+                    </lines>
+                    <scheduledStopPoints>
+                        <ScheduledStopPoint id="SSP:OSLOS" version="1">
+                            <Name>Oslo S</Name>
+                        </ScheduledStopPoint>
+                        <ScheduledStopPoint id="SSP:TRONDHEIMS" version="1">
+                            <Name>Trondheim S</Name>
+                        </ScheduledStopPoint>
+                    </scheduledStopPoints>
+                </ServiceFrame>
+                <TimetableFrame id="TTF:Example:1" version="1">
+                    <vehicleJourneys>
+                        <DatedServiceJourney id="DSJ:OsloS-TrondheimS:1" version="1">
+                            <Name>RE10 Oslo S - Trondheim S</Name>
+                            <OperatingDayRef ref="OD:2026-03-01"/>
+                        </DatedServiceJourney>
+                    </vehicleJourneys>
+                </TimetableFrame>
+            </frames>
+        </CompositeFrame>
+    </dataObjects>
+</PublicationDelivery>

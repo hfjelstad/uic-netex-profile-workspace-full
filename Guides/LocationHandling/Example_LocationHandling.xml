@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Example: Location Handling — privateCodes/PrivateCode[@type='uicCode']
+
+  This example demonstrates the mandatory UIC identification pattern for StopPlaces
+  in this NeTEx Nordic Profile.
+
+  Key rules shown here:
+    1. privateCodes/PrivateCode[@type='uicCode'] is REQUIRED for every StopPlace.
+    2. The UIC value MUST be 9 digits, zero-padded (e.g. 007600100 not 7600100).
+    3. Additional code types (reservationCode, eraCode) may be included in the
+       same container using separate PrivateCode entries with distinct @type values.
+
+  Oslo S:  UIC 007600100  (country 00 = Norway, IM prefix 76, station 00100)
+  Lillestrøm: UIC 007601590
+-->
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-04-27T12:00:00Z</PublicationTimestamp>
+  <ParticipantRef>NSR</ParticipantRef>
+  <dataObjects>
+    <SiteFrame id="NSR:SiteFrame:1" version="1">
+      <stopPlaces>
+
+        <!-- =====================================================================
+             Oslo S  — canonical example
+             UIC 007600100: country 00 (Norway) + IM 76 + station 00100
+             ===================================================================== -->
+        <StopPlace id="NSR:StopPlace:59977" version="1">
+          <privateCodes>
+            <!-- Full 9-digit UIC is mandatory in this profile -->
+            <PrivateCode type="uicCode">007600100</PrivateCode>
+            <!-- reservationCode is optional — include when available -->
+            <PrivateCode type="reservationCode">OSL</PrivateCode>
+          </privateCodes>
+          <Name lang="nor">Oslo S</Name>
+          <Centroid>
+            <Location>
+              <Longitude>10.752245</Longitude>
+              <Latitude>59.910890</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+          <Weighting>interchangeAllowed</Weighting>
+          <quays>
+            <Quay id="NSR:Quay:107401" version="1">
+              <Name lang="nor">Spor 1</Name>
+              <PublicCode>1</PublicCode>
+            </Quay>
+            <Quay id="NSR:Quay:107402" version="1">
+              <Name lang="nor">Spor 2</Name>
+              <PublicCode>2</PublicCode>
+            </Quay>
+          </quays>
+        </StopPlace>
+
+        <!-- =====================================================================
+             Lillestrøm — second station for completeness
+             UIC 007601590
+             ===================================================================== -->
+        <StopPlace id="NSR:StopPlace:337" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">007601590</PrivateCode>
+          </privateCodes>
+          <Name lang="nor">Lillestrøm</Name>
+          <Centroid>
+            <Location>
+              <Longitude>11.046080</Longitude>
+              <Latitude>59.954680</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+          <quays>
+            <Quay id="NSR:Quay:210100" version="1">
+              <Name lang="nor">Spor 1</Name>
+              <PublicCode>1</PublicCode>
+            </Quay>
+          </quays>
+        </StopPlace>
+
+      </stopPlaces>
+    </SiteFrame>
+  </dataObjects>
+</PublicationDelivery>

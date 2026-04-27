@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 328bcbb4731cc53b4ec3c7280f0860b0db7b9f9f Håkon Fjelstad <hakon.fjelstad@entur.org> 1697188145 +0200	commit (initial): Full Entur implementation
+328bcbb4731cc53b4ec3c7280f0860b0db7b9f9f 7fbe1dac3f65f7753a0636e21a14a772c21115d0 Håkon Fjelstad <hakon.fjelstad@entur.org> 1698757713 +0100	commit: Updating
+0000000000000000000000000000000000000000 43403125fa6e8aa5bcd11f134d6df1026788de66 hfjelstad <hakon.fjelstad@entur.org> 1776942768 +0200	commit (initial): Initial commit
+43403125fa6e8aa5bcd11f134d6df1026788de66 7fbe1dac3f65f7753a0636e21a14a772c21115d0 hfjelstad <hakon.fjelstad@entur.org> 1776942807 +0200	checkout: moving from init-branch to main
+7fbe1dac3f65f7753a0636e21a14a772c21115d0 43403125fa6e8aa5bcd11f134d6df1026788de66 hfjelstad <hakon.fjelstad@entur.org> 1776943382 +0200	checkout: moving from main to init-branch
+43403125fa6e8aa5bcd11f134d6df1026788de66 cbca423cb7d0cbf74b7a14ab28543cac37ee236d hfjelstad <hakon.fjelstad@entur.org> 1776943382 +0200	commit: Improve README
+cbca423cb7d0cbf74b7a14ab28543cac37ee236d 77f14ffa160b32595bc3104d6d621578119bfb55 hfjelstad <hakon.fjelstad@entur.org> 1776944135 +0200	commit (amend): Improve README
+0000000000000000000000000000000000000000 8c14e5525713090dcfeb71f4ce15b5828dccb9eb hfjelstad <hakon.fjelstad@entur.org> 1776944972 +0200	commit (initial): Initial commit
+8c14e5525713090dcfeb71f4ce15b5828dccb9eb 375fe314222fd17b149086c294da0e239f74bdfc hfjelstad <hakon.fjelstad@entur.org> 1777321330 +0200	commit: Baseline checkpoint: new converters, legacy split, and audit summary

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-03-17T12:00:00Z</PublicationTimestamp>
+  <ParticipantRef>EuPro</ParticipantRef>
+  <dataObjects>
+    <ServiceFrame id="NP:ServiceFrame:MANDATORY" version="1">
+      <notices>
+        <Notice id="NP:Notice:39" version="1">
+          <Text>Bestillingstur, tlf 91600528 senest 30min. for avgang.</Text>
+        </Notice>
+      </notices>
+    </ServiceFrame>
+    <ServiceFrame id="NP:ServiceFrame:OPTIONAL" version="1">
+      <notices>
+        <Notice id="NP:Notice:39" version="2">
+          <Text>Bestillingstur, tlf 91600528 senest 30min. for avgang.</Text>
+        </Notice>
+      </notices>
+    </ServiceFrame>
+  </dataObjects>
+</PublicationDelivery>

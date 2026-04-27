@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-03-18T00:00:00Z</PublicationTimestamp>
+  <ParticipantRef>EuPro</ParticipantRef>
+  <dataObjects>
+    <CompositeFrame id="ERP:CompositeFrame:1" version="1">
+      <codespaces>
+        <Codespace id="erp">
+          <Xmlns>ERP</Xmlns>
+          <XmlnsUrl>http://www.europeanprofile.eu/ERP</XmlnsUrl>
+        </Codespace>
+      </codespaces>
+      <FrameDefaults>
+        <DefaultCodespaceRef ref="erp"/>
+      </FrameDefaults>
+      <frames>
+        <ResourceFrame id="ERP:ResourceFrame:1" version="1">
+          <organisations>
+            <Authority id="ERP:Authority:AUT_001" version="1">
+              <Name>Example Authority</Name>
+            </Authority>
+            <Operator id="ERP:Operator:OP_001" version="1">
+              <Name>Example Operator</Name>
+            </Operator>
+          </organisations>
+        </ResourceFrame>
+        <ServiceCalendarFrame id="ERP:ServiceCalendarFrame:1" version="1">
+          <dayTypes>
+            <DayType id="ERP:DayType:WKD" version="1">
+              <Name>Weekdays</Name>
+              <properties>
+                <PropertyOfDay>
+                  <DaysOfWeek>Monday Tuesday Wednesday Thursday Friday</DaysOfWeek>
+                </PropertyOfDay>
+              </properties>
+            </DayType>
+          </dayTypes>
+        </ServiceCalendarFrame>
+        <ServiceFrame id="ERP:ServiceFrame:1" version="1">
+          <lines>
+            <Line id="ERP:Line:L1" version="1">
+              <Name>Line 1</Name>
+              <PublicCode>1</PublicCode>
+              <OperatorRef ref="ERP:Operator:OP_001"/>
+            </Line>
+          </lines>
+        </ServiceFrame>
+        <TimetableFrame id="ERP:TimetableFrame:1" version="1">
+          <vehicleJourneys>
+            <ServiceJourney id="ERP:ServiceJourney:SJ_001" version="1">
+              <Name>Morning departure</Name>
+              <dayTypes>
+                <DayTypeRef ref="ERP:DayType:WKD"/>
+              </dayTypes>
+              <LineRef ref="ERP:Line:L1"/>
+            </ServiceJourney>
+          </vehicleJourneys>
+        </TimetableFrame>
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>

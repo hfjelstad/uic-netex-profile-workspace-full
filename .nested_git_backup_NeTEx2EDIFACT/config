@@ -1,0 +1,23 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/hfjelstad/NeTEx2EDIFACT.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	vscode-merge-base = origin/main
+	merge = refs/heads/main
+[branch "init-branch"]
+	vscode-merge-base = origin/main
+[branch "clean-branch"]
+	vscode-merge-base = origin/main
+	remote = backup
+	merge = refs/heads/clean-branch
+[remote "backup"]
+	url = https://github.com/hfjelstad/uic-netex-edifact-workbench.git
+	fetch = +refs/heads/*:refs/remotes/backup/*
