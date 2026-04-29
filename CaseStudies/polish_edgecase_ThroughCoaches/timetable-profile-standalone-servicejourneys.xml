@@ -1,0 +1,1134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  NeTEx TimetableFrame — Through coaches
+  Night April 23/24, 2026
+  Data: MERITS EDIFACT export 2026-04-21
+  Transfer hubs: Breclav (005433425) and Bohumín (005434124)
+  Coupled: 406+416 München Hbf → Bohumín (18:35 → 02:55+1)
+-->
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.netex.org.uk/netex http://www.netex.org.uk/netex/schema/2.0/NeTEx_publication.xsd" version="2.0">
+  <PublicationTimestamp>2026-04-29T14:30:00Z</PublicationTimestamp>
+  <ParticipantRef>UIC-PE</ParticipantRef>
+  <dataObjects>
+    <CompositeFrame id="cf:wagony_breclav_bohumin_2026-04-23" version="1">
+      <TypeOfFrameRef ref="epip:EU_PI_COMMON"/>
+      <frames>
+        <ResourceFrame id="PE:ResourceFrame:standalone_servicejourneys_profile" version="1">
+          <codespaces>
+            <Codespace id="PE:Codespace:PE">
+              <Xmlns>PE</Xmlns>
+              <XmlnsUrl>urn:uic:codespace:PE</XmlnsUrl>
+              <Description>Codespace for Polish through-coaches profile examples</Description>
+            </Codespace>
+          </codespaces>
+        </ResourceFrame>
+        <ServiceCalendarFrame id="scf:standalone_servicejourneys_profile" version="1">
+          <operatingDays>
+            <OperatingDay id="PE:OperatingDay:2026-04-23" version="1">
+              <CalendarDate>2026-04-23</CalendarDate>
+            </OperatingDay>
+          </operatingDays>
+        </ServiceCalendarFrame>
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- ServiceFrame: stacje (ScheduledStopPoints)             -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <ServiceFrame id="PE:ServiceFrame:ScheduledStopPoints" version="1">
+          <scheduledStopPoints>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp001" version="1">
+              <Name>Budapest-Nyugati</Name>
+              <!-- MERITS location code: 005510033 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp002" version="1">
+              <Name>Vác</Name>
+              <!-- MERITS location code: 005510447 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp003" version="1">
+              <Name>Štúrovo</Name>
+              <!-- MERITS location code: 005613526 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp004" version="1">
+              <Name>Nové Zámky</Name>
+              <!-- MERITS location code: 005613436 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp005" version="1">
+              <Name>Bratislava hl.st.</Name>
+              <!-- MERITS location code: 005613206 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp006" version="1">
+              <Name>Kúty</Name>
+              <!-- MERITS location code: 005613016 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp007" version="1">
+              <Name>Breclav</Name>
+              <!-- MERITS location code: 005433425 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp008" version="1">
+              <Name>Graz Hbf</Name>
+              <!-- MERITS location code: 008103171 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp009" version="1">
+              <Name>Wien Meidling</Name>
+              <!-- MERITS location code: 008103107 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp010" version="1">
+              <Name>Wien Hbf</Name>
+              <!-- MERITS location code: 008101003 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp011" version="1">
+              <Name>Brno hl.n.</Name>
+              <!-- MERITS location code: 005433295 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp012" version="1">
+              <Name>Praha hl.n.</Name>
+              <!-- MERITS location code: 005457076 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp013" version="1">
+              <Name>Děčín hl.n.</Name>
+              <!-- MERITS location code: 005455659 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp014" version="1">
+              <Name>Dresden Hbf</Name>
+              <!-- MERITS location code: 008006050 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp015" version="1">
+              <Name>Berlin Hbf</Name>
+              <!-- MERITS location code: 008031922 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp016" version="1">
+              <Name>München Hbf</Name>
+              <!-- MERITS location code: 008020347 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp017" version="1">
+              <Name>Salzburg Hbf</Name>
+              <!-- MERITS location code: 008101114 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp018" version="1">
+              <Name>Linz Hbf</Name>
+              <!-- MERITS location code: 008101073 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp019" version="1">
+              <Name>Ostrava hl.n.</Name>
+              <!-- MERITS location code: 005434364 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp020" version="1">
+              <Name>Bohumín</Name>
+              <!-- MERITS location code: 005434124 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp021" version="1">
+              <Name>Katowice</Name>
+              <!-- MERITS location code: 005107331 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp022" version="1">
+              <Name>Warszawa Centralna</Name>
+              <!-- MERITS location code: 005103360 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp023" version="1">
+              <Name>Warszawa Wschodnia</Name>
+              <!-- MERITS location code: 005103865 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp024" version="1">
+              <Name>Kraków Główny</Name>
+              <!-- MERITS location code: 005108041 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp025" version="1">
+              <Name>Rzeszów Główny</Name>
+              <!-- MERITS location code: 005108266 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp026" version="1">
+              <Name>Przemyśl Główny</Name>
+              <!-- MERITS location code: 005108440 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp027" version="1">
+              <Name>Česká Třebová</Name>
+              <!-- MERITS location code: 005453913 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp028" version="1">
+              <Name>Pardubice hl.n.</Name>
+              <!-- MERITS location code: 005453613 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp029" version="1">
+              <Name>Olomouc hl.n.</Name>
+              <!-- MERITS location code: 005434362 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp030" version="1">
+              <Name>Čadca</Name>
+              <!-- MERITS location code: 005618115 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp031" version="1">
+              <Name>Žilina</Name>
+              <!-- MERITS location code: 005617915 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp032" version="1">
+              <Name>Košice</Name>
+              <!-- MERITS location code: 005613600 -->
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="PE:ScheduledStopPoint:ssp033" version="1">
+              <Name>Humenné</Name>
+              <!-- MERITS location code: 005616040 -->
+            </ScheduledStopPoint>
+          </scheduledStopPoints>
+          <stopAssignments>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa001" version="1" order="1">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp001"/>
+              <QuayRef ref="PE:Quay:quay001"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa002" version="1" order="2">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp002"/>
+              <QuayRef ref="PE:Quay:quay002"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa003" version="1" order="3">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp003"/>
+              <QuayRef ref="PE:Quay:quay003"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa004" version="1" order="4">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp004"/>
+              <QuayRef ref="PE:Quay:quay004"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa005" version="1" order="5">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp005"/>
+              <QuayRef ref="PE:Quay:quay005"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa006" version="1" order="6">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp006"/>
+              <QuayRef ref="PE:Quay:quay006"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa007" version="1" order="7">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+              <QuayRef ref="PE:Quay:quay007"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa008" version="1" order="8">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp008"/>
+              <QuayRef ref="PE:Quay:quay008"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa009" version="1" order="9">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp009"/>
+              <QuayRef ref="PE:Quay:quay009"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa010" version="1" order="10">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp010"/>
+              <QuayRef ref="PE:Quay:quay010"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa011" version="1" order="11">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp011"/>
+              <QuayRef ref="PE:Quay:quay011"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa012" version="1" order="12">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+              <QuayRef ref="PE:Quay:quay012"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa013" version="1" order="13">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp013"/>
+              <QuayRef ref="PE:Quay:quay013"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa014" version="1" order="14">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp014"/>
+              <QuayRef ref="PE:Quay:quay014"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa015" version="1" order="15">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp015"/>
+              <QuayRef ref="PE:Quay:quay015"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa016" version="1" order="16">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+              <QuayRef ref="PE:Quay:quay016"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa017" version="1" order="17">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp017"/>
+              <QuayRef ref="PE:Quay:quay017"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa018" version="1" order="18">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp018"/>
+              <QuayRef ref="PE:Quay:quay018"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa019" version="1" order="19">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp019"/>
+              <QuayRef ref="PE:Quay:quay019"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa020" version="1" order="20">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+              <QuayRef ref="PE:Quay:quay020"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa021" version="1" order="21">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp021"/>
+              <QuayRef ref="PE:Quay:quay021"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa022" version="1" order="22">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp022"/>
+              <QuayRef ref="PE:Quay:quay022"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa023" version="1" order="23">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp023"/>
+              <QuayRef ref="PE:Quay:quay023"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa024" version="1" order="24">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp024"/>
+              <QuayRef ref="PE:Quay:quay024"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa025" version="1" order="25">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp025"/>
+              <QuayRef ref="PE:Quay:quay025"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa026" version="1" order="26">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp026"/>
+              <QuayRef ref="PE:Quay:quay026"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa027" version="1" order="27">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp027"/>
+              <QuayRef ref="PE:Quay:quay027"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa028" version="1" order="28">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp028"/>
+              <QuayRef ref="PE:Quay:quay028"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa029" version="1" order="29">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp029"/>
+              <QuayRef ref="PE:Quay:quay029"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa030" version="1" order="30">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp030"/>
+              <QuayRef ref="PE:Quay:quay030"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa031" version="1" order="31">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp031"/>
+              <QuayRef ref="PE:Quay:quay031"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa032" version="1" order="32">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp032"/>
+              <QuayRef ref="PE:Quay:quay032"/>
+            </PassengerStopAssignment>
+            <PassengerStopAssignment id="PE:PassengerStopAssignment:psa033" version="1" order="33">
+              <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp033"/>
+              <QuayRef ref="PE:Quay:quay033"/>
+            </PassengerStopAssignment>
+          </stopAssignments>
+          <journeyPatterns>
+            <JourneyPattern id="PE:JourneyPattern:sj001" version="1">
+              <Name>JP for PE:ServiceJourney:sj001</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp001"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp002"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp003"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp004"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp005"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_006" version="1" order="6">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp006"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj001_007" version="1" order="7">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+            <JourneyPattern id="PE:JourneyPattern:sj002" version="1">
+              <Name>JP for PE:ServiceJourney:sj002</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp008"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp009"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp010"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp011"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_006" version="1" order="6">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_007" version="1" order="7">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp013"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_008" version="1" order="8">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp014"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj002_009" version="1" order="9">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp015"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+            <JourneyPattern id="PE:JourneyPattern:sj003" version="1">
+              <Name>JP for PE:ServiceJourney:sj003</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp017"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp018"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp010"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_006" version="1" order="6">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp019"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_007" version="1" order="7">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_008" version="1" order="8">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp021"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_009" version="1" order="9">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp022"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj003_010" version="1" order="10">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp023"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+            <JourneyPattern id="PE:JourneyPattern:sj004" version="1">
+              <Name>JP for PE:ServiceJourney:sj004</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp017"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp018"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp010"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_006" version="1" order="6">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp019"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_007" version="1" order="7">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_008" version="1" order="8">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp024"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_009" version="1" order="9">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp025"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj004_010" version="1" order="10">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp026"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+            <JourneyPattern id="PE:JourneyPattern:sj005" version="1">
+              <Name>JP for PE:ServiceJourney:sj005</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj005_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj005_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp011"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj005_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp027"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj005_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp028"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj005_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+            <JourneyPattern id="PE:JourneyPattern:sj006" version="1">
+              <Name>JP for PE:ServiceJourney:sj006</Name>
+              <pointsInSequence>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_001" version="1" order="1">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_002" version="1" order="2">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp028"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_003" version="1" order="3">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp027"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_004" version="1" order="4">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp029"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_005" version="1" order="5">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp019"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_006" version="1" order="6">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_007" version="1" order="7">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp030"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_008" version="1" order="8">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp031"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_009" version="1" order="9">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp032"/>
+                </StopPointInJourneyPattern>
+                <StopPointInJourneyPattern id="PE:StopPointInJourneyPattern:sj006_010" version="1" order="10">
+                  <ScheduledStopPointRef ref="PE:ScheduledStopPoint:ssp033"/>
+                </StopPointInJourneyPattern>
+              </pointsInSequence>
+            </JourneyPattern>
+          </journeyPatterns>
+        </ServiceFrame>
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- TimetableFrame: jazdy, spięcia, bloki wagonów          -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <TimetableFrame id="tf:standalone_servicejourneys_profile" version="1">
+          <!-- ─── ServiceJourneys z JourneyParts ─────────────────── -->
+          <vehicleJourneys>
+            <!-- ── 476 METROPOL Budapest-Nyugati → Breclav ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj001" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">476</PrivateCode>
+                <PrivateCode type="rics">1155</PrivateCode>
+              </privateCodes>
+              <Name>476 METROPOL</Name>
+              <!-- RICS: 1155 · MERITS colour: #e74c3c -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_001" version="1"/>
+                  <!-- Budapest-Nyugati -->
+                  <DepartureTime>19:30:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_002" version="1"/>
+                  <!-- Vác -->
+                  <ArrivalTime>19:56:00</ArrivalTime>
+                  <DepartureTime>19:57:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_003" version="1"/>
+                  <!-- Štúrovo -->
+                  <ArrivalTime>20:33:00</ArrivalTime>
+                  <DepartureTime>20:36:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_004" version="1"/>
+                  <!-- Nové Zámky -->
+                  <ArrivalTime>21:01:00</ArrivalTime>
+                  <DepartureTime>21:03:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_005" version="1"/>
+                  <!-- Bratislava hl.st. -->
+                  <ArrivalTime>21:55:00</ArrivalTime>
+                  <DepartureTime>21:58:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_006" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_006" version="1"/>
+                  <!-- Kúty -->
+                  <ArrivalTime>22:53:00</ArrivalTime>
+                  <DepartureTime>22:55:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_007" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_007" version="1"/>
+                  <!-- Breclav -->
+                  <ArrivalTime>23:06:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj001_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">476</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj001"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp001"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <StartTime>19:30:00</StartTime>
+                  <EndTime>23:06:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <!-- ── 456 METROPOL Graz → Wien → Breclav → Praha → Berlin ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj002" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">456</PrivateCode>
+                <PrivateCode type="rics">1181</PrivateCode>
+              </privateCodes>
+              <Name>456 METROPOL</Name>
+              <!-- RICS: 1181 · MERITS colour: #e67e22 -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_001" version="1"/>
+                  <!-- Graz Hbf -->
+                  <DepartureTime>19:41:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_002" version="1"/>
+                  <!-- Wien Meidling -->
+                  <ArrivalTime>22:16:00</ArrivalTime>
+                  <DepartureTime>22:18:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_003" version="1"/>
+                  <!-- Wien Hbf -->
+                  <ArrivalTime>22:23:00</ArrivalTime>
+                  <DepartureTime>22:38:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_004" version="1"/>
+                  <!-- Breclav -->
+                  <ArrivalTime>23:04:00</ArrivalTime>
+                  <DepartureTime>23:57:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_005" version="1"/>
+                  <!-- Brno hl.n. -->
+                  <ArrivalTime>00:26:00</ArrivalTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_006" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_006" version="1"/>
+                  <!-- Praha hl.n. -->
+                  <ArrivalTime>03:09:00</ArrivalTime>
+                  <DepartureTime>03:14:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_007" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_007" version="1"/>
+                  <!-- Děčín hl.n. -->
+                  <ArrivalTime>04:40:00</ArrivalTime>
+                  <DepartureTime>04:59:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_008" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_008" version="1"/>
+                  <!-- Dresden Hbf -->
+                  <ArrivalTime>05:48:00</ArrivalTime>
+                  <DepartureTime>05:53:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_009" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_009" version="1"/>
+                  <!-- Berlin Hbf -->
+                  <ArrivalTime>07:41:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj002_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">456</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj002"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp008"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <StartTime>19:41:00</StartTime>
+                  <EndTime>23:04:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj002_p02" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">456x</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj002"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp015"/>
+                  <StartTime>23:57:00</StartTime>
+                  <EndTime>07:41:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <!-- ── 406 EC CHOPIN München → Wien → Breclav → Bohumín → Warszawa ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj003" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">406</PrivateCode>
+                <PrivateCode type="rics">1251</PrivateCode>
+              </privateCodes>
+              <Name>406 CHOPIN</Name>
+              <!-- RICS: 1251 · MERITS colour: #3498db -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_001" version="1"/>
+                  <!-- München Hbf -->
+                  <DepartureTime>18:35:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_002" version="1"/>
+                  <!-- Salzburg Hbf -->
+                  <ArrivalTime>20:26:00</ArrivalTime>
+                  <DepartureTime>20:30:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_003" version="1"/>
+                  <!-- Linz Hbf -->
+                  <ArrivalTime>21:43:00</ArrivalTime>
+                  <DepartureTime>21:45:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_004" version="1"/>
+                  <!-- Wien Hbf -->
+                  <ArrivalTime>23:16:00</ArrivalTime>
+                  <DepartureTime>23:19:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_005" version="1"/>
+                  <!-- Breclav -->
+                  <ArrivalTime>00:34:00</ArrivalTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_006" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_006" version="1"/>
+                  <!-- Ostrava hl.n. -->
+                  <ArrivalTime>02:46:00</ArrivalTime>
+                  <DepartureTime>02:48:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_007" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_007" version="1"/>
+                  <!-- Bohumín -->
+                  <ArrivalTime>02:55:00</ArrivalTime>
+                  <DepartureTime>03:50:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_008" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_008" version="1"/>
+                  <!-- Katowice -->
+                  <ArrivalTime>05:15:00</ArrivalTime>
+                  <DepartureTime>05:18:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_009" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_009" version="1"/>
+                  <!-- Warszawa Centralna -->
+                  <ArrivalTime>08:08:00</ArrivalTime>
+                  <DepartureTime>08:17:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_010" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_010" version="1"/>
+                  <!-- Warszawa Wschodnia -->
+                  <ArrivalTime>08:23:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj003_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <StartTime>18:35:00</StartTime>
+                  <EndTime>00:34:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj003_p02" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406x</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp011"/>
+                  <StartTime>00:34:00</StartTime>
+                  <EndTime>02:55:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj003_p03" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406y</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp023"/>
+                  <StartTime>03:50:00</StartTime>
+                  <EndTime>08:23:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <!-- ── 416 EC München → Wien → Breclav → Bohumín → Przemyśl ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj004" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">416</PrivateCode>
+                <PrivateCode type="rics">2480</PrivateCode>
+              </privateCodes>
+              <Name>416</Name>
+              <!-- RICS: 2480 -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_001" version="1"/>
+                  <!-- München Hbf -->
+                  <DepartureTime>18:35:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_002" version="1"/>
+                  <!-- Salzburg Hbf -->
+                  <ArrivalTime>20:26:00</ArrivalTime>
+                  <DepartureTime>20:30:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_003" version="1"/>
+                  <!-- Linz Hbf -->
+                  <ArrivalTime>21:43:00</ArrivalTime>
+                  <DepartureTime>21:45:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_004" version="1"/>
+                  <!-- Wien Hbf -->
+                  <ArrivalTime>23:16:00</ArrivalTime>
+                  <DepartureTime>23:19:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_005" version="1"/>
+                  <!-- Breclav -->
+                  <ArrivalTime>00:34:00</ArrivalTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_006" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_006" version="1"/>
+                  <!-- Ostrava hl.n. -->
+                  <ArrivalTime>02:46:00</ArrivalTime>
+                  <DepartureTime>02:48:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_007" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_007" version="1"/>
+                  <!-- Bohumín -->
+                  <ArrivalTime>02:55:00</ArrivalTime>
+                  <DepartureTime>03:58:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_008" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_008" version="1"/>
+                  <!-- Kraków Główny -->
+                  <ArrivalTime>07:17:00</ArrivalTime>
+                  <DepartureTime>07:22:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_009" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_009" version="1"/>
+                  <!-- Rzeszów Główny -->
+                  <ArrivalTime>09:07:00</ArrivalTime>
+                  <DepartureTime>09:08:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_010" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_010" version="1"/>
+                  <!-- Przemyśl Główny -->
+                  <ArrivalTime>10:11:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj004_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">416</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj004"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <StartTime>18:35:00</StartTime>
+                  <EndTime>00:34:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj004_p02" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">416x</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj004"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                  <StartTime>00:34:00</StartTime>
+                  <EndTime>02:55:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj004_p03" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">416y</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj004"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp026"/>
+                  <StartTime>03:58:00</StartTime>
+                  <EndTime>10:11:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <!-- ── 576 Breclav → Brno → Praha ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj005" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">576</PrivateCode>
+                <PrivateCode type="rics">1154</PrivateCode>
+              </privateCodes>
+              <Name>576</Name>
+              <!-- RICS: 1154 · MERITS colour: #9b59b6 -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_001" version="1"/>
+                  <!-- Breclav -->
+                  <DepartureTime>05:12:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_002" version="1"/>
+                  <!-- Brno hl.n. -->
+                  <ArrivalTime>05:41:00</ArrivalTime>
+                  <DepartureTime>05:46:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_003" version="1"/>
+                  <!-- Česká Třebová -->
+                  <ArrivalTime>06:46:00</ArrivalTime>
+                  <DepartureTime>06:48:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_004" version="1"/>
+                  <!-- Pardubice hl.n. -->
+                  <ArrivalTime>07:23:00</ArrivalTime>
+                  <DepartureTime>07:25:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_005" version="1"/>
+                  <!-- Praha hl.n. -->
+                  <ArrivalTime>08:23:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj005_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">576</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj005"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+                  <StartTime>05:12:00</StartTime>
+                  <EndTime>08:23:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <!-- ── 443 EC SLOVAKIA Praha → Olomouc → Ostrava → Bohumín → Košice → Humenné ── -->
+            <ServiceJourney id="PE:ServiceJourney:sj006" version="1">
+              <privateCodes>
+                <PrivateCode type="trainNumber">443</PrivateCode>
+                <PrivateCode type="rics">1154</PrivateCode>
+              </privateCodes>
+              <Name>443 SLOVAKIA</Name>
+              <!-- RICS: 1154 · MERITS colour: #f39c12 -->
+              <passingTimes>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_001" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_001" version="1"/>
+                  <!-- Praha hl.n. -->
+                  <ArrivalTime>22:01:00</ArrivalTime>
+                  <DepartureTime>22:16:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_002" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_002" version="1"/>
+                  <!-- Pardubice hl.n. -->
+                  <ArrivalTime>23:22:00</ArrivalTime>
+                  <DepartureTime>23:25:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_003" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_003" version="1"/>
+                  <!-- Česká Třebová -->
+                  <ArrivalTime>00:06:00</ArrivalTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_004" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_004" version="1"/>
+                  <!-- Olomouc hl.n. -->
+                  <ArrivalTime>00:56:00</ArrivalTime>
+                  <DepartureTime>00:58:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_005" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_005" version="1"/>
+                  <!-- Ostrava hl.n. -->
+                  <ArrivalTime>02:08:00</ArrivalTime>
+                  <DepartureTime>02:11:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_006" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_006" version="1"/>
+                  <!-- Bohumín -->
+                  <ArrivalTime>02:18:00</ArrivalTime>
+                  <DepartureTime>03:00:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_007" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_007" version="1"/>
+                  <!-- Čadca -->
+                  <ArrivalTime>03:51:00</ArrivalTime>
+                  <DepartureTime>03:56:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_008" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_008" version="1"/>
+                  <!-- Žilina -->
+                  <ArrivalTime>04:26:00</ArrivalTime>
+                  <DepartureTime>04:31:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_009" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_009" version="1"/>
+                  <!-- Košice -->
+                  <ArrivalTime>08:12:00</ArrivalTime>
+                  <DepartureTime>09:01:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_010" version="1">
+                  <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_010" version="1"/>
+                  <!-- Humenné -->
+                  <ArrivalTime>10:29:00</ArrivalTime>
+                </TimetabledPassingTime>
+              </passingTimes>
+              <parts>
+                <JourneyPart id="PE:JourneyPart:sj006_p01" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">443</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj006"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp012"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                  <StartTime>22:16:00</StartTime>
+                  <EndTime>02:18:00</EndTime>
+                </JourneyPart>
+                <JourneyPart id="PE:JourneyPart:sj006_p02" version="1">
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">443x</PrivateCode>
+                  </privateCodes>
+                  <MainPartRef ref="PE:ServiceJourney:sj006"/>
+                  <FromStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+                  <ToStopPointRef ref="PE:ScheduledStopPoint:ssp033"/>
+                  <StartTime>03:00:00</StartTime>
+                  <EndTime>10:29:00</EndTime>
+                </JourneyPart>
+              </parts>
+            </ServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj001_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj001" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj002_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj002" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj003_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj003" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj004_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj004" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj005_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj005" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj006_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj006" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+          </vehicleJourneys>
+          <journeyPartCouples>
+            <JourneyPartCouple id="PE:JourneyPartCouple:jpc003_004_01" version="1">
+              <Description>Coupled operation: SJ003 + SJ004</Description>
+              <StartTime>18:35:00</StartTime>
+              <EndTime>00:34:00</EndTime>
+              <FromStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
+              <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+              <MainPartRef ref="PE:JourneyPart:sj003_p01"/>
+              <journeyParts>
+                <JourneyPartRef ref="PE:JourneyPart:sj004_p01"/>
+              </journeyParts>
+            </JourneyPartCouple>
+            <JourneyPartCouple id="PE:JourneyPartCouple:jpc003_004_02" version="1">
+              <Description>Coupled operation: SJ003 + SJ004</Description>
+              <StartTime>00:34:00</StartTime>
+              <EndTime>02:55:00</EndTime>
+              <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
+              <ToStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
+              <MainPartRef ref="PE:JourneyPart:sj003_p02"/>
+              <journeyParts>
+                <JourneyPartRef ref="PE:JourneyPart:sj004_p02"/>
+              </journeyParts>
+            </JourneyPartCouple>
+          </journeyPartCouples>
+        </TimetableFrame>
+        <VehicleScheduleFrame id="PE:VehicleScheduleFrame:standalone_servicejourneys_profile" version="1">
+          <blocks>
+            <Block id="PE:Block:W1" version="1">
+              <Name>Budapest - Warszawa</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W1_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj001_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W1_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj003_p02"/>
+                    <JourneyPartRef ref="PE:JourneyPart:sj003_p03"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+            <Block id="PE:Block:W2" version="1">
+              <Name>Budapest - Przemysl</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W2_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj001_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W2_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj004_p02"/>
+                    <JourneyPartRef ref="PE:JourneyPart:sj004_p03"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+            <Block id="PE:Block:W3" version="1">
+              <Name>Budapest - Berlin</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W3_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj001_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W3_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj002_p02"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+            <Block id="PE:Block:W4" version="1">
+              <Name>Budapest - Praha</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W4_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj001_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W4_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj005_p01"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+            <Block id="PE:Block:W5" version="1">
+              <Name>Praha - Warszawa (via 443)</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W5_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj006_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W5_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj003_p03"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+            <Block id="PE:Block:W6" version="1">
+              <Name>Praha - Przemysl (via 443)</Name>
+              <blockParts>
+                <BlockPart id="PE:BlockPart:W6_seg1" version="1" order="1">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj006_p01"/>
+                  </journeyParts>
+                </BlockPart>
+                <BlockPart id="PE:BlockPart:W6_seg2" version="1" order="2">
+                  <journeyParts>
+                    <JourneyPartRef ref="PE:JourneyPart:sj004_p03"/>
+                  </journeyParts>
+                </BlockPart>
+              </blockParts>
+            </Block>
+          </blocks>
+        </VehicleScheduleFrame>
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>

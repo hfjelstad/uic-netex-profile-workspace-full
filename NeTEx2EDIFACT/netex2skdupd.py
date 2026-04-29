@@ -397,7 +397,7 @@ def build_trains_and_pors(
                 check_in=None,
             ))
 
-    print(f\"Converted {len(trains)} trains, {len(pors)} stop-times ({skipped_stops} stops without UIC, {restricted_stops} with restrictions)\")
+    print(f"Converted {len(trains)} trains, {len(pors)} stop-times ({skipped_stops} stops without UIC, {restricted_stops} with restrictions)")
     return meta_list, trains, pors
 
 

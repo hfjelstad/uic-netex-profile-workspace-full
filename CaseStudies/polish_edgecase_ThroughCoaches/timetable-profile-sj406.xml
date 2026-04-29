@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NeTEx TimetableFrame — Through coaches profile example
+  ServiceJourney 406 CHOPIN (München → Warszawa) with explicit train number per JourneyPart
+  
+  PROFILE PATTERN:
+  - ServiceJourney id: STABLE across all parts (PE:ServiceJourney:sj003)
+  - ServiceJourney name: Commercial service name (406 CHOPIN)
+  - ServiceJourney privateCodes: Contains trainNumber for "primary" leg (typically first)
+  
+  - JourneyPart: Logical division of the journey
+  - JourneyPart privateCodes/PrivateCode[@type='trainNumber']: Explicit train number for THIS leg
+                                                                  (differs per part for through-coach services)
+  
+  This allows:
+  1. Passengers book ONE ticket (ServiceJourney 406)
+  2. They may ride multiple train numbers (406, 406x, 406y) without changing seats
+  3. EDIFACT converters can extract train numbers per leg from JourneyPart
+-->
+<PublicationDelivery
+    xmlns="http://www.netex.org.uk/netex"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.netex.org.uk/netex http://www.netex.org.uk/netex/schema/1.12/NeTEx_publication.xsd"
+    version="1.12">
+  <dataObjects>
+    <CompositeFrame id="cf:sj406_profile" version="1">
+      <TypeOfFrameRef ref="epip:EU_PI_COMMON"/>
+      <frames>
+
+        <ServiceCalendarFrame id="scf:sj406_profile" version="1">
+          <operatingDays>
+            <OperatingDay id="PE:OperatingDay:2026-04-23" version="1">
+              <CalendarDate>2026-04-23</CalendarDate>
+            </OperatingDay>
+          </operatingDays>
+        </ServiceCalendarFrame>
+
+        <ServiceFrame id="sf:stops_406" version="1">
+          <scheduledStopPoints>
+            <ScheduledStopPoint id="uic:008020347" version="1">
+              <Name>München Hbf</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:008101114" version="1">
+              <Name>Salzburg Hbf</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:008101073" version="1">
+              <Name>Linz Hbf</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:008101003" version="1">
+              <Name>Wien Hbf</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005433425" version="1">
+              <Name>Breclav</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005434364" version="1">
+              <Name>Ostrava hl.n.</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005434124" version="1">
+              <Name>Bohumín</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005107331" version="1">
+              <Name>Katowice</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005103360" version="1">
+              <Name>Warszawa Centralna</Name>
+            </ScheduledStopPoint>
+            <ScheduledStopPoint id="uic:005103865" version="1">
+              <Name>Warszawa Wschodnia</Name>
+            </ScheduledStopPoint>
+          </scheduledStopPoints>
+        </ServiceFrame>
+
+        <TimetableFrame id="tf:sj406_profile" version="1">
+          <vehicleJourneys>
+
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <!-- 406 EC CHOPIN München → Breclav → Bohumín → Warszawa    -->
+            <!-- STABLE SERVICE IDENTITY + TRAIN NUMBER CHANGES PER PART   -->
+            <!-- ═════════════════════════════════════════════════════════ -->
+            <ServiceJourney id="PE:ServiceJourney:sj003" version="1">
+              
+              <!-- COMMERCIAL SERVICE NAME (user-facing) -->
+              <Name>406 CHOPIN</Name>
+              
+              <!-- PRIMARY TRAIN NUMBER (main identifier; may differ per market) -->
+              <privateCodes>
+                <PrivateCode type="trainNumber">406</PrivateCode>
+                <PrivateCode type="rics">1251</PrivateCode>
+              </privateCodes>
+              
+              <!-- JOURNEY PARTS: Three distinct segments with different train numbers -->
+              <journeyParts>
+                
+                <!-- PART 1: München Hbf → Breclav (TRAIN 406) -->
+                <JourneyPart id="PE:JourneyPart:sj003_p01" version="1">
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="uic:008020347"/>
+                  <ToStopPointRef ref="uic:005433425"/>
+                  <StartTime>18:35:00</StartTime>
+                  <EndTime>00:34:00</EndTime>
+                  
+                  <!-- EXPLICIT TRAIN NUMBER FOR THIS LEG -->
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406</PrivateCode>
+                  </privateCodes>
+                </JourneyPart>
+                
+                <!-- PART 2: Breclav → Bohumín (TRAIN 406x: technical train ID, may vary) -->
+                <JourneyPart id="PE:JourneyPart:sj003_p02" version="1">
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="uic:005433425"/>
+                  <ToStopPointRef ref="uic:005434124"/>
+                  <StartTime>00:34:00</StartTime>
+                  <EndTime>02:55:00</EndTime>
+                  
+                  <!-- TRAIN NUMBER CHANGE: Different locomotive/crew, same passengers/wagons -->
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406x</PrivateCode>
+                  </privateCodes>
+                </JourneyPart>
+                
+                <!-- PART 3: Bohumín → Warszawa Wschodnia (TRAIN 406y: separate train to Poland) -->
+                <JourneyPart id="PE:JourneyPart:sj003_p03" version="1">
+                  <MainPartRef ref="PE:ServiceJourney:sj003"/>
+                  <FromStopPointRef ref="uic:005434124"/>
+                  <ToStopPointRef ref="uic:005103865"/>
+                  <StartTime>03:50:00</StartTime>
+                  <EndTime>08:23:00</EndTime>
+                  
+                  <!-- FINAL LEG TRAIN NUMBER -->
+                  <privateCodes>
+                    <PrivateCode type="trainNumber">406y</PrivateCode>
+                  </privateCodes>
+                </JourneyPart>
+                
+              </journeyParts>
+
+              <!-- DETAILED TIMETABLE WITH PASSING TIMES -->
+              <passingTimes>
+                
+                <!-- LEG 1: München → Breclav (Train 406) -->
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:008020347" version="1"/>
+                  <DepartureTime>18:35:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:008101114" version="1"/>
+                  <ArrivalTime>20:26:00</ArrivalTime>
+                  <DepartureTime>20:30:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:008101073" version="1"/>
+                  <ArrivalTime>21:43:00</ArrivalTime>
+                  <DepartureTime>21:45:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:008101003" version="1"/>
+                  <ArrivalTime>23:16:00</ArrivalTime>
+                  <DepartureTime>23:19:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:005433425" version="1"/>
+                  <ArrivalTime>00:34:00</ArrivalTime>
+                </TimetabledPassingTime>
+
+                <!-- LEG 2: Breclav → Bohumín (Train 406x, usually very short; crew/loco change) -->
+                <TimetabledPassingTime>
+                  <!-- Note: No departure from Breclav here; journey continues immediately in many cases -->
+                  <!-- or there may be a brief stop for crew/loco changes (shown in journey times) -->
+                  <StopPointRef ref="uic:005434364" version="1"/>
+                  <ArrivalTime>02:46:00</ArrivalTime>
+                  <DepartureTime>02:48:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:005434124" version="1"/>
+                  <ArrivalTime>02:55:00</ArrivalTime>
+                  <DepartureTime>03:50:00</DepartureTime>
+                </TimetabledPassingTime>
+
+                <!-- LEG 3: Bohumín → Warszawa (Train 406y, Polish railway) -->
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:005107331" version="1"/>
+                  <ArrivalTime>05:15:00</ArrivalTime>
+                  <DepartureTime>05:18:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:005103360" version="1"/>
+                  <ArrivalTime>08:08:00</ArrivalTime>
+                  <DepartureTime>08:17:00</DepartureTime>
+                </TimetabledPassingTime>
+                <TimetabledPassingTime>
+                  <StopPointRef ref="uic:005103865" version="1"/>
+                  <ArrivalTime>08:23:00</ArrivalTime>
+                </TimetabledPassingTime>
+
+              </passingTimes>
+            </ServiceJourney>
+
+            <DatedServiceJourney id="PE:DatedServiceJourney:dsj003_2026-04-23" version="1">
+              <ServiceJourneyRef ref="PE:ServiceJourney:sj003" version="1"/>
+              <OperatingDayRef ref="PE:OperatingDay:2026-04-23"/>
+            </DatedServiceJourney>
+
+          </vehicleJourneys>
+        </TimetableFrame>
+
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>

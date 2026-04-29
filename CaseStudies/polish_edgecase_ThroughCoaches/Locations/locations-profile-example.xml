@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PublicationDelivery
+    xmlns="http://www.netex.org.uk/netex"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.netex.org.uk/netex http://www.netex.org.uk/netex/schema/1.12/NeTEx_publication.xsd"
+    version="1.12">
+  <dataObjects>
+    <CompositeFrame id="pe:cf:locations_profile_example" version="1">
+      <TypeOfFrameRef ref="epip:EU_PI_COMMON"/>
+      <frames>
+        <SiteFrame id="pe:siteframe:throughcoaches_locations" version="1">
+          <stopPlaces>
+            <StopPlace id="pe:StopPlace:sp001" version="1"><privateCodes><PrivateCode type="uicCode">005510033</PrivateCode></privateCodes><Name>Budapest-Nyugati</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp002" version="1"><privateCodes><PrivateCode type="uicCode">005510447</PrivateCode></privateCodes><Name>Vác</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp003" version="1"><privateCodes><PrivateCode type="uicCode">005613526</PrivateCode></privateCodes><Name>Štúrovo</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp004" version="1"><privateCodes><PrivateCode type="uicCode">005613436</PrivateCode></privateCodes><Name>Nové Zámky</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp005" version="1"><privateCodes><PrivateCode type="uicCode">005613206</PrivateCode></privateCodes><Name>Bratislava hl.st.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp006" version="1"><privateCodes><PrivateCode type="uicCode">005613016</PrivateCode></privateCodes><Name>Kúty</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp007" version="1"><privateCodes><PrivateCode type="uicCode">005433425</PrivateCode></privateCodes><Name>Breclav</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp008" version="1"><privateCodes><PrivateCode type="uicCode">008103171</PrivateCode></privateCodes><Name>Graz Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp009" version="1"><privateCodes><PrivateCode type="uicCode">008103107</PrivateCode></privateCodes><Name>Wien Meidling</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp010" version="1"><privateCodes><PrivateCode type="uicCode">008101003</PrivateCode></privateCodes><Name>Wien Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp011" version="1"><privateCodes><PrivateCode type="uicCode">005433295</PrivateCode></privateCodes><Name>Brno hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp012" version="1"><privateCodes><PrivateCode type="uicCode">005457076</PrivateCode></privateCodes><Name>Praha hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp013" version="1"><privateCodes><PrivateCode type="uicCode">005455659</PrivateCode></privateCodes><Name>Děčín hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp014" version="1"><privateCodes><PrivateCode type="uicCode">008006050</PrivateCode></privateCodes><Name>Dresden Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp015" version="1"><privateCodes><PrivateCode type="uicCode">008031922</PrivateCode></privateCodes><Name>Berlin Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp016" version="1"><privateCodes><PrivateCode type="uicCode">008020347</PrivateCode></privateCodes><Name>München Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp017" version="1"><privateCodes><PrivateCode type="uicCode">008101114</PrivateCode></privateCodes><Name>Salzburg Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp018" version="1"><privateCodes><PrivateCode type="uicCode">008101073</PrivateCode></privateCodes><Name>Linz Hbf</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp019" version="1"><privateCodes><PrivateCode type="uicCode">005434364</PrivateCode></privateCodes><Name>Ostrava hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp020" version="1"><privateCodes><PrivateCode type="uicCode">005434124</PrivateCode></privateCodes><Name>Bohumín</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp021" version="1"><privateCodes><PrivateCode type="uicCode">005107331</PrivateCode></privateCodes><Name>Katowice</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp022" version="1"><privateCodes><PrivateCode type="uicCode">005103360</PrivateCode></privateCodes><Name>Warszawa Centralna</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp023" version="1"><privateCodes><PrivateCode type="uicCode">005103865</PrivateCode></privateCodes><Name>Warszawa Wschodnia</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp024" version="1"><privateCodes><PrivateCode type="uicCode">005108041</PrivateCode></privateCodes><Name>Kraków Główny</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp025" version="1"><privateCodes><PrivateCode type="uicCode">005108266</PrivateCode></privateCodes><Name>Rzeszów Główny</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp026" version="1"><privateCodes><PrivateCode type="uicCode">005108440</PrivateCode></privateCodes><Name>Przemyśl Główny</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp027" version="1"><privateCodes><PrivateCode type="uicCode">005453913</PrivateCode></privateCodes><Name>Česká Třebová</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp028" version="1"><privateCodes><PrivateCode type="uicCode">005453613</PrivateCode></privateCodes><Name>Pardubice hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp029" version="1"><privateCodes><PrivateCode type="uicCode">005434362</PrivateCode></privateCodes><Name>Olomouc hl.n.</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp030" version="1"><privateCodes><PrivateCode type="uicCode">005618115</PrivateCode></privateCodes><Name>Čadca</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp031" version="1"><privateCodes><PrivateCode type="uicCode">005617915</PrivateCode></privateCodes><Name>Žilina</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp032" version="1"><privateCodes><PrivateCode type="uicCode">005613600</PrivateCode></privateCodes><Name>Košice</Name></StopPlace>
+            <StopPlace id="pe:StopPlace:sp033" version="1"><privateCodes><PrivateCode type="uicCode">005616040</PrivateCode></privateCodes><Name>Humenné</Name></StopPlace>
+          </stopPlaces>
+        </SiteFrame>
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>
