@@ -1,73 +1,104 @@
 # Identified Improvements
 
-## 1. Train number changes inside one traveler opportunity
+Concrete improvements applied to the source data when producing the
+profiled NeTEx 2.0 files in this case study.
 
-### Problem
-Eksemplet modellerer `ServiceJourney` med `JourneyPart`, men uttrykker ikke eksplisitt tognummer per delstrekning. Dette gjør det vanskelig for EDIFACT-konverteren å vite hvilket tognummer som gjelder på hver strekning av en gjennom-togtur.
+## 1. Explicit train number per JourneyPart
 
-### Solution Implemented ✅
-Profilert TimetableFrame-eksempel som viser:
-- **ServiceJourney level**: Stabil identitet (`id="sj:406"`) og navn (`406 CHOPIN`) som passasjeren ser
-- **JourneyPart level**: Eksplisitt `<PrivateCode type="trainNumber">` for hver delstrekning
-  - `jp:406_part1` (München→Breclav) → Train `406`
-  - `jp:406_part2` (Breclav→Bohumín) → Train `406x` (loco-/crewbytte)
-  - `jp:406_part3` (Bohumín→Warszawa) → Train `406y` (polsk jernbane)
+**Problem.** The original `wagony_bezposrednie_2026-04-23.xml` models
+`ServiceJourney` with `JourneyPart` but does not state the operational
+train number per leg. EDIFACT/MERITS consumers cannot tell which train
+number applies on each segment of a through-coach service.
 
-**File**: `timetable-profile-sj406.xml`
+**Solution.** Carry train numbers in `privateCodes` at two levels:
 
-### Pattern
+- `ServiceJourney`: the passenger-facing primary number (e.g. `406`).
+- `JourneyPart`: the per-leg operational number (e.g. `406`, `406x`,
+  `406y` across München → Breclav → Bohumín → Warszawa).
+
 ```xml
-<ServiceJourney id="sj:406">
-  <Name>406 CHOPIN</Name>
+<ServiceJourney id="PE:ServiceJourney:sj003" version="1">
   <privateCodes>
     <PrivateCode type="trainNumber">406</PrivateCode>
+    <PrivateCode type="rics">1251</PrivateCode>
   </privateCodes>
-  <journeyParts>
-    <JourneyPart id="jp:406_part1">
-      <privateCodes>
-        <PrivateCode type="trainNumber">406</PrivateCode>
-      </privateCodes>
+  <Name>406 CHOPIN</Name>
+  ...
+  <parts>
+    <JourneyPart id="PE:JourneyPart:sj003_p01" version="1">
+      <privateCodes><PrivateCode type="trainNumber">406</PrivateCode></privateCodes>
+      ...
     </JourneyPart>
-    <JourneyPart id="jp:406_part2">
-      <privateCodes>
-        <PrivateCode type="trainNumber">406x</PrivateCode>
-      </privateCodes>
+    <JourneyPart id="PE:JourneyPart:sj003_p02" version="1">
+      <privateCodes><PrivateCode type="trainNumber">406x</PrivateCode></privateCodes>
+      ...
     </JourneyPart>
-  </journeyParts>
+    <JourneyPart id="PE:JourneyPart:sj003_p03" version="1">
+      <privateCodes><PrivateCode type="trainNumber">406y</PrivateCode></privateCodes>
+      ...
+    </JourneyPart>
+  </parts>
 </ServiceJourney>
 ```
 
-### Why This Works
-1. **Stable Identity**: Passengers book ONE ticket (ServiceJourney 406)
-2. **Train Number Transparency**: Crew/systems can extract operational train numbers per leg
-3. **EDIFACT Conversion**: Converters can now map each JourneyPart to correct EDIFACT train numbers
-4. **Nordic Profile Alignment**: Uses standard NeTEx PrivateCode pattern for extensible attributes
+See `timetable-profile-explanation.md` for the full rationale.
 
-## 2. Location modeling alignment
+## 2. Stable, opaque IDs for stops and journeys
 
-### Problem
-Lokasjoner i eksemplet er i dag representert som `ScheduledStopPoint` med UIC-kode i `id`.
+**Problem.** The source uses `id="uic:008020347"`, embedding the UIC code
+in the identifier. This violates the Stable Identity principle — any
+change to the underlying coding system would break references.
 
-### Solution Implemented ✅
-Profilert SiteFrame-eksempel med:
-- **Opak, stabil id**: `id="PE:StopPlace:sp001"` (not tied to any real-world code)
-- **UIC-kode som PrivateCode**: `<PrivateCode type="uicCode">008020347</PrivateCode>`
-- **Coordinates**: Centroid elements populated from OSM Overpass API (18/33 matched)
+**Solution.**
 
-**File**: `Locations/locations-profile-v2.0.xml`
+- Stops use opaque IDs (`PE:ScheduledStopPoint:ssp016`,
+  `PE:StopPlace:sp016`).
+- The UIC code is carried in `privateCodes/PrivateCode[@type='uicCode']`
+  on `StopPlace`.
+- ServiceJourneys, JourneyParts, JourneyPatterns, BlockParts etc. all
+  use the `PE:` codespace prefix with sequential opaque suffixes.
 
-**Status**: 54.5% coordinate coverage (18/33 stations); see `locations-coordinate-gaps.md` for missing entries.
+## 3. NeTEx 2.0 schema-correct element ordering
 
-### Pattern
-```xml
-<StopPlace id="PE:StopPlace:sp001" version="1">
-  <Name>München Hbf</Name>
-  <PrivateCode type="uicCode">008020347</PrivateCode>
-  <Centroid>
-    <Location>
-      <Longitude>11.558307</Longitude>
-      <Latitude>48.140278</Latitude>
-    </Location>
-  </Centroid>
-</StopPlace>
-```
+**Problem.** The source mixes element orders that are not valid against
+the NeTEx 2.0 XSD (e.g. `journeyParts` placed where the schema expects
+`parts`, `PrivateCode` after `Name`).
+
+**Solution.**
+
+- `privateCodes` placed **before** `Name` (DataManagedObjectGroup).
+- `parts` placed **after** `passingTimes` (ServiceJourneyPartsGroup).
+- `journeyPartCouples` reside in `TimetableFrame`; `blocks` reside in a
+  dedicated `VehicleScheduleFrame`.
+- `JourneyPartCouple` uses `journeyParts/JourneyPartRef` instead of the
+  non-existent `CoupledPartRef`.
+- `BlockPart` uses `journeyParts/JourneyPartRef` (the schema choice
+  alongside `JourneyPartCoupleRef`).
+
+## 4. Strict-converter prerequisites
+
+**Problem.** The source lacks elements required by the strict
+NeTEx → SKDUPD converter (`PassengerStopAssignment`, `JourneyPattern`,
+`StopPointInJourneyPattern`, `id`/`version` on `TimetabledPassingTime`,
+`DatedServiceJourney` per `OperatingDay`).
+
+**Solution.** All of these are added in the profiled file. The result is
+that `run_conversion.ps1` produces:
+
+- `ConverterOutput/new_SKDUPD.r` — 6 trains, 51 POR records.
+- `ConverterOutput/new_TSDUPD.r` — 33 stop records with coordinates.
+
+## 5. Source-data correction
+
+`sj006_p02` (train 443) had `ToStopPointRef` pointing to Košice
+(`ssp032`); the `EndTime 10:29` and the original timetable confirm
+Humenné (`ssp033`). Corrected during the profile build.
+
+## Open items
+
+1. **Real-world train numbers**: `406x`, `406y`, etc. are placeholders;
+   replace with actual operational numbers from DB / ČD / PKP.
+2. **Couples and blocks → EDIFACT**: the converter currently emits one
+   `Train` per `ServiceJourney` and does not project
+   `JourneyPartCouple` or `Block`/`BlockPart` to dedicated SKDUPD
+   segments. Extending the converter is the next step in this branch.

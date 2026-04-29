@@ -1,47 +1,77 @@
 # Polish Edge Case: Through Coaches
 
-Dette case-studiet samler et krevende NeTEx-eksempel for gjennomgående vogner (through coaches) med kobling/deling i knutepunkter.
+This case study captures a demanding NeTEx scenario: through coaches with
+coupling/splitting at transfer hubs, on the night of April 23/24, 2026.
+Source data is the MERITS EDIFACT export `wagony_bezposrednie_2026-04-23.xml`.
 
-## Innhold
+## Contents
 
-### Source Data
-- `wagony_bezposrednie_2026-04-23.xml`: originalt eksempelgrunnlag fra MERITS EDIFACT-eksport.
+### Source data
+- `wagony_bezposrednie_2026-04-23.xml` — original MERITS EDIFACT export
+  used as the canonical input.
 
-### Improvements & Documentation
-- `improvements-identified.md`: konkrete forbedringer vi har implementert (tognummer per JourneyPart, opak lokalisering).
+### Profiled NeTEx 2.0 (XSD-validated)
+- `timetable-profile-standalone-servicejourneys.xml` — full profile of the
+  six ServiceJourneys (476, 456, 406, 416, 576, 443) with:
+  - opaque stable IDs (`PE:ServiceJourney:sj001` … `sj006`)
+  - `privateCodes` (trainNumber, rics) per ServiceJourney and per JourneyPart
+  - `JourneyPattern` + `StopPointInJourneyPattern` for every stop
+  - `TimetabledPassingTime` referencing SPiJP (with `id`/`version`)
+  - `PassengerStopAssignment` mapping every SSP to a Quay
+  - `parts` (JourneyParts) after `passingTimes`, in schema order
+  - `journeyPartCouples` for the 406+416 coupled section (München→Bohumín)
+  - `blocks` (W1–W6) in a `VehicleScheduleFrame` for the through-coach paths
+  - `DatedServiceJourney` per `OperatingDay` (2026-04-23)
+- `timetable-profile-sj406.xml` — single-service excerpt focused on
+  ServiceJourney 406 CHOPIN with three JourneyParts.
+- `Locations/locations-profile-v2.0.xml` — SiteFrame with 33 StopPlaces,
+  UIC code in `PrivateCode[@type='uicCode']`, coordinates where available,
+  and Quay refs.
 
-### Locations Profile ✅
-- `Locations/locations-profile-example.xml`: første profilutkast med opake StopPlace-id-er.
-- `Locations/locations-profile-v2.0.xml`: **NeTEx 2.0 SiteFrame**, validert mot repository-schema, 18/33 stoppesteder med koordinater.
-- `Locations/locations-overpass.csv`: auto-innhentede koordinater fra OSM Overpass API.
-- `Locations/locations-coordinate-gaps.md`: manglende koordinater (15 stoppesteder) for manuell innhenting.
-- `Locations/locations-inventory.md`: inventarliste over alle 33 stoppesteder fra case-filen.
+### Documentation
+- `timetable-profile-explanation.md` — design and rationale for explicit
+  per-JourneyPart train numbers; current converter behaviour.
+- `improvements-identified.md` — list of profile improvements applied.
 
-### Timetable Profile ✅
-- `timetable-profile-sj406.xml`: **profilert eksempel** som viser hvordan tognummer modelleres eksplisitt per JourneyPart.
-  - ServiceJourney 406 CHOPIN (München → Warszawa) med 3 deler:
-    - Part 1: München → Breclav (Train 406)
-    - Part 2: Breclav → Bohumín (Train 406x)
-    - Part 3: Bohumín → Warszawa (Train 406y)
-- `timetable-profile-standalone-servicejourneys.xml`: full profilering av **alle 6 enkelstående ServiceJourneys** med:
-  - opake og stabile ServiceJourney-id-er (`PE:ServiceJourney:sj001` ... `sj006`)
-  - tognummer flyttet til `privateCodes/PrivateCode[@type='trainNumber']` på SJ-nivå
-  - eksplisitt tognummer per JourneyPart
-  - uten `journeyPartCouples` og `blocks` (standalone-view)
-- `timetable-profile-explanation.md`: detaljert dokumentasjon av profileringen.
+### Converter pipeline
+- `run_conversion.ps1` — reproducible build:
+  1. Re-pack `Timetable_profile.zip` and `RailStations_profile.zip`
+     from the canonical XML.
+  2. Run NeTEx → SKDUPD (`run_conversion.py`).
+  3. Run NeTEx → TSDUPD (`netex2tsdupd.py`).
+- `ConverterInput/Timetable_profile.zip` — generated.
+- `ConverterInput/RailStations_profile.zip` — generated.
+- `ConverterOutput/new_SKDUPD.r` — 6 trains, 51 PORs.
+- `ConverterOutput/new_TSDUPD.r` — 33 stops with UIC + coordinates.
 
-## Mål
+## Goals (status)
 
-- ✅ Dokumentere edge-case-struktur tydelig (gjennom-tog-modellering).
-- ✅ Avklare stabil identitet for reise, tognummer og kjøretøykobling.
-- ✅ Etablere tydelig modell for lokasjonsbeskrivelser (UIC-kode som `PrivateCode`, stabil `id`).
-- ✅ Vise hvordan tognummer kan endres per JourneyPart uten å bryte passasjer-opplevelsen.
-
-## Status
-
-| Komponent | Status | Noter |
+| Component | Status | Notes |
 |-----------|--------|-------|
-| Locations (StopPlace) | ✅ v2.0 Profiled | 54.5% med koordinater; validert mot schema |
-| Timetable (ServiceJourney) | ✅ Profiled | Eksplisitt tognummer per JourneyPart |
-| Coordinate Coverage | 🟡 Partial | 18/33 stoppesteder; 15 mangler (liste opprett) |
-| Schema Validation | ✅ Locations OK | Timetable: well-formed, kompatibel med v1.12/2.0 |
+| Locations (StopPlace + Quay) | Profiled | XSD valid; coords for the matched subset |
+| Timetable (ServiceJourney) | Profiled | XSD valid; per-part train numbers |
+| Through-coach semantics | Profiled | `parts`, `journeyPartCouples`, `blocks` retained |
+| SKDUPD output | Generated | 1 PRD per ServiceJourney |
+| TSDUPD output | Generated | 33 ALS records (UTF-8 with diacritics) |
+| Couples/blocks → EDIFACT | Open | Not yet projected by the converter |
+
+## Reproduce
+
+```powershell
+pwsh -File .\run_conversion.ps1
+```
+
+Outputs are written to `ConverterOutput\`.
+
+## Validate against NeTEx 2.0 XSD
+
+```powershell
+# From the repository root
+.\scripts\validate_xml_dotnet.ps1 `
+    -XmlPath "CaseStudies\polish_edgecase_ThroughCoaches\timetable-profile-standalone-servicejourneys.xml"
+
+.\scripts\validate_xml_dotnet.ps1 `
+    -XmlPath "CaseStudies\polish_edgecase_ThroughCoaches\Locations\locations-profile-v2.0.xml"
+```
+
+Both files report `valid=True`, `error_count=0`.
