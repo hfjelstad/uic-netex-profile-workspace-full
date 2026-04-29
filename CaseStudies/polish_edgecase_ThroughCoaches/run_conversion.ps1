@@ -1,4 +1,5 @@
-# Build converter input zips from canonical XML files and run NeTEx -> SKDUPD.
+# Build converter input zips from canonical XML files and run
+# NeTEx -> SKDUPD (timetable) and NeTEx -> TSDUPD (stations).
 # Usage: pwsh -File .\run_conversion.ps1
 $ErrorActionPreference = 'Stop'
 Set-Location -Path $PSScriptRoot
@@ -21,4 +22,10 @@ python "..\..\NeTEx2EDIFACT\run_conversion.py" `
     --source-dir ConverterInput `
     --stations ConverterInput\RailStations_profile.zip `
     --output ConverterOutput\new_SKDUPD.r `
+    --originator PE
+
+# TSDUPD: stations -> EDIFACT (uses the SiteFrame XML directly)
+python "..\..\NeTEx2EDIFACT\netex2tsdupd.py" `
+    --input "Locations\locations-profile-v2.0.xml" `
+    --output "ConverterOutput\new_TSDUPD.r" `
     --originator PE
