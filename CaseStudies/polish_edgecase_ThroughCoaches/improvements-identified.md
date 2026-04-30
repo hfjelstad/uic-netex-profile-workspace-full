@@ -17,29 +17,36 @@ number applies on each segment of a through-coach service.
   `406y` across München → Breclav → Bohumín → Warszawa).
 
 ```xml
-<ServiceJourney id="PE:ServiceJourney:sj003" version="1">
+<ServiceJourney id="PE:ServiceJourney:sj003" version="1"
+                responsibilitySetRef="PE:ResponsibilitySet:1251">
   <privateCodes>
     <PrivateCode type="trainNumber">406</PrivateCode>
-    <PrivateCode type="rics">1251</PrivateCode>
   </privateCodes>
   <Name>406 CHOPIN</Name>
   ...
   <parts>
-    <JourneyPart id="PE:JourneyPart:sj003_p01" version="1">
+    <JourneyPart id="PE:JourneyPart:sj003_p01" version="1"
+                 responsibilitySetRef="PE:ResponsibilitySet:1155">
       <privateCodes><PrivateCode type="trainNumber">406</PrivateCode></privateCodes>
       ...
     </JourneyPart>
-    <JourneyPart id="PE:JourneyPart:sj003_p02" version="1">
+    <JourneyPart id="PE:JourneyPart:sj003_p02" version="1"
+                 responsibilitySetRef="PE:ResponsibilitySet:1181">
       <privateCodes><PrivateCode type="trainNumber">406x</PrivateCode></privateCodes>
       ...
     </JourneyPart>
-    <JourneyPart id="PE:JourneyPart:sj003_p03" version="1">
+    <JourneyPart id="PE:JourneyPart:sj003_p03" version="1"
+                 responsibilitySetRef="PE:ResponsibilitySet:1251">
       <privateCodes><PrivateCode type="trainNumber">406y</PrivateCode></privateCodes>
       ...
     </JourneyPart>
   </parts>
 </ServiceJourney>
 ```
+
+Note: per-leg operator is carried via `responsibilitySetRef` (see
+improvement #7), **not** via repeating RICS on each part. RICS is
+defined once on the `GeneralOrganisation` (improvement #6).
 
 See `timetable-profile-explanation.md` for the full rationale.
 
@@ -102,3 +109,38 @@ Humenné (`ssp033`). Corrected during the profile build.
    `Train` per `ServiceJourney` and does not project
    `JourneyPartCouple` or `Block`/`BlockPart` to dedicated SKDUPD
    segments. Extending the converter is the next step in this branch.
+
+---
+
+## Profile-evolution proposals surfaced by this case
+
+This case study surfaced patterns that depart from current
+Nordic-profile practice and one terminology question for NeTEx core.
+They are documented in a dedicated proposal document so they can be
+discussed independently of any single case:
+
+- **P-001** — Mandatory `type` attribute on `PrivateCode`
+- **P-002** — `GeneralOrganisation` + `ResponsibilitySet` instead of
+  `Operator` + `OperatorRef`
+- **P-004** — Mode-neutral `ServiceNumber` as a co-equal alias to
+  `TrainNumber` (upstream proposal, raised during the current
+  onboarding window)
+
+See [Guides/ProfileEvolution/ProfileEvolution_Proposals.md](../../Guides/ProfileEvolution/ProfileEvolution_Proposals.md)
+for rationale, examples, costs and migration notes.
+
+## Identity model and disruption mechanics — out of scope here
+
+The stable-identity model (`DatedServiceJourney.id` as the sales
+anchor, versioning, and the `replacedJourneys` mechanism for
+cancellation / replacement / reinforcement / supplement) is already
+fully documented in the wider profile work and is **not** restated in
+this case study. See:
+
+- [ExtendedSales_and_DeviationHandling_Guide](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Guides/ExtendedSales_and_DeviationHandling/ExtendedSales_and_DeviationHandling_Guide.md)
+- [Calendar_Guide](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Guides/Calendar/Calendar_Guide.md)
+- [Description_DatedServiceJourney](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Objects/DatedServiceJourney/Description_DatedServiceJourney.md)
+
+The through-coaches case relies on those mechanisms unchanged; the
+deltas above are the additions specific to multi-operator,
+multi-segment journeys.

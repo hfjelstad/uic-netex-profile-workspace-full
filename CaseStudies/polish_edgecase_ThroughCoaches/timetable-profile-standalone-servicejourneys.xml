@@ -21,6 +21,94 @@
               <Description>Codespace for Polish through-coaches profile examples</Description>
             </Codespace>
           </codespaces>
+          <!-- Role assignments. One ResponsibilitySet per organisation in its operation role. -->
+          <!-- (Schema requires responsibilitySets to precede organisations.) -->
+          <responsibilitySets>
+            <ResponsibilitySet id="PE:ResponsibilitySet:1154" version="1">
+              <Name>ZSSK as operator</Name>
+              <roles>
+                <ResponsibilityRoleAssignment id="PE:RRA:1154_op" version="1">
+                  <StakeholderRoleType>operation</StakeholderRoleType>
+                  <ResponsibleOrganisationRef ref="PE:GeneralOrganisation:1154" version="1"/>
+                </ResponsibilityRoleAssignment>
+              </roles>
+            </ResponsibilitySet>
+            <ResponsibilitySet id="PE:ResponsibilitySet:1155" version="1">
+              <Name>DB as operator</Name>
+              <roles>
+                <ResponsibilityRoleAssignment id="PE:RRA:1155_op" version="1">
+                  <StakeholderRoleType>operation</StakeholderRoleType>
+                  <ResponsibleOrganisationRef ref="PE:GeneralOrganisation:1155" version="1"/>
+                </ResponsibilityRoleAssignment>
+              </roles>
+            </ResponsibilitySet>
+            <ResponsibilitySet id="PE:ResponsibilitySet:1181" version="1">
+              <Name>ČD as operator</Name>
+              <roles>
+                <ResponsibilityRoleAssignment id="PE:RRA:1181_op" version="1">
+                  <StakeholderRoleType>operation</StakeholderRoleType>
+                  <ResponsibleOrganisationRef ref="PE:GeneralOrganisation:1181" version="1"/>
+                </ResponsibilityRoleAssignment>
+              </roles>
+            </ResponsibilitySet>
+            <ResponsibilitySet id="PE:ResponsibilitySet:1251" version="1">
+              <Name>PKP IC as operator</Name>
+              <roles>
+                <ResponsibilityRoleAssignment id="PE:RRA:1251_op" version="1">
+                  <StakeholderRoleType>operation</StakeholderRoleType>
+                  <ResponsibleOrganisationRef ref="PE:GeneralOrganisation:1251" version="1"/>
+                </ResponsibilityRoleAssignment>
+              </roles>
+            </ResponsibilitySet>
+            <ResponsibilitySet id="PE:ResponsibilitySet:2480" version="1">
+              <Name>RegioJet as operator</Name>
+              <roles>
+                <ResponsibilityRoleAssignment id="PE:RRA:2480_op" version="1">
+                  <StakeholderRoleType>operation</StakeholderRoleType>
+                  <ResponsibleOrganisationRef ref="PE:GeneralOrganisation:2480" version="1"/>
+                </ResponsibilityRoleAssignment>
+              </roles>
+            </ResponsibilitySet>
+          </responsibilitySets>
+          <!-- Role-neutral organisation identities. RICS is the UIC inter-railway code -->
+          <!-- (Railway Interchange Coding System) carried as a PrivateCode of type RICS. -->
+          <organisations>
+            <GeneralOrganisation id="PE:GeneralOrganisation:1154" version="1">
+              <privateCodes>
+                <PrivateCode type="RICS">1154</PrivateCode>
+              </privateCodes>
+              <Name>železničná spoločnosť Slovensko</Name>
+              <ShortName>ZSSK</ShortName>
+            </GeneralOrganisation>
+            <GeneralOrganisation id="PE:GeneralOrganisation:1155" version="1">
+              <privateCodes>
+                <PrivateCode type="RICS">1155</PrivateCode>
+              </privateCodes>
+              <Name>DB Fernverkehr AG</Name>
+              <ShortName>DB</ShortName>
+            </GeneralOrganisation>
+            <GeneralOrganisation id="PE:GeneralOrganisation:1181" version="1">
+              <privateCodes>
+                <PrivateCode type="RICS">1181</PrivateCode>
+              </privateCodes>
+              <Name>České dráhy</Name>
+              <ShortName>ČD</ShortName>
+            </GeneralOrganisation>
+            <GeneralOrganisation id="PE:GeneralOrganisation:1251" version="1">
+              <privateCodes>
+                <PrivateCode type="RICS">1251</PrivateCode>
+              </privateCodes>
+              <Name>PKP Intercity S.A.</Name>
+              <ShortName>PKP IC</ShortName>
+            </GeneralOrganisation>
+            <GeneralOrganisation id="PE:GeneralOrganisation:2480" version="1">
+              <privateCodes>
+                <PrivateCode type="RICS">2480</PrivateCode>
+              </privateCodes>
+              <Name>RegioJet a.s.</Name>
+              <ShortName>RegioJet</ShortName>
+            </GeneralOrganisation>
+          </organisations>
         </ResourceFrame>
         <ServiceCalendarFrame id="scf:standalone_servicejourneys_profile" version="1">
           <operatingDays>
@@ -494,13 +582,12 @@
           <!-- ─── ServiceJourneys z JourneyParts ─────────────────── -->
           <vehicleJourneys>
             <!-- ── 476 METROPOL Budapest-Nyugati → Breclav ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj001" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj001" version="1" responsibilitySetRef="PE:ResponsibilitySet:1155">
               <privateCodes>
                 <PrivateCode type="trainNumber">476</PrivateCode>
-                <PrivateCode type="rics">1155</PrivateCode>
               </privateCodes>
               <Name>476 METROPOL</Name>
-              <!-- RICS: 1155 · MERITS colour: #e74c3c -->
+              <!-- Operator: DB (RICS 1155) via PE:ResponsibilitySet:1155 · MERITS colour: #e74c3c -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj001_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj001_001" version="1"/>
@@ -557,13 +644,12 @@
               </parts>
             </ServiceJourney>
             <!-- ── 456 METROPOL Graz → Wien → Breclav → Praha → Berlin ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj002" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj002" version="1" responsibilitySetRef="PE:ResponsibilitySet:1181">
               <privateCodes>
                 <PrivateCode type="trainNumber">456</PrivateCode>
-                <PrivateCode type="rics">1181</PrivateCode>
               </privateCodes>
               <Name>456 METROPOL</Name>
-              <!-- RICS: 1181 · MERITS colour: #e67e22 -->
+              <!-- Operator: ČD (RICS 1181) via PE:ResponsibilitySet:1181 · MERITS colour: #e67e22 -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj002_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj002_001" version="1"/>
@@ -641,13 +727,12 @@
               </parts>
             </ServiceJourney>
             <!-- ── 406 EC CHOPIN München → Wien → Breclav → Bohumín → Warszawa ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj003" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj003" version="1" responsibilitySetRef="PE:ResponsibilitySet:1251">
               <privateCodes>
                 <PrivateCode type="trainNumber">406</PrivateCode>
-                <PrivateCode type="rics">1251</PrivateCode>
               </privateCodes>
               <Name>406 CHOPIN</Name>
-              <!-- RICS: 1251 · MERITS colour: #3498db -->
+              <!-- Operator: PKP IC (RICS 1251) via PE:ResponsibilitySet:1251 · MERITS colour: #3498db -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj003_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj003_001" version="1"/>
@@ -708,30 +793,33 @@
                 </TimetabledPassingTime>
               </passingTimes>
               <parts>
-                <JourneyPart id="PE:JourneyPart:sj003_p01" version="1">
+                <JourneyPart id="PE:JourneyPart:sj003_p01" version="1" responsibilitySetRef="PE:ResponsibilitySet:1155">
                   <privateCodes>
                     <PrivateCode type="trainNumber">406</PrivateCode>
                   </privateCodes>
+                  <!-- Operator override: DB Fernverkehr (RICS 1155), München → Breclav -->
                   <MainPartRef ref="PE:ServiceJourney:sj003"/>
                   <FromStopPointRef ref="PE:ScheduledStopPoint:ssp016"/>
                   <ToStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
                   <StartTime>18:35:00</StartTime>
                   <EndTime>00:34:00</EndTime>
                 </JourneyPart>
-                <JourneyPart id="PE:JourneyPart:sj003_p02" version="1">
+                <JourneyPart id="PE:JourneyPart:sj003_p02" version="1" responsibilitySetRef="PE:ResponsibilitySet:1181">
                   <privateCodes>
                     <PrivateCode type="trainNumber">406x</PrivateCode>
                   </privateCodes>
+                  <!-- Operator override: České dráhy (RICS 1181), Breclav → Bohumín -->
                   <MainPartRef ref="PE:ServiceJourney:sj003"/>
                   <FromStopPointRef ref="PE:ScheduledStopPoint:ssp007"/>
                   <ToStopPointRef ref="PE:ScheduledStopPoint:ssp011"/>
                   <StartTime>00:34:00</StartTime>
                   <EndTime>02:55:00</EndTime>
                 </JourneyPart>
-                <JourneyPart id="PE:JourneyPart:sj003_p03" version="1">
+                <JourneyPart id="PE:JourneyPart:sj003_p03" version="1" responsibilitySetRef="PE:ResponsibilitySet:1251">
                   <privateCodes>
                     <PrivateCode type="trainNumber">406y</PrivateCode>
                   </privateCodes>
+                  <!-- Operator inherits service default: PKP Intercity (RICS 1251), Bohumín → Warszawa -->
                   <MainPartRef ref="PE:ServiceJourney:sj003"/>
                   <FromStopPointRef ref="PE:ScheduledStopPoint:ssp020"/>
                   <ToStopPointRef ref="PE:ScheduledStopPoint:ssp023"/>
@@ -741,13 +829,12 @@
               </parts>
             </ServiceJourney>
             <!-- ── 416 EC München → Wien → Breclav → Bohumín → Przemyśl ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj004" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj004" version="1" responsibilitySetRef="PE:ResponsibilitySet:2480">
               <privateCodes>
                 <PrivateCode type="trainNumber">416</PrivateCode>
-                <PrivateCode type="rics">2480</PrivateCode>
               </privateCodes>
               <Name>416</Name>
-              <!-- RICS: 2480 -->
+              <!-- Operator: RegioJet (RICS 2480) via PE:ResponsibilitySet:2480 -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj004_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj004_001" version="1"/>
@@ -841,13 +928,12 @@
               </parts>
             </ServiceJourney>
             <!-- ── 576 Breclav → Brno → Praha ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj005" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj005" version="1" responsibilitySetRef="PE:ResponsibilitySet:1154">
               <privateCodes>
                 <PrivateCode type="trainNumber">576</PrivateCode>
-                <PrivateCode type="rics">1154</PrivateCode>
               </privateCodes>
               <Name>576</Name>
-              <!-- RICS: 1154 · MERITS colour: #9b59b6 -->
+              <!-- Operator: ZSSK (RICS 1154) via PE:ResponsibilitySet:1154 · MERITS colour: #9b59b6 -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj005_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj005_001" version="1"/>
@@ -892,13 +978,12 @@
               </parts>
             </ServiceJourney>
             <!-- ── 443 EC SLOVAKIA Praha → Olomouc → Ostrava → Bohumín → Košice → Humenné ── -->
-            <ServiceJourney id="PE:ServiceJourney:sj006" version="1">
+            <ServiceJourney id="PE:ServiceJourney:sj006" version="1" responsibilitySetRef="PE:ResponsibilitySet:1154">
               <privateCodes>
                 <PrivateCode type="trainNumber">443</PrivateCode>
-                <PrivateCode type="rics">1154</PrivateCode>
               </privateCodes>
               <Name>443 SLOVAKIA</Name>
-              <!-- RICS: 1154 · MERITS colour: #f39c12 -->
+              <!-- Operator: ZSSK (RICS 1154) via PE:ResponsibilitySet:1154 · MERITS colour: #f39c12 -->
               <passingTimes>
                 <TimetabledPassingTime id="PE:TimetabledPassingTime:sj006_001" version="1">
                   <StopPointInJourneyPatternRef ref="PE:StopPointInJourneyPattern:sj006_001" version="1"/>
