@@ -9,9 +9,12 @@
 
 When modeling through-coach services in NeTEx, we face a unique challenge:
 
-1. **From passenger perspective**: One ticket purchase = one ServiceJourney
-   - "I want to travel from München to Warszawa on service 406 CHOPIN"
-   - This is a **stable, unified experience**
+1. **From passenger / sales perspective**: One ticket purchase = one `DatedServiceJourney`
+   - "I want to travel from München to Warszawa on service 406 CHOPIN on 2026-04-23"
+   - The booking references a `DatedServiceJourneyRef` — the long-term replacement
+     for the legacy `TrainNumber + Date` key (see
+     [Guides/StableIdentity/StableIdentity_Guide.md](../../Guides/StableIdentity/StableIdentity_Guide.md)).
+   - The `ServiceJourney` it instantiates is the reusable **schedule template**.
 
 2. **From operational perspective**: The physical train may change multiple times
    - München→Breclav: Train 406 (German DB loco)
@@ -101,9 +104,18 @@ in `VehicleScheduleFrame/blocks`. See the canonical file for examples.
 ## Why This Approach Works
 
 ### 1. Stable Identity Principle
-- ServiceJourney `id="PE:ServiceJourney:sj003"` never changes
-- Passenger booking/ticketing uses this stable ID
-- No ticket invalidation during crew/loco swaps
+- `DatedServiceJourney` (e.g. `PE:DatedServiceJourney:sj003_20260423`) is the
+  **stable sales/operational identifier** that holds bookings — the long-term
+  replacement for `TrainNumber + Date`.
+- `ServiceJourney` (`PE:ServiceJourney:sj003`) is the reusable **schedule
+  template**; its `id` should also be stable across re-publications, but it is
+  not what bookings reference.
+- Renumbering the train (e.g. 406 → 408) updates the `PrivateCode`/`Name` on
+  the SJ/DSJ but does not break the booking's `DatedServiceJourneyRef`.
+- Crew/loco swaps within a journey are modelled as `JourneyPart` boundaries
+  and never invalidate either identifier.
+- See [Guides/StableIdentity/StableIdentity_Guide.md](../../Guides/StableIdentity/StableIdentity_Guide.md)
+  for the authoritative profile rules.
 
 ### 2. Operational Transparency
 - Each JourneyPart explicitly states its train number
@@ -138,12 +150,14 @@ in `VehicleScheduleFrame/blocks`. See the canonical file for examples.
 
 ## Application Examples
 
-### Use Case 1: Passenger Information System (PIS)
+### Use Case 1: Passenger Information System (PIS) / Sales
 ```
-Search: München -> Warszawa on 2026-04-23
-Result: Service 406 CHOPIN (18:35-08:23)
-Display: "Train 406 (München-Wien-Breclav), changes to Train 406x
-         (Breclav-Bohumín), then Train 406y (Bohumín-Warszawa)"
+Search:   München -> Warszawa on 2026-04-23
+Result:   Service 406 CHOPIN (18:35-08:23)
+Booking:  DatedServiceJourneyRef = PE:DatedServiceJourney:sj003_20260423
+          (this is what the ticket holds — not the trainNumber + date)
+Display:  "Train 406 (München-Wien-Breclav), changes to Train 406x
+          (Breclav-Bohumín), then Train 406y (Bohumín-Warszawa)"
 ```
 
 ### Use Case 2: EDIFACT MERITS Converter (current state)

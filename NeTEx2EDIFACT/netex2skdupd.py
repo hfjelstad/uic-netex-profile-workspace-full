@@ -81,6 +81,14 @@ def _ref(element, tag: str) -> str:
     return el.get("ref", "") if el is not None else ""
 
 
+def _private_code(element, type_attr: str) -> str:
+    """Return text of <privateCodes>/<PrivateCode type=type_attr>, or '' if missing."""
+    for pc in element.findall(f"{{{NS}}}privateCodes/{{{NS}}}PrivateCode"):
+        if pc.get("type") == type_attr:
+            return (pc.text or "").strip()
+    return ""
+
+
 def _rows(instances: List[T], cls: Type[T]) -> RowsInMemory:
     headers = [f.name for f in fields(cls)]
     data = [
@@ -303,7 +311,13 @@ def build_trains_and_pors(
 
     for sj in tt.service_journeys():
         sj_id = sj.get("id", "")
-        train_number = _text(sj, "PrivateCode") or sj_id
+        # NeTEx 2.0: trainNumber lives in <privateCodes>/<PrivateCode type="trainNumber">
+        # Fallback to legacy direct-child <PrivateCode>, then to sj_id.
+        train_number = (
+            _private_code(sj, "trainNumber")
+            or _text(sj, "PrivateCode")
+            or sj_id
+        )
 
         # Operator code from OperatorRef (e.g. 'NSB:Operator:NSB' → 'NSB')
         op_ref_el = sj.find(f"{{{NS}}}OperatorRef")
