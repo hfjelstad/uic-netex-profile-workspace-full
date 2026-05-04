@@ -1,1 +1,5 @@
 ConverterInput/tmp_*/
+
+# Re-built on every run with fresh unix timestamps; keep .r outputs versioned only.
+ConverterOutput/SKDUPD_*.zip
+ConverterOutput/TSDUPD_*.zip

@@ -137,10 +137,12 @@ cancellation / replacement / reinforcement / supplement) is already
 fully documented in the wider profile work and is **not** restated in
 this case study. See:
 
-- [ExtendedSales_and_DeviationHandling_Guide](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Guides/ExtendedSales_and_DeviationHandling/ExtendedSales_and_DeviationHandling_Guide.md)
-- [Calendar_Guide](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Guides/Calendar/Calendar_Guide.md)
-- [Description_DatedServiceJourney](https://github.com/hfjelstad/Profile_Documentation_v2/blob/EnStandardBranch/Objects/DatedServiceJourney/Description_DatedServiceJourney.md)
+- [Stable Identity Guide](../../Guides/StableIdentity/StableIdentity_Guide.md) — `DatedServiceJourney` as the long-term replacement for `TrainNumber + Date`
+- [Calendar Guide](../../Guides/Calendar/Calendar_Guide.md) — explicit dates, bitmask, DayType, and per-instance identity
+- [DatedServiceJourney](../../Objects/DatedServiceJourney/Description_DatedServiceJourney.md) — object-level reference
 
 The through-coaches case relies on those mechanisms unchanged; the
 deltas above are the additions specific to multi-operator,
-multi-segment journeys.
+multi-segment journeys. Extended sales / deviation-handling semantics
+(replacement, reinforcement, supplement) are not yet covered by a
+dedicated guide in this repository.
