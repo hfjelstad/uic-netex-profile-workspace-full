@@ -3,12 +3,12 @@
   <PublicationTimestamp>2026-03-18T00:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <ResourceFrame id="ERP:ResourceFrame:vt:1" version="1">
+    <ResourceFrame id="NP:ResourceFrame:vt:1" version="1">
       <vehicleTypes>
-        <VehicleType id="ERP:VehicleType:bus_12m" version="1">
+        <VehicleType id="NP:VehicleType:bus_12m" version="1">
           <Name>Standard 12m Bus</Name>
           <PropulsionType>combustion</PropulsionType>
-          <PassengerCapacity id="ERP:PassengerCapacity:bus_12m" version="1">
+          <PassengerCapacity id="NP:PassengerCapacity:bus_12m" version="1">
             <SeatingCapacity>45</SeatingCapacity>
             <StandingCapacity>30</StandingCapacity>
             <WheelchairPlaceCapacity>2</WheelchairPlaceCapacity>

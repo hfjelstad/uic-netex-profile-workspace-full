@@ -67,7 +67,13 @@ def convert(csv_dir: Path, output_file: Path, strict_optional: bool = False) -> 
     converter.load_csvs(csv_file_name_2_content=csv_payload)
     edifact_text = converter.get()
 
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    # Clean and recreate the output directory so reruns don't keep stale files.
+    output_dir = output_file.parent
+    if output_dir.exists():
+        for child in output_dir.iterdir():
+            if child.is_file():
+                child.unlink()
+    output_dir.mkdir(parents=True, exist_ok=True)
     output_file.write_text(edifact_text, encoding="utf-8")
 
 

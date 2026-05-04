@@ -38,7 +38,7 @@ A **TrainBlock** is a rail-specific specialisation of Block that represents an o
 
 ### 5b. Validation Requirements
 
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:TrainBlock:TB:1`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:TrainBlock:TB:1`).
 - **DatedServiceJourney.BlockRef cardinality is 0..1** — at most one BlockRef per journey.
 - **All BlockRef entries must resolve** to an existing Block/TrainBlock in the dataset.
 

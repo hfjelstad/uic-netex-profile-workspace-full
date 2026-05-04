@@ -5,20 +5,20 @@
   <PublicationTimestamp>2026-03-23T12:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:LinkProjection" version="1">
+    <CompositeFrame id="NP:CompositeFrame:LinkProjection" version="1">
       <frames>
-        <ServiceFrame id="ERP:ServiceFrame:LinkProjection" version="1">
+        <ServiceFrame id="NP:ServiceFrame:LinkProjection" version="1">
           <serviceLinks>
-            <ServiceLink id="ERP:ServiceLink:StopA_to_StopB" version="1">
+            <ServiceLink id="NP:ServiceLink:StopA_to_StopB" version="1">
               <projections>
-                <LinkSequenceProjection id="ERP:LinkSequenceProjection:StopA_to_StopB" version="1">
+                <LinkSequenceProjection id="NP:LinkSequenceProjection:StopA_to_StopB" version="1">
                   <gml:LineString gml:id="ERP_LSP_StopA_to_StopB" srsName="EPSG:4326">
                     <gml:posList>59.9110 10.7500 59.9130 10.7520 59.9155 10.7560</gml:posList>
                   </gml:LineString>
                 </LinkSequenceProjection>
               </projections>
-              <FromPointRef ref="ERP:ScheduledStopPoint:StopA"/>
-              <ToPointRef ref="ERP:ScheduledStopPoint:StopB"/>
+              <FromPointRef ref="NP:ScheduledStopPoint:StopA"/>
+              <ToPointRef ref="NP:ScheduledStopPoint:StopB"/>
             </ServiceLink>
           </serviceLinks>
         </ServiceFrame>

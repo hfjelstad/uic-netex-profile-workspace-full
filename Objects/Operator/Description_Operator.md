@@ -46,7 +46,7 @@ Operator
 
 ### 5b. Validation Requirements
 - **Name is mandatory** – All Operators must have a Name element; ShortName is optional but recommended for UI consistency.
-- **ID format must follow codespace conventions** – e.g., `ERP:Operator:OP1` where "ERP" is the codespace prefix.
+- **ID format must follow codespace conventions** – e.g., `NP:Operator:OP1` where "" is the codespace prefix.
 - **AuthorityRef should exist** – While technically optional, unassigned Operators create network governance ambiguity; recommended to include.
 - **No duplicate Operator IDs** – Each Operator must have a unique ID within the dataset; duplicates cause deserialization errors.
 
@@ -59,5 +59,16 @@ Operator
 > - **Duplicate Operators for same service**: Creating separate Operators for the same entity (e.g., one for commute services, one for leisure) breaks referential integrity. Use a single Operator with multiple Lines instead.
 
 ## 6. Additional Information
-See [Table_Operator.md](Table_Operator.md) for detailed attribute specifications and [Example_Operator.xml](Example_Operator_ERP.xml) for a complete XML instance based on the ERP profile.
+See [Table_Operator.md](Table_Operator.md) for detailed attribute specifications and [Example_Operator.xml](Example_Operator_NP.xml) for a complete XML instance based on the profile.
 
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** reads `Operator` (and the related `OperatorRef` on `ServiceJourney`) to populate the `PRD` service-provider field:
+> - `OperatorRef/@ref` last segment -> looked up in `PARTICIPANT_TO_RICS` (e.g. `NSB` -> 1185).
+> - In the legacy batch path, the converter also reads any `keyList/KeyValue` with `Key='RICS code'` directly from the `Operator` element to override the static map.
+> - If neither source resolves, the converter falls back to the run-time `--originator` argument.

@@ -113,7 +113,7 @@ Include Usage Notes when:
 - The object has **non-obvious cardinality or cross-reference constraints** (e.g., "must reference exactly one JourneyPattern")
 - **Comparison with a similar object** would clarify usage (e.g., ServiceJourney vs. DatedServiceJourney)
 - **Common validation errors or pitfalls** exist (e.g., "Do not confuse X with Y")
-- The object supports **multiple profiles (MIN, ERP, NP) with different rules** or cardinalities
+- The object supports **multiple profiles (Nordic Profile (NP)) with different rules** or cardinalities
 - **Profile-specific variations** affect how the object should be used
 - **Lifecycle or evolution information** is important (e.g.deprecated field or migration path)
 
@@ -155,11 +155,11 @@ When there is only a single pitfall, still wrap it in `> [!WARNING]` with a bull
 
 #### 5d. Profile-Specific Notes (optional)
 
-If the object behaves differently across MIN, ERP, or NP profiles, document the variations.
+If the object behaves differently across Nordic Profile (NP) profiles, document the variations.
 
 **Example:**
 > - **MIN Profile:** blockRef is optional.
-> - **ERP Profile:** blockRef is recommended for vehicle continuity tracking.
+> - **Nordic Profile:** blockRef is recommended for vehicle continuity tracking.
 > - **NP (Nordic) Profile:** blockRef is required when trips are part of block chains.
 
 ---
@@ -226,7 +226,7 @@ Start with the 6-section template. After drafting sections 1–4:
 - **5a (Consistency Rules):** Complex objects with many cross-references (e.g., ServiceJourney, StopPlace)
 - **5b (Validation):** Objects with cardinality constraints or mandatory field combinations
 - **5c (Common Pitfalls):** Objects with high confusion risk (e.g., DatedServiceJourney vs. ServiceJourney)
-- **5d (Profile Variations):** Objects behaving differently across MIN, ERP, NP profiles
+- **5d (Profile Variations):** Objects behaving differently across Nordic Profile (NP) profiles
 
 ### Length Guidelines
 

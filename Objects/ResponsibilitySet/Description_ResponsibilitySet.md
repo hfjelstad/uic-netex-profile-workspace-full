@@ -45,7 +45,7 @@ A **ResponsibilitySet** defines the set of roles and organisations responsible f
 
 ### 5b. Validation Requirements
 
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:ResponsibilitySet:EXAMPLE_1`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:ResponsibilitySet:EXAMPLE_1`).
 - **ResponsibleOrganisationRef must resolve** to an existing organisation if provided.
 - **ContractRef must resolve** to an existing Contract if provided.
 

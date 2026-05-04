@@ -32,7 +32,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>AlternativeName</summary>
 
-- [Example_AlternativeName_ERP.xml](../../Objects/AlternativeName/Example_AlternativeName_ERP.xml) – European Recommended Profile example
+- [Example_AlternativeName_NP.xml](../../Objects/AlternativeName/Example_AlternativeName_NP.xml) – European Recommended Profile example
 - [Example_AlternativeName_NP.xml](../../Objects/AlternativeName/Example_AlternativeName_NP.xml) – Nordic Profile example
 
 </details>
@@ -40,14 +40,14 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>AlternativeText</summary>
 
-- [Example_AlternativeText_ERP.xml](../../Objects/AlternativeText/Example_AlternativeText_ERP.xml) – European Recommended Profile example
+- [Example_AlternativeText_NP.xml](../../Objects/AlternativeText/Example_AlternativeText_NP.xml) – European Recommended Profile example
 
 </details>
 
 <details open>
 <summary>Authority</summary>
 
-- [Example_Authority_ERP.xml](../../Objects/Authority/Example_Authority_ERP.xml) – European Recommended Profile example
+- [Example_Authority_NP.xml](../../Objects/Authority/Example_Authority_NP.xml) – European Recommended Profile example
 - [Example_Authority_NP.xml](../../Objects/Authority/Example_Authority_NP.xml) – Nordic Profile example
 
 </details>
@@ -69,8 +69,8 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>DatedServiceJourney</summary>
 
-- [Example_DatedServiceJourney_ERP.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_ERP.xml) – European Recommended Profile example
-- [Example_DatedServiceJourney_ERP.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_ERP.xml) – European Recommended Profile example
+- [Example_DatedServiceJourney_NP.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_NP.xml) – European Recommended Profile example
+- [Example_DatedServiceJourney_NP.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_NP.xml) – European Recommended Profile example
 - [Example_DatedServiceJourney_NP.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_NP.xml) – Nordic Profile example
 - [Example_DatedServiceJourney_Extended_01_Reinforcement.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_Extended_01_Reinforcement.xml) – Reinforcement scenario (additional departures)
 - [Example_DatedServiceJourney_Extended_02_Replacement.xml](../../Objects/DatedServiceJourney/Example_DatedServiceJourney_Extended_02_Replacement.xml) – Replacement scenario (substitute service)
@@ -82,7 +82,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>DayType</summary>
 
-- [Example_DayType_ERP.xml](../../Objects/DayType/Example_DayType_ERP.xml) – European Recommended Profile example
+- [Example_DayType_NP.xml](../../Objects/DayType/Example_DayType_NP.xml) – European Recommended Profile example
 - [Example_DayType_NP.xml](../../Objects/DayType/Example_DayType_NP.xml) – Nordic Profile example
 
 </details>
@@ -97,7 +97,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>DestinationDisplay</summary>
 
-- [Example_DestinationDisplay_ERP.xml](../../Objects/DestinationDisplay/Example_DestinationDisplay_ERP.xml) – European Recommended Profile example
+- [Example_DestinationDisplay_NP.xml](../../Objects/DestinationDisplay/Example_DestinationDisplay_NP.xml) – European Recommended Profile example
 - [Example_DestinationDisplay_NP.xml](../../Objects/DestinationDisplay/Example_DestinationDisplay_NP.xml) – Nordic Profile example
 
 </details>
@@ -119,7 +119,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>FlexibleServiceProperties</summary>
 
-- [Example_FlexibleServiceProperties_ERP.xml](../../Objects/FlexibleServiceProperties/Example_FlexibleServiceProperties_ERP.xml) – European Recommended Profile example
+- [Example_FlexibleServiceProperties_NP.xml](../../Objects/FlexibleServiceProperties/Example_FlexibleServiceProperties_NP.xml) – European Recommended Profile example
 
 </details>
 
@@ -133,7 +133,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>Interchange</summary>
 
-- [Example_Interchange_ERP.xml](../../Objects/Interchange/Example_Interchange_ERP.xml) – European Recommended Profile example
+- [Example_Interchange_NP.xml](../../Objects/Interchange/Example_Interchange_NP.xml) – European Recommended Profile example
 - [Example_Interchange_NP.xml](../../Objects/Interchange/Example_Interchange_NP.xml) – Nordic Profile example
 
 </details>
@@ -141,7 +141,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>JourneyPattern</summary>
 
-- [Example_JourneyPattern_ERP.xml](../../Objects/JourneyPattern/Example_JourneyPattern_ERP.xml) – European Recommended Profile example
+- [Example_JourneyPattern_NP.xml](../../Objects/JourneyPattern/Example_JourneyPattern_NP.xml) – European Recommended Profile example
 - [Example_JourneyPattern_NP.xml](../../Objects/JourneyPattern/Example_JourneyPattern_NP.xml) – Nordic Profile example
 
 </details>
@@ -149,7 +149,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>Line</summary>
 
-- [Example_Line_ERP.xml](../../Objects/Line/Example_Line_ERP.xml) – European Recommended Profile example
+- [Example_Line_NP.xml](../../Objects/Line/Example_Line_NP.xml) – European Recommended Profile example
 - [Example_Line_NP.xml](../../Objects/Line/Example_Line_NP.xml) – Nordic Profile example
 
 </details>
@@ -185,7 +185,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>Operator</summary>
 
-- [Example_Operator_ERP.xml](../../Objects/Operator/Example_Operator_ERP.xml) – European Recommended Profile example
+- [Example_Operator_NP.xml](../../Objects/Operator/Example_Operator_NP.xml) – European Recommended Profile example
 - [Example_Operator_NP.xml](../../Objects/Operator/Example_Operator_NP.xml) – Nordic Profile example
 
 </details>
@@ -193,7 +193,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>Parking</summary>
 
-- [Example_Parking_ERP.xml](../../Objects/Parking/Example_Parking_ERP.xml) – European Recommended Profile example
+- [Example_Parking_NP.xml](../../Objects/Parking/Example_Parking_NP.xml) – European Recommended Profile example
 - [Example_Parking_NP.xml](../../Objects/Parking/Example_Parking_NP.xml) – Nordic Profile example
 
 </details>
@@ -201,7 +201,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>PassengerStopAssignment</summary>
 
-- [Example_PassengerStopAssignment_ERP.xml](../../Objects/PassengerStopAssignment/Example_PassengerStopAssignment_ERP.xml) – European Recommended Profile example
+- [Example_PassengerStopAssignment_NP.xml](../../Objects/PassengerStopAssignment/Example_PassengerStopAssignment_NP.xml) – European Recommended Profile example
 - [Example_PassengerStopAssignment_NP.xml](../../Objects/PassengerStopAssignment/Example_PassengerStopAssignment_NP.xml) – Nordic Profile example
 
 </details>
@@ -216,14 +216,14 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>PurposeOfGrouping</summary>
 
-- [Example_PurposeOfGrouping_ERP.xml](../../Objects/PurposeOfGrouping/Example_PurposeOfGrouping_ERP.xml) – European Recommended Profile example
+- [Example_PurposeOfGrouping_NP.xml](../../Objects/PurposeOfGrouping/Example_PurposeOfGrouping_NP.xml) – European Recommended Profile example
 
 </details>
 
 <details open>
 <summary>Quay</summary>
 
-- [Example_Quay_ERP.xml](../../Objects/Quay/Example_Quay_ERP.xml) – European Recommended Profile example
+- [Example_Quay_NP.xml](../../Objects/Quay/Example_Quay_NP.xml) – European Recommended Profile example
 - [Example_Quay_NP.xml](../../Objects/Quay/Example_Quay_NP.xml) – Nordic Profile example
 
 </details>
@@ -239,7 +239,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>Route</summary>
 
-- [Example_Route_ERP.xml](../../Objects/Route/Example_Route_ERP.xml) – European Recommended Profile example
+- [Example_Route_NP.xml](../../Objects/Route/Example_Route_NP.xml) – European Recommended Profile example
 - [Example_Route_NP.xml](../../Objects/Route/Example_Route_NP.xml) – Nordic Profile example
 
 </details>
@@ -247,7 +247,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>SanitaryEquipment</summary>
 
-- [Example_SanitaryEquipment_ERP.xml](../../Objects/SanitaryEquipment/Example_SanitaryEquipment_ERP.xml) – European Recommended Profile example
+- [Example_SanitaryEquipment_NP.xml](../../Objects/SanitaryEquipment/Example_SanitaryEquipment_NP.xml) – European Recommended Profile example
 - [Example_SanitaryEquipment_NP.xml](../../Objects/SanitaryEquipment/Example_SanitaryEquipment_NP.xml) – Nordic Profile example
 
 </details>
@@ -255,7 +255,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>ScheduledStopPoint</summary>
 
-- [Example_ScheduledStopPoint_ERP.xml](../../Objects/ScheduledStopPoint/Example_ScheduledStopPoint_ERP.xml) – European Recommended Profile example
+- [Example_ScheduledStopPoint_NP.xml](../../Objects/ScheduledStopPoint/Example_ScheduledStopPoint_NP.xml) – European Recommended Profile example
 - [Example_ScheduledStopPoint_NP.xml](../../Objects/ScheduledStopPoint/Example_ScheduledStopPoint_NP.xml) – Nordic Profile example
 
 </details>
@@ -263,7 +263,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>ServiceJourney</summary>
 
-- [Example_ServiceJourney_ERP.xml](../../Objects/ServiceJourney/Example_ServiceJourney_ERP.xml) – European Recommended Profile example
+- [Example_ServiceJourney_NP.xml](../../Objects/ServiceJourney/Example_ServiceJourney_NP.xml) – European Recommended Profile example
 - [Example_ServiceJourney_NP.xml](../../Objects/ServiceJourney/Example_ServiceJourney_NP.xml) – Nordic Profile example
 
 </details>
@@ -271,7 +271,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>ShelterEquipment</summary>
 
-- [Example_ShelterEquipment_ERP.xml](../../Objects/ShelterEquipment/Example_ShelterEquipment_ERP.xml) – European Recommended Profile example
+- [Example_ShelterEquipment_NP.xml](../../Objects/ShelterEquipment/Example_ShelterEquipment_NP.xml) – European Recommended Profile example
 - [Example_ShelterEquipment_NP.xml](../../Objects/ShelterEquipment/Example_ShelterEquipment_NP.xml) – Nordic Profile example
 
 </details>
@@ -279,7 +279,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>StopPlace</summary>
 
-- [Example_StopPlace_ERP.xml](../../Objects/StopPlace/Example_StopPlace_ERP.xml) – European Recommended Profile example
+- [Example_StopPlace_NP.xml](../../Objects/StopPlace/Example_StopPlace_NP.xml) – European Recommended Profile example
 - [Example_StopPlace_NP.xml](../../Objects/StopPlace/Example_StopPlace_NP.xml) – Nordic Profile example
 
 </details>
@@ -287,7 +287,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>TariffZone</summary>
 
-- [Example_TariffZone_ERP.xml](../../Objects/TariffZone/Example_TariffZone_ERP.xml) – European Recommended Profile example
+- [Example_TariffZone_NP.xml](../../Objects/TariffZone/Example_TariffZone_NP.xml) – European Recommended Profile example
 - [Example_TariffZone_NP.xml](../../Objects/TariffZone/Example_TariffZone_NP.xml) – Nordic Profile example
 
 </details>
@@ -295,7 +295,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>TicketingEquipment</summary>
 
-- [Example_TicketingEquipment_ERP.xml](../../Objects/TicketingEquipment/Example_TicketingEquipment_ERP.xml) – European Recommended Profile example
+- [Example_TicketingEquipment_NP.xml](../../Objects/TicketingEquipment/Example_TicketingEquipment_NP.xml) – European Recommended Profile example
 - [Example_TicketingEquipment_NP.xml](../../Objects/TicketingEquipment/Example_TicketingEquipment_NP.xml) – Nordic Profile example
 
 </details>
@@ -303,7 +303,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>TopographicPlace</summary>
 
-- [Example_TopographicPlace_ERP.xml](../../Objects/TopographicPlace/Example_TopographicPlace_ERP.xml) – European Recommended Profile example
+- [Example_TopographicPlace_NP.xml](../../Objects/TopographicPlace/Example_TopographicPlace_NP.xml) – European Recommended Profile example
 - [Example_TopographicPlace_NP.xml](../../Objects/TopographicPlace/Example_TopographicPlace_NP.xml) – Nordic Profile example
 
 </details>
@@ -332,7 +332,7 @@ Complete index of all XML examples in the repository.
 <details open>
 <summary>WaitingRoomEquipment</summary>
 
-- [Example_WaitingRoomEquipment_ERP.xml](../../Objects/WaitingRoomEquipment/Example_WaitingRoomEquipment_ERP.xml) – European Recommended Profile example
+- [Example_WaitingRoomEquipment_NP.xml](../../Objects/WaitingRoomEquipment/Example_WaitingRoomEquipment_NP.xml) – European Recommended Profile example
 - [Example_WaitingRoomEquipment_NP.xml](../../Objects/WaitingRoomEquipment/Example_WaitingRoomEquipment_NP.xml) – Nordic Profile example
 
 </details>

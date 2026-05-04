@@ -12,12 +12,12 @@
     <PublicationTimestamp>2026-03-01T10:00:00Z</PublicationTimestamp>
     <ParticipantRef>EuPro</ParticipantRef>    
     <dataObjects>
-        <TimetableFrame version="1" id="ERP:TimetableFrame:1">
+        <TimetableFrame version="1" id="NP:TimetableFrame:1">
             <vehicleJourneys>
-                <DatedServiceJourney version="2" id="ERP:DatedServiceJourney:BlockLinked03">
-                    <BlockRef ref="ERP:Block:1001"/>
-                    <ServiceJourneyRef ref="ERP:ServiceJourney:Core"/>
-                    <OperatingDayRef ref="ERP:OperatingDay:2026-03-07"/>
+                <DatedServiceJourney version="2" id="NP:DatedServiceJourney:BlockLinked03">
+                    <BlockRef ref="NP:Block:1001"/>
+                    <ServiceJourneyRef ref="NP:ServiceJourney:Core"/>
+                    <OperatingDayRef ref="NP:OperatingDay:2026-03-07"/>
                 </DatedServiceJourney>
             </vehicleJourneys>
         </TimetableFrame>

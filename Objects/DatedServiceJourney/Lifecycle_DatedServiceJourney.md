@@ -9,7 +9,7 @@ A DSJ is created by combining:
 - Optionally BlockRef → the operational block the journey is assigned to
 
 Creation rules:
-- DSJ.id MUST be unique in the codespace and SHOULD follow the profile’s naming convention (e.g. ERP:DatedServiceJourney:<key>). 
+- DSJ.id MUST be unique in the codespace and SHOULD follow the profile’s naming convention (e.g. NP:DatedServiceJourney:<key>). 
 - OperatingDayRef MUST point to an OperatingDay that matches the calendar date the DSJ is executed on.
 - ServiceJourneyRef MUST point to a valid ServiceJourney defining the path and timing baseline.
 - BlockRef, when used, MUST point to an existing Block for the same date and operational context.
@@ -63,16 +63,16 @@ Notes:
 - REPLACED is represented by creating a new DSJ (JourneyAlteration=replacement) that points to the replaced DSJ; the replaced DSJ is typically also set to CANCELLED for the date.
 
 ## 6. Short before/after example (illustrative fragment)
-The following snippet shows only the DSJ element to convey the idea; full NeTEx documents in this repository provide complete, schema-valid examples. Codespace used: ERP.
+The following snippet shows only the DSJ element to convey the idea; full NeTEx documents in this repository provide complete, schema-valid examples. Codespace used: NP.
 
 Before (planned):
 ```xml
 <!-- Illustrative fragment: DSJ planned on 2026-03-10 -->
-<DatedServiceJourney id="ERP:DatedServiceJourney:DSJ_1001" version="1">
-  <ServiceJourneyRef ref="ERP:ServiceJourney:SJ_5001"/>
-  <OperatingDayRef ref="ERP:OperatingDay:2026-03-10"/>
+<DatedServiceJourney id="NP:DatedServiceJourney:DSJ_1001" version="1">
+  <ServiceJourneyRef ref="NP:ServiceJourney:SJ_5001"/>
+  <OperatingDayRef ref="NP:OperatingDay:2026-03-10"/>
   <!-- optional when known -->
-  <BlockRef ref="ERP:Block:BL_42"/>
+  <BlockRef ref="NP:Block:BL_42"/>
   <!-- implied default: JourneyAlteration=planned -->
 </DatedServiceJourney>
 ```
@@ -80,21 +80,21 @@ Before (planned):
 After (cancelled for the same date):
 ```xml
 <!-- Illustrative fragment: DSJ cancelled on 2026-03-10 -->
-<DatedServiceJourney id="ERP:DatedServiceJourney:DSJ_1001" version="2">
-  <ServiceJourneyRef ref="ERP:ServiceJourney:SJ_5001"/>
-  <OperatingDayRef ref="ERP:OperatingDay:2026-03-10"/>
-  <BlockRef ref="ERP:Block:BL_42"/>
+<DatedServiceJourney id="NP:DatedServiceJourney:DSJ_1001" version="2">
+  <ServiceJourneyRef ref="NP:ServiceJourney:SJ_5001"/>
+  <OperatingDayRef ref="NP:OperatingDay:2026-03-10"/>
+  <BlockRef ref="NP:Block:BL_42"/>
   <JourneyAlteration>cancellation</JourneyAlteration>
 </DatedServiceJourney>
 ```
 
 For a replacement, create a new replacing DSJ and reference the replaced one:
 ```xml
-<DatedServiceJourney id="ERP:DatedServiceJourney:DSJ_1002" version="1">
-  <ServiceJourneyRef ref="ERP:ServiceJourney:SJ_5001"/>
-  <OperatingDayRef ref="ERP:OperatingDay:2026-03-10"/>
+<DatedServiceJourney id="NP:DatedServiceJourney:DSJ_1002" version="1">
+  <ServiceJourneyRef ref="NP:ServiceJourney:SJ_5001"/>
+  <OperatingDayRef ref="NP:OperatingDay:2026-03-10"/>
   <JourneyAlteration>replacement</JourneyAlteration>
-  <ReplacedJourneyRef ref="ERP:DatedServiceJourney:DSJ_1001"/>
+  <ReplacedJourneyRef ref="NP:DatedServiceJourney:DSJ_1001"/>
 </DatedServiceJourney>
 ```
 

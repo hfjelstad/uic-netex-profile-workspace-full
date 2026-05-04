@@ -2,12 +2,12 @@
 <PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:siri="http://www.siri.org.uk/siri" version="2.0">
   <PublicationTimestamp>2026-02-28T13:37:46.0Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
-  <Description>Minimal example using ERP as the codespace</Description>
+  <Description>Minimal example using as the codespace</Description>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:CF_1" version="1">
+    <CompositeFrame id="NP:CompositeFrame:CF_1" version="1">
       <codespaces>
-        <Codespace id="erp">
-          <Xmlns>ERP</Xmlns>
+        <Codespace id="np">
+          <Xmlns>NP</Xmlns>
           <XmlnsUrl>http://www.someurl.org/ns/erp</XmlnsUrl>
         </Codespace>
         <Codespace id="nsr">

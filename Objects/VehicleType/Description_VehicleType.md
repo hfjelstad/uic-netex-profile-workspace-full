@@ -45,7 +45,7 @@ A **VehicleType** represents a typified vehicle configuration (model or series) 
 ### 5b. Validation Requirements
 
 - **Name is mandatory** — every VehicleType must have a descriptive name.
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:VehicleType:bus_12m`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:VehicleType:bus_12m`).
 
 ### 5c. Common Pitfalls
 

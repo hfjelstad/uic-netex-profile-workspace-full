@@ -67,7 +67,7 @@ flowchart TD
     PD["<b>PublicationDelivery</b><br/><i>The envelope: who sent this, when?</i>"]
     DO["dataObjects"]
     CF["<b>CompositeFrame</b><br/><i>Groups all frames into one delivery</i>"]
-    CS["codespaces<br/><i>Declares namespace prefixes, e.g. ERP</i>"]
+    CS["codespaces<br/><i>Declares namespace prefixes, e.g. NP</i>"]
     FR["frames"]
 
     RF["🏢 <b>ResourceFrame</b><br/>Organizations, operators"]
@@ -149,7 +149,7 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
   <PublicationTimestamp>2026-03-18T00:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:1" version="1">
+    <CompositeFrame id="NP:CompositeFrame:1" version="1">
 ```
 
 - `PublicationDelivery` — always the root element, with the NeTEx namespace
@@ -157,17 +157,17 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 - `CompositeFrame` — wraps all frames; the `id` uses the format `Codespace:Type:Identifier`
 
 > [!NOTE]
-> All NeTEx identifiers follow the pattern `Codespace:ObjectType:Identifier` — for example `ERP:DayType:WKD` or `NP:ServiceJourney:15044`. The codespace declares who owns the data. See the [NeTEx Conventions guide](../NeTExConventions/NeTEx_Conventions.md) for the full rules.
+> All NeTEx identifiers follow the pattern `Codespace:ObjectType:Identifier` — for example `NP:DayType:WKD` or `NP:ServiceJourney:15044`. The codespace declares who owns the data. See the [NeTEx Conventions guide](../NeTExConventions/NeTEx_Conventions.md) for the full rules.
 
 ### Shared Resources (ResourceFrame)
 
 ```xml
-<ResourceFrame id="ERP:ResourceFrame:1" version="1">
+<ResourceFrame id="NP:ResourceFrame:1" version="1">
   <organisations>
-    <Authority id="ERP:Authority:AUT_001" version="1">
+    <Authority id="NP:Authority:AUT_001" version="1">
       <Name>Example Authority</Name>
     </Authority>
-    <Operator id="ERP:Operator:OP_001" version="1">
+    <Operator id="NP:Operator:OP_001" version="1">
       <Name>Example Operator</Name>
     </Operator>
   </organisations>
@@ -181,9 +181,9 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 ### Calendar (ServiceCalendarFrame)
 
 ```xml
-<ServiceCalendarFrame id="ERP:ServiceCalendarFrame:1" version="1">
+<ServiceCalendarFrame id="NP:ServiceCalendarFrame:1" version="1">
   <dayTypes>
-    <DayType id="ERP:DayType:WKD" version="1">
+    <DayType id="NP:DayType:WKD" version="1">
       <Name>Weekdays</Name>
       <properties>
         <PropertyOfDay>
@@ -201,12 +201,12 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 ### Network (ServiceFrame)
 
 ```xml
-<ServiceFrame id="ERP:ServiceFrame:1" version="1">
+<ServiceFrame id="NP:ServiceFrame:1" version="1">
   <lines>
-    <Line id="ERP:Line:L1" version="1">
+    <Line id="NP:Line:L1" version="1">
       <Name>Line 1</Name>
       <PublicCode>1</PublicCode>
-      <OperatorRef ref="ERP:Operator:OP_001"/>
+      <OperatorRef ref="NP:Operator:OP_001"/>
     </Line>
   </lines>
 </ServiceFrame>
@@ -218,14 +218,14 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 ### Timetable (TimetableFrame)
 
 ```xml
-<TimetableFrame id="ERP:TimetableFrame:1" version="1">
+<TimetableFrame id="NP:TimetableFrame:1" version="1">
   <vehicleJourneys>
-    <ServiceJourney id="ERP:ServiceJourney:SJ_001" version="1">
+    <ServiceJourney id="NP:ServiceJourney:SJ_001" version="1">
       <Name>Morning departure</Name>
       <dayTypes>
-        <DayTypeRef ref="ERP:DayType:WKD"/>
+        <DayTypeRef ref="NP:DayType:WKD"/>
       </dayTypes>
-      <LineRef ref="ERP:Line:L1"/>
+      <LineRef ref="NP:Line:L1"/>
     </ServiceJourney>
   </vehicleJourneys>
 </TimetableFrame>

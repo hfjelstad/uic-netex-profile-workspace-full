@@ -59,7 +59,7 @@ Quay
 - **StopPlaceRef is mandatory** with cardinality 1..1; every Quay must reference a valid StopPlace.
 - **Name is mandatory** – All Quays must have a passenger-facing Name element.
 - **Centroid is mandatory** with both Longitude and Latitude required as WGS84 decimal coordinates; values should have 4+ decimal places (e.g., 59.9127, 10.7461) for sufficient precision.
-- **@id and @version are mandatory** – Follow codespace convention (e.g., `ERP:Quay:1001`); version typically "1" unless updated.
+- **@id and @version are mandatory** – Follow codespace convention (e.g., `NP:Quay:1001`); version typically "1" unless updated.
 - **PublicCode format** – If provided, should be a short alphanumeric string (typically 1–3 characters) matching signage conventions.
 
 ### 5c. Common Pitfalls
@@ -72,4 +72,15 @@ Quay
 > - **Coordinate precision loss**: Using too few decimal places (e.g., 59.91 instead of 59.9127) reduces accuracy for accessibility routing and vehicle docking; recommendation is 4–6 decimal places.
 
 ## 6. Additional Information
-See [Table_Quay.md](Table_Quay.md) for detailed property specifications and cardinality constraints. See [Example_Quay.xml](Example_Quay_ERP.xml) for a complete, validated XML instance embedded within a StopPlace container.
+See [Table_Quay.md](Table_Quay.md) for detailed property specifications and cardinality constraints. See [Example_Quay.xml](Example_Quay_NP.xml) for a complete, validated XML instance embedded within a StopPlace container.
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** uses `Quay` only as the link object between a `ScheduledStopPoint` (via `PassengerStopAssignment`) and the parent `StopPlace`:
+> - The Quay's `id` is the lookup key in the converter's `quay_index` - `quay_id -> (uic, platform)`.
+> - `PublicCode` is read and stored as the platform string for `POR.arrival_platform` / `POR.departure_platform`.
+> - **No `privateCodes/PrivateCode[@type='uicCode']` is read on Quay** - UIC identifies a station, not a platform. See the [Location Handling Guide](../../Guides/LocationHandling/LocationHandling_Guide.md).

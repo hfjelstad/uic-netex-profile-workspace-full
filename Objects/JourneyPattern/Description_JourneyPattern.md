@@ -60,7 +60,7 @@ JourneyPattern
 - **RouteRef is mandatory** — a JourneyPattern without a Route reference is invalid.
 - **pointsInSequence must contain at least one StopPointInJourneyPattern** — empty patterns are invalid.
 - **@order values must be sequential integers** — starting from 1 with no duplicates or gaps.
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:JourneyPattern:JP_10_out`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:JourneyPattern:JP_10_out`).
 
 ### 5c. Common Pitfalls
 
@@ -73,4 +73,16 @@ JourneyPattern
 
 See [Table_JourneyPattern.md](Table_JourneyPattern.md) for detailed attribute specifications.
 
-Example XML: [Example_JourneyPattern.xml](Example_JourneyPattern_ERP.xml)
+Example XML: [Example_JourneyPattern.xml](Example_JourneyPattern_NP.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** reads `JourneyPattern` for two reasons:
+> - To enumerate `StopPointInJourneyPattern` children with `start=1` - this `order` is what becomes the SKDUPD `POR.stop_number`.
+> - To pre-cache boarding/alighting flags so each `POR` row can carry the right `traffic_restriction_code` (2=alight-only, 3=board-only, 4=pass-through).
+>
+> The JP is also used by `JourneyPart` / facility resolution to translate `From-/ToPointInJourneyPatternRef` into stop-number ranges for ODI segments.

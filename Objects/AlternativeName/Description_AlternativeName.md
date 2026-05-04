@@ -48,4 +48,15 @@ The **AlternativeName** provides additional name variants for a NeTEx object, su
 
 See [Table_AlternativeName.md](Table_AlternativeName.md) for detailed attribute specifications.
 
-Example XML: [AlternativeName.xml](Example_AlternativeName_ERP.xml)
+Example XML: [AlternativeName.xml](Example_AlternativeName_NP.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** reads `AlternativeName` only in the **TSDUPD** path:
+> - `Name[@lang]` is yielded as `(language, name)` pairs.
+> - Each pair becomes a TSDUPD `SYN` (synonym) segment alongside the primary station name.
+> - SKDUPD ignores AlternativeName entirely (timetables only carry the canonical UIC code, not display names).

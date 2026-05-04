@@ -18,7 +18,7 @@ OperatingPeriod
 
 ## 3. Key Elements
 
-- **@id, @version** – Unique identifier and version label. The id often encodes the period scope (e.g., `ERP:OperatingPeriod:2026H1`).
+- **@id, @version** – Unique identifier and version label. The id often encodes the period scope (e.g., `NP:OperatingPeriod:2026H1`).
 - **FromDate** – Start of the operating period (inclusive). Format: `YYYY-MM-DDThh:mm:ssZ`.
 - **ToDate** – End of the operating period (inclusive). Format: `YYYY-MM-DDThh:mm:ssZ`.
 
@@ -38,7 +38,7 @@ OperatingPeriod
 ### 5b. Validation Requirements
 
 - **FromDate and ToDate are mandatory** — both must contain valid datetime values.
-- **@id must follow codespace conventions** — e.g., `ERP:OperatingPeriod:2026H1`.
+- **@id must follow codespace conventions** — e.g., `NP:OperatingPeriod:2026H1`.
 
 ### 5c. Common Pitfalls
 

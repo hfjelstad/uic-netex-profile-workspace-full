@@ -1,12 +1,12 @@
 <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.0">
   <PublicationTimestamp>2026-03-12T18:46:43Z</PublicationTimestamp>
-  <ParticipantRef>ERP:Participant:EnStandard</ParticipantRef>
+  <ParticipantRef>NP:Participant:EnStandard</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:FareZones" version="1">
+    <CompositeFrame id="NP:CompositeFrame:FareZones" version="1">
       <frames>
-        <SiteFrame id="ERP:SiteFrame:FareZones" version="1">
+        <SiteFrame id="NP:SiteFrame:FareZones" version="1">
           <tariffZones>
-            <FareZone id="ERP:FareZone:Z1" version="1" />
+            <FareZone id="NP:FareZone:Z1" version="1" />
           </tariffZones>
         </SiteFrame>
       </frames>

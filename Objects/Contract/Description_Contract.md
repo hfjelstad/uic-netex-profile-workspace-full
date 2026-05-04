@@ -45,7 +45,7 @@ A **Contract** defines the legal or commercial agreement that governs responsibi
 
 ### 5b. Validation Requirements
 
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:Contract:CON-001`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:Contract:CON-001`).
 - **OrganisationRef entries must resolve** to existing organisations within the same dataset or referenced frame.
 
 ### 5c. Common Pitfalls

@@ -63,7 +63,7 @@ This means neither file needs to change its `@id` structure to harmonize — the
 ### 5b. Validation Requirements
 
 - **ScheduledStopPointRef and QuayRef are both mandatory** — every assignment must link a logical stop to a physical platform.
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:PassengerStopAssignment:1001`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:PassengerStopAssignment:1001`).
 
 ### 5c. Common Pitfalls
 
@@ -75,4 +75,16 @@ This means neither file needs to change its `@id` structure to harmonize — the
 
 See [Table_PassengerStopAssignment.md](Table_PassengerStopAssignment.md) for detailed attribute specifications.
 
-Example XML: [Example_PassengerStopAssignment.xml](Example_PassengerStopAssignment_ERP.xml)
+Example XML: [Example_PassengerStopAssignment.xml](Example_PassengerStopAssignment_NP.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** uses `PassengerStopAssignment` purely as a join: it reads `ScheduledStopPointRef/@ref` and `QuayRef/@ref` to build an `ssp_to_quay` dictionary.
+>
+> Without this join, the converter cannot resolve a journey's stop times back to a UIC code, and the `POR` row is dropped. PSA is therefore mandatory for every ScheduledStopPoint that participates in a published timetable.
+>
+> See `_build_ssp_to_quay` in [`netex2skdupd.py`](../../NeTEx2EDIFACT/converter/skdupd/netex2skdupd.py).

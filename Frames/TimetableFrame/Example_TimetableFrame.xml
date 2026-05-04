@@ -3,18 +3,18 @@
   <PublicationTimestamp>2026-02-25T14:22:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <TimetableFrame version="1" id="ERP:TimetableFrame:Core">
+    <TimetableFrame version="1" id="NP:TimetableFrame:Core">
       <vehicleJourneys>
-        <ServiceJourney version="1" id="ERP:ServiceJourney:1"/>
-        <DatedServiceJourney version="1" id="ERP:DatedServiceJourney:1"/>
-        <DatedVehicleJourney version="1" id="ERP:DatedVehicleJourney:1"/>
-        <DeadRun version="1" id="ERP:DeadRun:1"/>
+        <ServiceJourney version="1" id="NP:ServiceJourney:1"/>
+        <DatedServiceJourney version="1" id="NP:DatedServiceJourney:1"/>
+        <DatedVehicleJourney version="1" id="NP:DatedVehicleJourney:1"/>
+        <DeadRun version="1" id="NP:DeadRun:1"/>
       </vehicleJourneys>
       <coupledJourneys>
-        <CoupledJourney version="1" id="ERP:CoupledJourney:1"/>
+        <CoupledJourney version="1" id="NP:CoupledJourney:1"/>
       </coupledJourneys>
       <interchangeRules>
-        <InterchangeRule version="1" id="ERP:InterchangeRule:1"/>
+        <InterchangeRule version="1" id="NP:InterchangeRule:1"/>
       </interchangeRules>
     </TimetableFrame>
   </dataObjects>

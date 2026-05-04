@@ -61,7 +61,7 @@ A **DatedServiceJourney** represents a specific operational instance of a `Servi
 ### 5d. Profile-Specific Notes
 
 - **MIN Profile** – Only core fields (@id, @version, ServiceJourneyRef, OperatingDayRef) are required.
-- **ERP Profile** – Adds ServiceAlteration and BlockRef for operational tracking.
+- **Nordic Profile** – Adds ServiceAlteration and BlockRef for operational tracking.
 - **Profile Evolution** – In the next profile update, the deprecated `DatedServiceJourneyRef` element is replaced by `replacedJourneys` containing one or more `DatedVehicleJourneyRef` entries. When migrating, keep legacy identifiers stable for backward compatibility.
 
 ## 6. Additional Information
@@ -72,7 +72,7 @@ For a complete list of all elements, attributes, cardinalities, and data types, 
 
 Minimal and scenario-specific XML examples are provided:
 
-1. **Minimal** – [Example_DatedServiceJourney.xml](Example_DatedServiceJourney_ERP.xml)
+1. **Minimal** – [Example_DatedServiceJourney.xml](Example_DatedServiceJourney_NP.xml)
 2. **01 Reinforcement** – [Example_DatedServiceJourney_Extended_01_Reinforcement.xml](Example_DatedServiceJourney_Extended_01_Reinforcement.xml) – Additional vehicle/crew added to handle increased demand
 3. **02 Replacement** – [Example_DatedServiceJourney_Extended_02_Replacement.xml](Example_DatedServiceJourney_Extended_02_Replacement.xml) – Substitutes for cancelled or redirected journey
 4. **03 Block-Linked** – [Example_DatedServiceJourney_Extended_03_BlockLinked.xml](Example_DatedServiceJourney_Extended_03_BlockLinked.xml) – Journey linked via BlockRef for vehicle continuity
@@ -95,3 +95,16 @@ DatedServiceJourney (concrete, dated instance)
     ↓
 Operational data (e.g., SIRI realtime updates)
 ```
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** uses `DatedServiceJourney` to compute the operating-day bitmask published in the SKDUPD `POP` segment:
+> - All DSJs are grouped by `ServiceJourneyRef/@ref`.
+> - For each group, `OperatingDayRef/@ref` is resolved through the `OperatingDay -> CalendarDate` map.
+> - The resulting set of dates becomes `first_day`, `last_day` and a 7-bit-per-week run pattern (e.g. `1101111110111111...`).
+>
+> Without DSJs the converter has no calendar coverage and cannot publish the train.

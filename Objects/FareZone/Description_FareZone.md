@@ -20,7 +20,7 @@ FareZone
 
 ## 3. Key Elements
 
-- **@id, @version** – Unique identifier and version label following codespace conventions (e.g., `ERP:FareZone:Z1`).
+- **@id, @version** – Unique identifier and version label following codespace conventions (e.g., `NP:FareZone:Z1`).
 - **Name** – Human-readable zone name (e.g., "Zone A", "Zone 1").
 - **members** – Optional container listing the ScheduledStopPoints that belong to this fare zone.
 

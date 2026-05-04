@@ -118,6 +118,22 @@ Expected is one of ( Name, Description, PrivateCode, ... )
 
 **Fix:** Reorder elements to match the XSD sequence. Check the validated examples in this repository or the object's Table file for the correct order. See [NeTEx Conventions — Element Ordering](../NeTExConventions/NeTEx_Conventions.md#5--element-ordering) for details.
 
+> [!WARNING]
+> **The hidden `DataManagedObjectGroup` trap.** Every managed object (StopPlace, Quay, Line, ServiceJourney, all Frames, …) inherits a header sequence — `keyList`, `privateCodes`, `Extensions`, `BrandingRef` — defined once in [`netex_responsibility_version.xsd`](../../XSD/xsd/netex_framework/netex_responsibility/netex_responsibility_version.xsd) as `xsd:group ref="DataManagedObjectGroup"`. This group **MUST appear before `Name` / `ShortName` / `Description`**.
+>
+> The trap is the parser's error message. If you put `<privateCodes>` *after* `<Name>`, .NET / lxml report:
+>
+> ```text
+> StopPlace has invalid child element 'privateCodes'. Expected:
+>   ShortName, Description, PurposeOfGroupingRef, PrivateCode, infoLinks, ...
+> ```
+>
+> Notice that `privateCodes` (plural, the wrapper) is *not in the expected list at all* — only `PrivateCode` (singular) is. This makes it look like the wrapper form is invalid, when in reality the parser is already past the `DataManagedObjectGroup` slot and won't accept it anymore. **The fix is to move `<privateCodes>` above `<Name>`, not to drop the wrapper.**
+>
+> The same trap applies to `<keyList>`, `<Extensions>`, and `<BrandingRef>`.
+>
+> Machine-readable rule: see `netex:DataManagedObjectGroup` in [`LLM/Indexes/netex-ontology.ttl`](../../LLM/Indexes/netex-ontology.ttl) — `netex:sequenceRule` and `netex:appliedTo` enumerate the rule and every class it applies to.
+
 ---
 
 ### 4b. Wrong Casing
@@ -148,7 +164,7 @@ Element 'PublicCode': This element is not expected.
 ### 4d. Unresolved Versioned Reference
 
 ```text
-No match found for key-sequence ['ERP:ServiceJourney:SJ_001', '1']
+No match found for key-sequence ['NP:ServiceJourney:SJ_001', '1']
 ```
 
 **Cause:** A `*Ref` element has a `version` attribute, but the referenced object with that exact version doesn't exist in the same file.
@@ -157,10 +173,10 @@ No match found for key-sequence ['ERP:ServiceJourney:SJ_001', '1']
 
 ```xml
 <!-- Problem: versioned ref, but object not in file -->
-<ServiceJourneyRef ref="ERP:ServiceJourney:SJ_001" version="1"/>
+<ServiceJourneyRef ref="NP:ServiceJourney:SJ_001" version="1"/>
 
 <!-- Fix: remove version for external references -->
-<ServiceJourneyRef ref="ERP:ServiceJourney:SJ_001"/>
+<ServiceJourneyRef ref="NP:ServiceJourney:SJ_001"/>
 ```
 
 ---
@@ -208,8 +224,8 @@ Before committing XML changes:
 
 - [ ] Run `./scripts/validate-xml.sh --changed` (or validate specific files)
 - [ ] All files pass with 0 errors
-- [ ] `ParticipantRef` is `EuPro` (not `ENTUR` or `ERP`)
-- [ ] Codespace matches the profile: `ERP:` for MIN/ERP, `NP:` for Nordic Profile
+- [ ] `ParticipantRef` is `EuPro` (not `ENTUR` or ``)
+- [ ] Codespace matches the profile: `NP:` for Nordic Profile, `NP:` for Nordic Profile
 - [ ] No `version` attributes on references to external objects
 
 ---

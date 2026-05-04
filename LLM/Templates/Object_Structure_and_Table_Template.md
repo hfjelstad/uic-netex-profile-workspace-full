@@ -78,7 +78,7 @@ for that row left empty
 - If no `Example_<ObjectName>_<ProfileCode>.xml` files exist (only `Example_<ObjectName>.xml`),
   the table should have: `Element | Type | XSD | Description | Path`.
 - If one or more profile-specific XML examples exist, insert the profile columns between
-  `XSD` and `Description`: `Element | Type | XSD | ERP | NP | Description | Path`.
+| `XSD` and `Description`: `Element | Type | XSD | NP | Description | Path`. |
 - Only include profile columns for profiles that have corresponding XML example files.
 
 ### Structural Variants

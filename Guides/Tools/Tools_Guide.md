@@ -145,10 +145,10 @@ XPath is invaluable for exploring NeTEx documents. Some useful queries:
 //ServiceJourney
 
 # Find all elements with a specific codespace prefix
-//*[starts-with(@id, 'ERP:')]
+//*[starts-with(@id, 'NP:')]
 
 # Find all references to a specific object
-//*[@ref='ERP:Line:L1']
+//*[@ref='NP:Line:L1']
 
 # Count elements by type
 count(//ServiceJourney)

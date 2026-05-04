@@ -41,7 +41,7 @@ LinkSequenceProjection
 
 - **gml:LineString must contain a valid gml:posList** with at least two coordinate pairs.
 - **@srsName must be declared** on the LineString element to identify the coordinate reference system.
-- **@id must follow codespace conventions** — e.g., `ERP:LinkSequenceProjection:SL_001`.
+- **@id must follow codespace conventions** — e.g., `NP:LinkSequenceProjection:SL_001`.
 
 ### 5c. Common Pitfalls
 

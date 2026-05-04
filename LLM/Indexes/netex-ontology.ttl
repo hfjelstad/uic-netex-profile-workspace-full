@@ -3,7 +3,7 @@
 ## -----------------------------------------------------------------
 ## A machine-readable knowledge graph of the NeTEx profile documentation.
 ## Represents ALL objects, frames, relationships, and profile constraints
-## as a superset - profiles (ERP, NP) are expressed as restrictions on
+## as a superset - profiles (NP) are expressed as restrictions on
 ## this single model, not as separate graphs.
 ##
 ## Purpose:   Primary LLM entry point for machine-readable repository navigation
@@ -28,9 +28,9 @@
 ## PROFILES
 ## =================================================================
 
-profile:ERP a netex:Profile ;
+profile:a netex:Profile ;
     rdfs:label "European Recommended Profile" ;
-    skos:notation "ERP" .
+    skos:notation "" .
 
 profile:NP a netex:Profile ;
     rdfs:label "Nordic Profile" ;
@@ -555,7 +555,7 @@ netex:StopPlace netex:hasRef [
     netex:property "ParentSiteRef" ;
     netex:target netex:StopPlace ;
     netex:xsdCardinality "0..1" ;
-    rdfs:comment "Multimodal parent stop - ERP only"
+    rdfs:comment "Multimodal parent stop"
 ] , [
     netex:property "TariffZoneRef" ;
     netex:target netex:TariffZone ;
@@ -752,6 +752,77 @@ netex:TrainBlock netex:hasComposition [
 ## --- Managed-object code metadata (NeTEx v2.0) ---
 ## privateCodes is defined in DataManagedObjectGroup and is therefore
 ## available on managed objects such as StopPlace, Quay and Line.
+##
+## ⚠️  XSD GOTCHA — SEQUENCE ORDER:
+## DataManagedObjectGroup appears BEFORE Name/ShortName/Description in the
+## XSD sequence of every managed object. Putting <privateCodes> (or
+## <keyList>, <Extensions>, <BrandingRef>) AFTER <Name> produces a misleading
+## error like:
+##     "StopPlace has invalid child element privateCodes. Expected: ShortName,
+##      Description, ... PrivateCode, ..."
+## The error does not mention privateCodes at all because the parser is
+## already past the DataManagedObjectGroup slot — the fix is to move
+## <privateCodes> ABOVE <Name>, not to remove the wrapper.
+
+netex:DataManagedObjectGroup a owl:Class ;
+    rdfs:label "DataManagedObjectGroup" ;
+    skos:definition "Common header sequence applied (via xsd:group ref) to every managed NeTEx object — keyList, privateCodes, Extensions, BrandingRef. Always precedes Name/ShortName/Description in the element sequence." ;
+    rdfs:comment "Hidden in the XSD as 'xsd:group ref=DataManagedObjectGroup'; not visible from any individual element definition. Documented here so LLM agents and reviewers see the sequence rule explicitly." ;
+    netex:contains [
+        netex:property "keyList" ;
+        netex:xsdCardinality "0..1" ;
+        netex:path "keyList/KeyValue" ;
+        rdfs:comment "Legacy alternative-key payload; superseded by privateCodes in v2.0."
+    ] , [
+        netex:property "privateCodes" ;
+        netex:xsdCardinality "0..1" ;
+        netex:path "privateCodes/PrivateCode" ;
+        rdfs:comment "Preferred v2.0 identifier carrier; @type identifies the code system (e.g. uicCode)."
+    ] , [
+        netex:property "Extensions" ;
+        netex:xsdCardinality "0..1"
+    ] , [
+        netex:property "BrandingRef" ;
+        netex:xsdCardinality "0..1"
+    ] ;
+    netex:sequenceRule "MUST appear BEFORE Name / ShortName / Description in the element sequence of any class that applies this group." ;
+    netex:appliedTo netex:StopPlace ,
+                    netex:Quay ,
+                    netex:TopographicPlace ,
+                    netex:Parking ,
+                    netex:TariffZone ,
+                    netex:FareZone ,
+                    netex:Authority ,
+                    netex:Operator ,
+                    netex:VehicleType ,
+                    netex:Vehicle ,
+                    netex:Line ,
+                    netex:GroupOfLines ,
+                    netex:Route ,
+                    netex:JourneyPattern ,
+                    netex:ScheduledStopPoint ,
+                    netex:PassengerStopAssignment ,
+                    netex:DestinationDisplay ,
+                    netex:Notice ,
+                    netex:ServiceJourney ,
+                    netex:DatedServiceJourney ,
+                    netex:Interchange ,
+                    netex:OperatingPeriod ,
+                    netex:OperatingDay ,
+                    netex:TrainBlock ,
+                    netex:FareContract ,
+                    netex:SiteFrame ,
+                    netex:ServiceFrame ,
+                    netex:TimetableFrame ,
+                    netex:ServiceCalendarFrame ,
+                    netex:ResourceFrame ,
+                    netex:FareFrame ,
+                    netex:CompositeFrame ,
+                    netex:SalesTransactionFrame .
+
+netex:StopPlace netex:appliesGroup netex:DataManagedObjectGroup .
+netex:Quay netex:appliesGroup netex:DataManagedObjectGroup .
+netex:Line netex:appliesGroup netex:DataManagedObjectGroup .
 
 netex:StopPlace netex:hasCode [
     netex:property "privateCodes/PrivateCode" ;
@@ -777,15 +848,15 @@ netex:Line netex:hasCode [
 ## =================================================================
 ## PROFILE RESTRICTIONS
 ## =================================================================
-## Elements that differ between ERP and NP.
+## Elements that differ between and NP.
 ## "excluded" = element not used in this profile.
 ## "required" = stricter than XSD (e.g. 0..1 -> 1..1).
 ## Only divergences from XSD are listed.
 ## -----------------------------------------------------------------
 
-## --- ERP-only relationships (excluded from NP) ---
+## --- -only relationships (excluded from NP) ---
 
-profile:ERP netex:allows [
+profile:netex:allows [
     netex:class netex:StopPlace ;
     netex:property "ParentSiteRef" ;
     netex:cardinality "0..1" ;
@@ -818,7 +889,7 @@ profile:NP netex:excludes [
     netex:property "BlockRef"
 ] .
 
-## --- NP-only relationships (excluded from ERP) ---
+## --- NP-only relationships (excluded from ) ---
 
 profile:NP netex:allows [
     netex:class netex:StopPlace ;
@@ -872,7 +943,7 @@ profile:NP netex:allows [
     netex:cardinality "0..1"
 ] .
 
-profile:ERP netex:excludes [
+profile:netex:excludes [
     netex:class netex:StopPlace ;
     netex:property "TopographicPlaceRef"
 ] , [

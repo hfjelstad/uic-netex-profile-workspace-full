@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ad-hoc probing / debug / one-off exploration scripts (not part of the profile)
+_probe*.py
+probe_*.py
+inspect_*.py
+debug_*.py
+scripts/debugging/
+NeTEx2EDIFACT/scripts/debugging/
+
+# Specific exploratory scripts kept locally only
+NeTEx2EDIFACT/scripts/find_sandnes_train.py
+NeTEx2EDIFACT/scripts/audit_swedish.py
+scripts/extract_merits_mct.py
+scripts/enrich_stopplaces_with_mct.py
+scripts/data/
+
+# Local working data
+Nordic source material/Locations_*.csv
+Nordic source material/nsr_railstations_with_mct.xml

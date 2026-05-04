@@ -33,37 +33,37 @@ StopPlace (Monomodal)
 
 ## Table
 
-| Element | Type | XSD | ERP | NP | Description | Path |
-|---------|------|-----|-----|-----|-------------|------|
-| @id | ID | 1..1 | 1..1 | 1..1 | Unique identifier (e.g., ERP:StopPlace:1001) | StopPlace/@id |
-| @version | String | 1..1 | 1..1 | 1..1 | Version number | StopPlace/@version |
-| @created | DateTime | 0..1 |  |  | Creation date | StopPlace/@created |
-| @changed | DateTime | 0..1 |  |  | Last modification date | StopPlace/@changed |
-| @modification | String | 0..1 |  |  | Modification type (e.g., delete for decommissioning) | StopPlace/@modification |
-| ValidBetween | Period | 0..1 |  | 0..1 | Validity period (FromDate, ToDate) | StopPlace/ValidBetween |
-| KeyValue | KeyValue | 0..n |  | 0..n | Alternative keys (e.g., external IDs) | StopPlace/keyList/KeyValue |
-| privateCodes | Container | 0..1 |  | 0..1 | Preferred NeTEx v2.0 container for typed external identifiers | StopPlace/privateCodes |
-| PrivateCode (@type) | String | 1..n |  | 1..n | Typed external/legacy identifier; `@type` should identify code system (e.g., `uicCode`) and be unique in the container | StopPlace/privateCodes/PrivateCode |
-| Name | String | 0..1 | 1..1 | 1..1 | Name of the stop place | StopPlace/Name |
-| AlternativeName | String | 0..1 |  |  | Alternative names or aliases | StopPlace/alternativeNames/AlternativeName |
-| Description | String | 0..1 |  |  | Free-text description of the stop place | StopPlace/Description |
-| PrivateCode | String | 0..1 |  |  | Legacy single-code form kept for compatibility; prefer `privateCodes/PrivateCode` in v2.0 datasets | StopPlace/PrivateCode |
-| Centroid | Location | 0..1 | 0..1 | 0..1 | Geographic point representation | StopPlace/Centroid/Location |
-| AccessibilityAssessment | Element | 0..1 |  | 0..1 | Accessibility evaluation of the stop place | StopPlace/AccessibilityAssessment |
-| MobilityImpairedAccess | Enum | 0..1 |  | 1..1 | Overall mobility access status (true, false, unknown) | StopPlace/AccessibilityAssessment/MobilityImpairedAccess |
-| limitations | Container | 0..1 |  | 0..1 | Collection of specific accessibility limitations | StopPlace/AccessibilityAssessment/limitations |
-| AccessibilityLimitation | Element | 0..n |  | 1..n | Specific accessibility limitation assessment | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation |
-| WheelchairAccess | Enum | 0..1 |  | 0..1 | Wheelchair accessibility (true, false, unknown) | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation/WheelchairAccess |
-| StepFreeAccess | Enum | 0..1 |  | 0..1 | Step-free access availability (true, false, unknown) | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation/StepFreeAccess |
-| [TopographicPlace](../TopographicPlace/Table_TopographicPlace.md)@ref | Reference | 0..1 |  | 0..1 | Reference to city or region | StopPlace/TopographicPlaceRef/@ref |
-| ParentSiteRef/@ref | Reference | 0..1 | 0..1 |  | Reference to multimodal parent StopPlace | StopPlace/ParentSiteRef/@ref |
-| TransportMode | Enum | 0..1 | 1..1 | 1..1 | Primary mode (bus, rail, metro, tram, water, etc.) | StopPlace/TransportMode |
-| BusSubmode / RailSubmode / ... | Enum | 0..1 |  |  | Optional submode category | StopPlace/BusSubmode |
-| OtherTransportModes | String | 0..1 |  |  | Additional transport modes served | StopPlace/OtherTransportModes |
-| TariffZoneRef/@ref | Reference | 0..n | 0..n |  | References to tariff zones | StopPlace/tariffZones/TariffZoneRef/@ref |
-| StopPlaceType | Enum | 0..1 | 0..1 | 0..1 | Functional type (onstreetBus, railStation, metroStation, busStation, etc.) | StopPlace/StopPlaceType |
-| Weighting | Enum | 0..1 |  | 0..1 | Interchange weighting (e.g., interchangeAllowed) | StopPlace/Weighting |
-| placeEquipments | Container | 0..1 |  |  | Equipment installed at the stop place | StopPlace/placeEquipments |
-| adjacentSites | Container | 0..1 |  |  | References to adjacent stop places | StopPlace/adjacentSites |
-| SiteRef/@ref | Reference | 0..n |  |  | Reference to an adjacent StopPlace | StopPlace/adjacentSites/SiteRef/@ref |
-| [Quay](../Quay/Table_Quay.md) | Quay | 0..n | 1..n | 1..n | Boarding/alighting positions (not on multimodal parent) | StopPlace/quays/Quay |
+| Element | Type | XSD | NP | Description | Path |
+| --------- | ------ | ----- | ----- | ------------- | ------ |
+|  @id | ID | 1..1 | 1..1 | Unique identifier (e.g., NP:StopPlace:1001) | StopPlace/@id  |
+|  @version | String | 1..1 | 1..1 | Version number | StopPlace/@version  |
+|  @created | DateTime | 0..1 |  | Creation date | StopPlace/@created  |
+|  @changed | DateTime | 0..1 |  | Last modification date | StopPlace/@changed  |
+|  @modification | String | 0..1 |  | Modification type (e.g., delete for decommissioning) | StopPlace/@modification  |
+|  ValidBetween | Period | 0..1 | 0..1 | Validity period (FromDate, ToDate) | StopPlace/ValidBetween  |
+|  KeyValue | KeyValue | 0..n | 0..n | Alternative keys (e.g., external IDs) | StopPlace/keyList/KeyValue  |
+|  privateCodes | Container | 0..1 | 0..1 | Preferred NeTEx v2.0 container for typed external identifiers | StopPlace/privateCodes  |
+|  PrivateCode (@type) | String | 1..n | 1..n | Typed external/legacy identifier; `@type` should identify code system (e.g., `uicCode`) and be unique in the container | StopPlace/privateCodes/PrivateCode  |
+|  Name | String | 0..1 | 1..1 | Name of the stop place | StopPlace/Name  |
+|  AlternativeName | String | 0..1 |  | Alternative names or aliases | StopPlace/alternativeNames/AlternativeName  |
+|  Description | String | 0..1 |  | Free-text description of the stop place | StopPlace/Description  |
+|  PrivateCode | String | 0..1 |  | Legacy single-code form kept for compatibility; prefer `privateCodes/PrivateCode` in v2.0 datasets | StopPlace/PrivateCode  |
+|  Centroid | Location | 0..1 | 0..1 | Geographic point representation | StopPlace/Centroid/Location  |
+|  AccessibilityAssessment | Element | 0..1 | 0..1 | Accessibility evaluation of the stop place | StopPlace/AccessibilityAssessment  |
+|  MobilityImpairedAccess | Enum | 0..1 | 1..1 | Overall mobility access status (true, false, unknown) | StopPlace/AccessibilityAssessment/MobilityImpairedAccess  |
+|  limitations | Container | 0..1 | 0..1 | Collection of specific accessibility limitations | StopPlace/AccessibilityAssessment/limitations  |
+|  AccessibilityLimitation | Element | 0..n | 1..n | Specific accessibility limitation assessment | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation  |
+|  WheelchairAccess | Enum | 0..1 | 0..1 | Wheelchair accessibility (true, false, unknown) | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation/WheelchairAccess  |
+|  StepFreeAccess | Enum | 0..1 | 0..1 | Step-free access availability (true, false, unknown) | StopPlace/AccessibilityAssessment/limitations/AccessibilityLimitation/StepFreeAccess  |
+|  [TopographicPlace](../TopographicPlace/Table_TopographicPlace.md)@ref | Reference | 0..1 | 0..1 | Reference to city or region | StopPlace/TopographicPlaceRef/@ref  |
+|  ParentSiteRef/@ref | Reference | 0..1 |  | Reference to multimodal parent StopPlace | StopPlace/ParentSiteRef/@ref  |
+|  TransportMode | Enum | 0..1 | 1..1 | Primary mode (bus, rail, metro, tram, water, etc.) | StopPlace/TransportMode  |
+|  BusSubmode / RailSubmode / ... | Enum | 0..1 |  | Optional submode category | StopPlace/BusSubmode  |
+|  OtherTransportModes | String | 0..1 |  | Additional transport modes served | StopPlace/OtherTransportModes  |
+|  TariffZoneRef/@ref | Reference | 0..n |  | References to tariff zones | StopPlace/tariffZones/TariffZoneRef/@ref  |
+|  StopPlaceType | Enum | 0..1 | 0..1 | Functional type (onstreetBus, railStation, metroStation, busStation, etc.) | StopPlace/StopPlaceType  |
+|  Weighting | Enum | 0..1 | 0..1 | Interchange weighting (e.g., interchangeAllowed) | StopPlace/Weighting  |
+|  placeEquipments | Container | 0..1 |  | Equipment installed at the stop place | StopPlace/placeEquipments  |
+|  adjacentSites | Container | 0..1 |  | References to adjacent stop places | StopPlace/adjacentSites  |
+|  SiteRef/@ref | Reference | 0..n |  | Reference to an adjacent StopPlace | StopPlace/adjacentSites/SiteRef/@ref  |
+|  [Quay](../Quay/Table_Quay.md) | Quay | 0..n | 1..n | Boarding/alighting positions (not on multimodal parent) | StopPlace/quays/Quay  |

@@ -39,7 +39,7 @@ A **ScheduledStopPoint** represents a logical stopping point in the timetable, u
 
 ### 5b. Validation Requirements
 
-- **@id and @version are mandatory** — must follow codespace conventions (e.g., `ERP:ScheduledStopPoint:1001`).
+- **@id and @version are mandatory** — must follow codespace conventions (e.g., `NP:ScheduledStopPoint:1001`).
 - **PassengerStopAssignment should exist** for every ScheduledStopPoint used in operational timetables; missing assignments prevent physical stop resolution.
 
 ### 5c. Common Pitfalls
@@ -52,4 +52,22 @@ A **ScheduledStopPoint** represents a logical stopping point in the timetable, u
 
 See [Table_ScheduledStopPoint.md](Table_ScheduledStopPoint.md) for detailed attribute specifications.
 
-Example XML: [Example_ScheduledStopPoint.xml](Example_ScheduledStopPoint_ERP.xml)
+Example XML: [Example_ScheduledStopPoint.xml](Example_ScheduledStopPoint_NP.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** never emits SSPs directly - they are pure pointers. Resolution chain per `POR` row:
+>
+> ```
+> TimetabledPassingTime
+>   -> StopPointInJourneyPatternRef -> StopPointInJourneyPattern (order)
+>     -> ScheduledStopPointRef -> ScheduledStopPoint
+>       -> PassengerStopAssignment.QuayRef -> Quay
+>         -> parent StopPlace -> privateCodes/PrivateCode[@type='uicCode']
+> ```
+>
+> A break anywhere in this chain causes the stop to be dropped from the SKDUPD output.

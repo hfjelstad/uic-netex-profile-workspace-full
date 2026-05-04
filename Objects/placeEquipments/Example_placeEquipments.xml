@@ -3,17 +3,17 @@
   <PublicationTimestamp>2026-03-23T12:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <SiteFrame id="ERP:SiteFrame:placeEquipments" version="1">
+    <SiteFrame id="NP:SiteFrame:placeEquipments" version="1">
       <stopPlaces>
-        <StopPlace id="ERP:StopPlace:Example" version="1">
+        <StopPlace id="NP:StopPlace:Example" version="1">
           <Name>Example Stop</Name>
           <placeEquipments>
-            <ShelterEquipment id="ERP:ShelterEquipment:1" version="1">
+            <ShelterEquipment id="NP:ShelterEquipment:1" version="1">
               <Seats>6</Seats>
               <StepFree>true</StepFree>
               <Enclosed>false</Enclosed>
             </ShelterEquipment>
-            <WaitingRoomEquipment id="ERP:WaitingRoomEquipment:1" version="1">
+            <WaitingRoomEquipment id="NP:WaitingRoomEquipment:1" version="1">
               <Seats>12</Seats>
               <StepFree>true</StepFree>
               <Heated>true</Heated>

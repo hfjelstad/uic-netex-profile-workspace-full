@@ -19,7 +19,7 @@ OperatingDay
 
 ## 3. Key Elements
 
-- **@id, @version** – Unique identifier and version label. The id conventionally encodes the date (e.g., `ERP:OperatingDay:2026-03-18`).
+- **@id, @version** – Unique identifier and version label. The id conventionally encodes the date (e.g., `NP:OperatingDay:2026-03-18`).
 - **CalendarDate** – The specific calendar date this OperatingDay represents (format: `YYYY-MM-DD`). This is the only required child element.
 - **Name** – Optional human-readable label (e.g., "Monday 18 March 2026").
 - **EarliestTime** – Optional earliest departure time for journeys on this operating day. Useful when the service day extends past midnight.
@@ -35,12 +35,12 @@ OperatingDay
 
 - OperatingDay must be defined within a ServiceCalendarFrame before being referenced.
 - Each OperatingDay should represent a unique date within the same delivery. Avoid multiple OperatingDay objects for the same calendar date.
-- The id should embed the date for traceability (e.g., `ERP:OperatingDay:2026-06-04`).
+- The id should embed the date for traceability (e.g., `NP:OperatingDay:2026-06-04`).
 
 ### 5b. Validation Requirements
 
 - **CalendarDate is mandatory** — every OperatingDay must contain exactly one CalendarDate element with a valid `YYYY-MM-DD` date.
-- **@id must follow codespace conventions** — e.g., `ERP:OperatingDay:2026-03-18`.
+- **@id must follow codespace conventions** — e.g., `NP:OperatingDay:2026-03-18`.
 
 ### 5c. Common Pitfalls
 
@@ -53,3 +53,14 @@ OperatingDay
 See [Table_OperatingDay.md](Table_OperatingDay.md) for detailed attribute specifications.
 
 Example XML: [Example_OperatingDay.xml](Example_OperatingDay.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** reads `OperatingDay` only to materialize a calendar date for `DatedServiceJourney` resolution:
+> - `od_to_date[OperatingDay.id] = CalendarDate[:10]` (ISO `YYYY-MM-DD`).
+> - The time-portion of `CalendarDate` (if any) is ignored.
+> - Invalid or missing dates are silently skipped - the corresponding DSJ then contributes nothing to the `POP` bitmask.

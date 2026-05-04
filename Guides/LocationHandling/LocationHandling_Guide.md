@@ -35,17 +35,17 @@ UIC station numbers in the MERITS world use a fixed **9-digit zero-padded** form
 
 ```
 007600100
-│││││││└─ Station number (trailing digits)
-││└────── Infrastructure manager / network prefix
-└──────── Country code (00 = Norway)
+││└──────── Station number (5 digits)
+│└────────── Country code (76 = Norway)
+└─────────── Leading zero padding (to reach 9 digits)
 ```
 
 **Oslo S — `007600100`** is the canonical example used throughout this profile:
 
 | Part | Value | Meaning |
 |---|---|---|
-| `00` | Country | Norway |
-| `76` | IM prefix | NSB/Entur rail infrastructure |
+| `00` | Padding | Leading zeros to reach the 9-digit form |
+| `76` | Country | Norway (UIC country code) |
 | `00100` | Station | Oslo S |
 
 > [!NOTE]
@@ -92,6 +92,9 @@ Every StopPlace in a profile-compliant SiteFrame must include:
 ```
 
 The `privateCodes` container is declared `0..1` in XSD but is **1..1 in this profile** for any StopPlace that participates in a TSDUPD or SKDUPD delivery.
+
+> [!NOTE]
+> **Quay-level identity is out of scope for `uicCode`.** UIC numbers identify *stations*, not platforms. A `Quay` must therefore not carry `privateCodes/PrivateCode[@type='uicCode']`. Platform-level identity belongs in a dedicated platform code (future profile extension); today, platform information is only carried per departure.
 
 ### Resolution chain in SKDUPD conversion
 
@@ -156,7 +159,7 @@ flowchart TD
 ```xml
 <StopPlace id="NSR:StopPlace:59977" version="1">
   <privateCodes>
-    <!-- Full 9-digit UIC. Country (00) + IM prefix (76) + station (00100) -->
+    <!-- Full 9-digit UIC. Padding (00) + Country (76 = Norway) + Station (00100) -->
     <PrivateCode type="uicCode">007600100</PrivateCode>
   </privateCodes>
   <Name lang="nor">Oslo S</Name>

@@ -11,9 +11,7 @@ Two primary use cases apply in the railway context:
 | Use case | Example | `PurposeOfGrouping` |
 |----------|---------|---------------------|
 | **Logical interchange** | Oslo S (rail) + Oslo Bussterminal (bus) form one passenger hub | `interchange` |
-| **Regional / country grouping** | All rail stations in Norway grouped for routing, tariff, or ERA reporting | `country` / `region` |
-
-A `GroupOfStopPlaces` may optionally carry an external cross-border identifier via `keyList`, making it a candidate anchor for EU-level station codes without requiring changes to individual national `StopPlace` records.
+| **Regional / country grouping** | All rail stations in Norway grouped for routing or tariff attribution | `country` / `region` |
 
 ---
 
@@ -21,27 +19,27 @@ A `GroupOfStopPlaces` may optionally carry an external cross-border identifier v
 
 ```text
 GroupOfStopPlaces
- ├─ @id (1..1)
- ├─ @version (1..1)
- ├─ privateCodes (0..1)           ← NeTEx 2.0: replaces deprecated PrivateCode
- │   └─ PrivateCode @type (1..n) ← e.g. type="eraCode", type="uicGroupCode"
- ├─ Name (1..1)
- ├─ ShortName (0..1)
- ├─ Description (0..1)
- ├─ PurposeOfGroupingRef/@ref (0..1)  ← ref to PurposeOfGrouping in ResourceFrame
- ├─ Centroid (0..1)
- │   └─ Location
- │       ├─ Longitude
- │       └─ Latitude
- └─ members (1..1)
-     └─ StopPlaceRef (1..n)      ← references to member StopPlace @id
+ ├─ 📄 @id (1..1)
+ ├─ 📄 @version (1..1)
+ ├─ 📁 privateCodes (0..1)           ← NeTEx 2.0: replaces deprecated PrivateCode
+ │   └─ 📄 PrivateCode @type (1..n)  ← e.g. type="uicCode"
+ ├─ 📄 Name (1..1)
+ ├─ 📄 ShortName (0..1)
+ ├─ 📄 Description (0..1)
+ ├─ 🔗 PurposeOfGroupingRef/@ref (0..1)  ← ref to PurposeOfGrouping in ResourceFrame
+ ├─ 📁 Centroid (0..1)
+ │   └─ 📁 Location
+ │       ├─ 📄 Longitude
+ │       └─ 📄 Latitude
+ └─ 📁 members (1..1)
+     └─ 🔗 StopPlaceRef (1..n)        ← references to member StopPlace @id
 ```
 
 ---
 
 ## 3. Key Elements
 
-- **`@id`**: Unique identifier in the producer's codespace, e.g. `NSR:GroupOfStopPlaces:OsloS` or `ERA:GroupOfStopPlaces:0010002326`.
+- **`@id`**: Unique identifier in the producer's codespace, e.g. `NSR:GroupOfStopPlaces:OsloS`.
 - **`Name`**: The human-readable name of the group, e.g. `Oslo S interchange` or `Norwegian rail stations`.
 - **`PurposeOfGroupingRef/@ref`**: References a `PurposeOfGrouping` object defined in a `ResourceFrame`. `PurposeOfGrouping` is a full NeTEx `TypeOfValue` with its own `@id` and `@version` — not a free-text string. Standardising the available purposes (e.g. `interchange`, `country`, `region`) is a profile decision.
 - **`Centroid`**: Optional geographic centre of the group. For interchange groups this is typically the physical hub centre; for regional groups it is informative only.
@@ -84,28 +82,7 @@ An interchange group brings together all `StopPlace` records at a physical hub t
 </GroupOfStopPlaces>
 ```
 
-### 5b. Cross-border identifier anchor
-
-When a central EU registry assigns an identifier to a logical station that spans multiple national `StopPlace` records (e.g. an ERA code covering the Finnish, Swedish, and Norwegian representations of the same border station), that identifier can be stored on the `GroupOfStopPlaces` via `privateCodes` rather than modifying the national records:
-
-```xml
-<GroupOfStopPlaces version="1" id="NSR:GroupOfStopPlaces:Narvik">
-    <privateCodes>
-        <!-- @type must be unique within this block -->
-        <PrivateCode type="eraCode">ERA:station:0076:Narvik</PrivateCode>
-    </privateCodes>
-    <Name>Narvik</Name>
-    <PurposeOfGroupingRef ref="NSR:PurposeOfGrouping:country" version="1"/>
-    <members>
-        <StopPlaceRef ref="NSR:StopPlace:10042" version="1"/>
-    </members>
-</GroupOfStopPlaces>
-```
-
-> [!NOTE]
-> Whether `GroupOfStopPlaces` is the right anchor for a future EU station ID is an **open profile decision** — see Topic 12 in the [European Profile Discussion Agenda](../../Guides/UIC_EDIFACT_Migration/European_Profile_Discussion_Agenda.md).
-
-### 5c. Regional grouping
+### 5b. Regional grouping
 
 For country- or region-level aggregation (e.g. for ERA reporting, national routing tables, or tariff attribution), `GroupOfStopPlaces` with a `country` or `region` purpose groups all relevant stations:
 
@@ -121,7 +98,7 @@ For country- or region-level aggregation (e.g. for ERA reporting, national routi
 </GroupOfStopPlaces>
 ```
 
-### 5d. Consistency rules
+### 5c. Consistency rules
 
 - A `StopPlace` may belong to multiple groups with different purposes (e.g. both an interchange group and a country group).
 - `StopPlaceRef` elements must resolve to real `StopPlace` objects. References to external registries should omit `@version`.
