@@ -3,7 +3,7 @@
   <PublicationTimestamp>2026-02-25T14:22:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <SiteFrame version="1" id="ERP:SiteFrame:Core">
+    <SiteFrame version="1" id="NP:SiteFrame:Core">
       <stopPlaces>
         <StopPlace version="1" id="NSR:StopPlace:1">
           <Name>Example Stop Place</Name>

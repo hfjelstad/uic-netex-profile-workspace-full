@@ -3,26 +3,26 @@
   <PublicationTimestamp>2026-03-02T21:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:FC_MIN_1" version="1.0">
+    <CompositeFrame id="NP:CompositeFrame:FC_MIN_1" version="1.0">
       <frames>
-        <SalesTransactionFrame id="ERP:SalesTransactionFrame:STF_1" version="1.0">
+        <SalesTransactionFrame id="NP:SalesTransactionFrame:STF_1" version="1.0">
           <fareContracts>
-            <FareContract id="ERP:FareContract:FC_1" version="1.0">
-              <TypeOfFareContractRef ref="ERP:TypeOfFareContract:standard"/>
+            <FareContract id="NP:FareContract:FC_1" version="1.0">
+              <TypeOfFareContractRef ref="NP:TypeOfFareContract:standard"/>
               <fareContractEntries>
-                <SalesTransactionRef ref="ERP:SalesTransaction:ST_1"/>
+                <SalesTransactionRef ref="NP:SalesTransaction:ST_1"/>
               </fareContractEntries>
             </FareContract>
           </fareContracts>
           <salesTransactions>
-            <SalesTransaction id="ERP:SalesTransaction:ST_1" version="1.0">
+            <SalesTransaction id="NP:SalesTransaction:ST_1" version="1.0">
               <Date>2026-03-02T00:00:00Z</Date>
-              <FareContractRef ref="ERP:FareContract:FC_1"/>
+              <FareContractRef ref="NP:FareContract:FC_1"/>
               <travelSpecifications>
-                <TravelSpecificationRef ref="ERP:TravelSpecification:TS_1"/>
+                <TravelSpecificationRef ref="NP:TravelSpecification:TS_1"/>
               </travelSpecifications>
               <customerPurchasePackages>
-                <CustomerPurchasePackageRef ref="ERP:CustomerPurchasePackage:CPP_1"/>
+                <CustomerPurchasePackageRef ref="NP:CustomerPurchasePackage:CPP_1"/>
               </customerPurchasePackages>
             </SalesTransaction>
           </salesTransactions>

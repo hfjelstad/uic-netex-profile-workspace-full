@@ -10,6 +10,9 @@ In this guide you will learn:
 - 🗂️ How operating days are converted to EDIFACT bitmasks
 - 📝 Why DatedServiceJourney is required for calendar resolution
 
+> [!NOTE]
+> SKDUPD depends on the UIC contract defined in the [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md): every `ScheduledStopPoint` must resolve to a `StopPlace` carrying `privateCodes/PrivateCode[@type='uicCode']` (9-digit). Platform-level changes (new `Quay`, changed `PublicCode`) are carried per departure in SKDUPD and do **not** require a new TSDUPD baseline.
+
 ## 2. 🧠 Core Concepts
 
 SKDUPD is a timetable message. It should represent planned operations with minimal semantic loss when moving from NeTEx to EDIFACT.
@@ -65,14 +68,14 @@ flowchart LR
 
 ### Reference pattern used for stop UIC and platform
 
-The converter resolves station/platform context through a deterministic chain:
+The converter resolves station/platform context through the chain documented in the [Location Handling Guide — Resolution chain](../LocationHandling/LocationHandling_Guide.md#resolution-chain-in-skdupd-conversion):
 
-ScheduledStopPoint -> PassengerStopAssignment -> Quay -> parent StopPlace
+ScheduledStopPoint → PassengerStopAssignment → Quay (contained in) StopPlace
 
-This yields:
+(`PassengerStopAssignment` may also resolve directly to a `StopPlace` without a `Quay`.) This yields:
 
-- UIC for POR station identity
-- Platform public code for arrival/departure platform fields
+- UIC for POR station identity (from `StopPlace/privateCodes/PrivateCode[@type='uicCode']`)
+- Platform public code for arrival/departure platform fields (from `Quay/PublicCode`, when present)
 
 ### Converter internals (single-operator path)
 
@@ -365,6 +368,7 @@ This is intentional: converter behavior should remain explainable and auditable 
 
 ### Guides
 
+- [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) — UIC requirement, resolution chain, TSDUPD/SKDUPD delivery contract
 - [Get Started Guide](../GetStarted/GetStarted_Guide.md)
 - [Validation Guide](../Validation/Validation.md)
 - [Tools Guide](../Tools/Tools_Guide.md)

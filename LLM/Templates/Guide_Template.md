@@ -72,8 +72,8 @@ Include:
 Use code blocks with inline comments for XML snippets:
 ```xml
 <!-- Traveler concern: what the passenger sees -->
-<ServiceJourney id="ERP:ServiceJourney:SJ_001" version="1">
-  <VehicleTypeRef ref="ERP:VehicleType:IC_Train"/>   <!-- lightweight hint only -->
+<ServiceJourney id="NP:ServiceJourney:SJ_001" version="1">
+  <VehicleTypeRef ref="NP:VehicleType:IC_Train"/>   <!-- lightweight hint only -->
 </ServiceJourney>
 ```
 

@@ -49,7 +49,7 @@ The `id` never appears in human contexts. It appears in machine references. Huma
 
 ### StopPlace — station identity
 
-The current intermediate state is that UIC station numbers are carried in `privateCodes/PrivateCode[@type='uicCode']`. This is explicitly a bridge: it makes the UIC code findable and typed, so conversion pipelines and MERITS consumers can resolve it, while the stable `id` (`NSR:StopPlace:59977`) is already in place as the long-term machine reference.
+The current intermediate state is that UIC station numbers are carried in `privateCodes/PrivateCode[@type='uicCode']`. This is explicitly a bridge: it makes the UIC code findable and typed, so conversion pipelines and MERITS consumers can resolve it, while the stable `id` (`NSR:StopPlace:59977`) is already in place as the long-term machine reference. See the [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) for the full UIC carrier model and the TSDUPD/SKDUPD delivery contract.
 
 The direction of travel is that downstream EDIFACT consumers, reservation systems, and real-time pipelines progressively learn to resolve against the NeTEx `id` directly — at which point the UIC code in `privateCodes` becomes a display/legacy attribute rather than the interoperability key.
 
@@ -92,6 +92,7 @@ Calendar derivation policy:
 - Use `DatedServiceJourney` as the canonical source for operating days and calendar extraction.
 - Derive compact bitmask calendars for interchange from that richer dated representation.
 - Do not optimize for file size by collapsing source semantics too early. NeTEx is a rich model and should preserve fidelity at source.
+- See the [Calendar Guide](../Calendar/Calendar_Guide.md) for the full asymmetry between explicit dates, `DayType`, and bitmask, and why only `DatedServiceJourney` carries per-instance identity.
 
 ```xml
 <ServiceJourney id="VYG:ServiceJourney:R601-2026-001" version="1">
@@ -218,6 +219,7 @@ Apply a boundary translation layer: mint stable opaque ids on first ingest, pers
 
 ### Guides
 - [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) — UIC station codes as typed `privateCodes`; the intermediate step toward id-based resolution
+- [Calendar Guide](../Calendar/Calendar_Guide.md) — why `DatedServiceJourney` is the only calendar form that carries per-instance identity, and how bitmask/`DayType` are derived from it
 - [PrivateCode Type Conventions](../Validation/PrivateCode_Type_Conventions.md) — canonical `@type` token list
 - [Glossary](../Glossary/Glossary.md) — definitions for IM, RU, OperatingDay, Codespace, and related terms
 

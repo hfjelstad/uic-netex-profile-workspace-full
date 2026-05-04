@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Example: Location Handling — privateCodes/PrivateCode[@type='uicCode']
+                              + Minimum Connection Time (MCT)
 
-  This example demonstrates the mandatory UIC identification pattern for StopPlaces
-  in this NeTEx Nordic Profile.
+  This example demonstrates the mandatory UIC identification pattern AND the
+  per-station Minimum Connection Time pattern for StopPlaces in this NeTEx
+  Nordic Profile.
 
   Key rules shown here:
     1. privateCodes/PrivateCode[@type='uicCode'] is REQUIRED for every StopPlace.
     2. The UIC value MUST be 9 digits, zero-padded (e.g. 007600100 not 7600100).
-    3. Additional code types (reservationCode, eraCode) may be included in the
-       same container using separate PrivateCode entries with distinct @type values.
+    3. Additional code types (reservationCode) may be included in the same
+       container using separate PrivateCode entries with distinct @type values.
+    4. Per-station Minimum Connection Time is modelled as a SiteConnection
+       SELF-LOOP (same StopPlace in both <From> and <To>) hosted under
+       <ServiceFrame><connections>. The transfer value is given by
+       <TransferDuration><DefaultDuration>PTnM</DefaultDuration></TransferDuration>.
+       Operator/brand-scoped MCT (per-pair) is out of scope for the per-station
+       default and belongs in a separate per-pair table.
 
-  Oslo S:  UIC 007600100  (country 00 = Norway, IM prefix 76, station 00100)
-  Lillestrøm: UIC 007601590
+  Oslo S:     UIC 007600100  (country 76 = Norway, station 00100)  MCT 8 min
+  Lillestrøm: UIC 007601590                                        MCT 4 min
 -->
 <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
   <PublicationTimestamp>2026-04-27T12:00:00Z</PublicationTimestamp>
@@ -23,7 +31,7 @@
 
         <!-- =====================================================================
              Oslo S  — canonical example
-             UIC 007600100: country 00 (Norway) + IM 76 + station 00100
+             UIC 007600100: country 76 (Norway) + station 00100
              ===================================================================== -->
         <StopPlace id="NSR:StopPlace:59977" version="1">
           <privateCodes>
@@ -81,5 +89,53 @@
 
       </stopPlaces>
     </SiteFrame>
+
+    <!-- =====================================================================
+         Per-station Minimum Connection Time (MCT)
+         ---------------------------------------------------------------------
+         In NeTEx 2.0 the SiteConnection element (substitution group Transfer)
+         lives under ServiceFrame/connections — NOT under SiteFrame.
+
+         A SiteConnection self-loop (From/StopPlaceRef == To/StopPlaceRef)
+         expresses the per-station Minimum Connection Time. The converter
+         (build_uic_to_mct) reads TransferDuration/DefaultDuration as ISO 8601
+         (PTnM) and emits the value into TSDUPD_MCT.csv keyed by the
+         station's UIC code.
+         ===================================================================== -->
+    <ServiceFrame id="NSR:ServiceFrame:mct" version="1">
+      <connections>
+
+        <!-- Oslo S — 8 minutes minimum connection time -->
+        <SiteConnection id="NSR:SiteConnection:007600100-mct" version="1">
+          <Name>MERITS Default Transfer Time</Name>
+          <TransferDuration>
+            <DefaultDuration>PT8M</DefaultDuration>
+          </TransferDuration>
+          <BothWays>true</BothWays>
+          <From>
+            <StopPlaceRef ref="NSR:StopPlace:59977" version="1"/>
+          </From>
+          <To>
+            <StopPlaceRef ref="NSR:StopPlace:59977" version="1"/>
+          </To>
+        </SiteConnection>
+
+        <!-- Lillestrøm — 4 minutes minimum connection time -->
+        <SiteConnection id="NSR:SiteConnection:007601590-mct" version="1">
+          <Name>MERITS Default Transfer Time</Name>
+          <TransferDuration>
+            <DefaultDuration>PT4M</DefaultDuration>
+          </TransferDuration>
+          <BothWays>true</BothWays>
+          <From>
+            <StopPlaceRef ref="NSR:StopPlace:337" version="1"/>
+          </From>
+          <To>
+            <StopPlaceRef ref="NSR:StopPlace:337" version="1"/>
+          </To>
+        </SiteConnection>
+
+      </connections>
+    </ServiceFrame>
   </dataObjects>
 </PublicationDelivery>

@@ -3,11 +3,11 @@
   <PublicationTimestamp>2026-03-23T12:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:OperatingDay" version="1">
+    <CompositeFrame id="NP:CompositeFrame:OperatingDay" version="1">
       <frames>
-        <ServiceCalendarFrame id="ERP:ServiceCalendarFrame:OperatingDay" version="1">
+        <ServiceCalendarFrame id="NP:ServiceCalendarFrame:OperatingDay" version="1">
           <operatingDays>
-            <OperatingDay id="ERP:OperatingDay:2026-03-18" version="1">
+            <OperatingDay id="NP:OperatingDay:2026-03-18" version="1">
               <CalendarDate>2026-03-18</CalendarDate>
             </OperatingDay>
           </operatingDays>

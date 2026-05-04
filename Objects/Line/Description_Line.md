@@ -1,6 +1,6 @@
-﻿# Line
+# Line
 
-> *→ [Glossary definition](../../Guides/Glossary/Glossary.md#line)*
+> *? [Glossary definition](../../Guides/Glossary/Glossary.md#line)*
 
 ## 1. Purpose
 The **Line** represents a public transport service line within a ServiceFrame. It is a core organizational entity that groups together related routes and journeys providing the same public transport service (e.g., "Bus Line 5" or "Train Line 101"). A Line identifies the operator, provides visual presentation properties (colors), and serves as the container for route patterns and scheduled journeys.
@@ -13,23 +13,23 @@ Line
  ├─ 📄 Name (1..1)
  ├─ 📄 TransportMode (1..1)
  ├─ 📁 TransportSubmode (0..1)
- │  ├─ 📄 BusSubmode (0..1)
- │  ├─ 📄 RailSubmode (0..1)
- │  ├─ 📄 WaterSubmode (0..1)
- │  ├─ 📄 TramSubmode (0..1)
- │  ├─ 📄 MetroSubmode (0..1)
- │  ├─ 📄 AirSubmode (0..1)
- │  ├─ 📄 CoachSubmode (0..1)
- │  └─ 📄 TelecabinSubmode (0..1)
+ │   ├─ 📄 BusSubmode (0..1)
+ │   ├─ 📄 RailSubmode (0..1)
+ │   ├─ 📄 WaterSubmode (0..1)
+ │   ├─ 📄 TramSubmode (0..1)
+ │   ├─ 📄 MetroSubmode (0..1)
+ │   ├─ 📄 AirSubmode (0..1)
+ │   ├─ 📄 CoachSubmode (0..1)
+ │   └─ 📄 TelecabinSubmode (0..1)
  ├─ 🔗 OperatorRef/@ref (1..1)
  ├─ 📄 PublicCode (0..1)
  ├─ 📁 privateCodes (0..1)
- │  └─ 📄 PrivateCode @type (1..*)
- ├─ 📄 PrivateCode (0..1)         ← legacy single-code pattern
+ │   └─ 📄 PrivateCode @type (1..n)
+ ├─ 📄 PrivateCode (0..1)              ← legacy single-code pattern
  ├─ 🔗 RepresentedByGroupRef/@ref (0..1)
  └─ 📁 Presentation (0..1)
-    ├─ 📄 Colour (0..1)
-    └─ 📄 TextColour (0..1)
+     ├─ 📄 Colour (0..1)
+     └─ 📄 TextColour (0..1)
 ```
 
 ## 3. Key Elements
@@ -43,9 +43,9 @@ Line
 - **TextColour**: Hexadecimal color code for text displayed on the line; typically contrasts with Colour for readability; e.g., `FFFFFF` for white.
 
 ## 4. References
-- [Operator](../Operator/Table_Operator.md) – Organization responsible for operating this Line
-- [Route](../Route/Table_Route.md) – Geographic path definition for journeys on this Line
-- [JourneyPattern](../JourneyPattern/Table_JourneyPattern.md) – Stop sequence patterns served by this Line
+- [Operator](../Operator/Table_Operator.md) � Organization responsible for operating this Line
+- [Route](../Route/Table_Route.md) � Geographic path definition for journeys on this Line
+- [JourneyPattern](../JourneyPattern/Table_JourneyPattern.md) � Stop sequence patterns served by this Line
 
 ## 5. Usage Notes
 
@@ -55,11 +55,11 @@ Line
 - Presentation colors (Colour and TextColour) should be consistent across all visual touchpoints (websites, signage, information systems) to reinforce brand identity.
 
 ### 5b. Validation Requirements
-- **Name is mandatory** – Every Line must have a Name element for public identification.
-- **OperatorRef is mandatory** – Every Line must reference exactly one Operator with @ref attribute; cardinality is 1..1.
-- **@id and @version are mandatory** – Must follow codespace conventions (e.g., `ERP:Line:1`); version typically "1" or incremental.
-- **Colour format is strict** – If Presentation is used, Colour must be exactly 6 uppercase hexadecimal digits (0–9, A–F) without a leading # character.
-- **TextColour format is strict** – Same format requirements as Colour; recommended to ensure text-to-background contrast for accessibility.
+- **Name is mandatory** � Every Line must have a Name element for public identification.
+- **OperatorRef is mandatory** � Every Line must reference exactly one Operator with @ref attribute; cardinality is 1..1.
+- **@id and @version are mandatory** � Must follow codespace conventions (e.g., `NP:Line:1`); version typically "1" or incremental.
+- **Colour format is strict** � If Presentation is used, Colour must be exactly 6 uppercase hexadecimal digits (0�9, A�F) without a leading # character.
+- **TextColour format is strict** � Same format requirements as Colour; recommended to ensure text-to-background contrast for accessibility.
 
 ### 5c. Common Pitfalls
 
@@ -68,20 +68,20 @@ Line
 > - **Presentation element mistakes**: Do NOT add `@id` or `@version` attributes to the Presentation element; it is a simple container with only child text elements.
 
 > [!TIP]
-> **Colour format**: Must be exactly 6 uppercase hexadecimal digits (0–9, A–F) without a leading `#`. Example: `005EB8` not `#005eb8`.
+> **Colour format**: Must be exactly 6 uppercase hexadecimal digits (0�9, A�F) without a leading `#`. Example: `005EB8` not `#005eb8`.
 
 ## 6. Additional Information
 See [Table_Line.md](Table_Line.md) for detailed attribute specifications, cardinality rules, and XSD constraints.
 
 <!-- tabs:start -->
 
-#### **MIN (ERP)**
+#### **Minimal example**
 
 ```xml
-<Line id="ERP:Line:1" version="1">
+<Line id="NP:Line:1" version="1">
   <Name>Line 1</Name>
   <TransportMode>bus</TransportMode>
-  <OperatorRef ref="ERP:Operator:OP1"/>
+  <OperatorRef ref="NP:Operator:OP1"/>
   <Presentation>
     <Colour>005EB8</Colour>
     <TextColour>FFFFFF</TextColour>
@@ -89,7 +89,7 @@ See [Table_Line.md](Table_Line.md) for detailed attribute specifications, cardin
 </Line>
 ```
 
-→ [Full file](Example_Line_ERP.xml)
+? [Full file](Example_Line_NP.xml)
 
 #### **NP (Nordic)**
 
@@ -113,6 +113,6 @@ See [Table_Line.md](Table_Line.md) for detailed attribute specifications, cardin
 </Line>
 ```
 
-→ [Full file](Example_Line_NP.xml)
+? [Full file](Example_Line_NP.xml)
 
 <!-- tabs:end -->

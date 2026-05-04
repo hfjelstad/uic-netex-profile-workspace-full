@@ -3,30 +3,30 @@
   <PublicationTimestamp>2026-03-18T00:00:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:1" version="1">
+    <CompositeFrame id="NP:CompositeFrame:1" version="1">
       <codespaces>
-        <Codespace id="erp">
-          <Xmlns>ERP</Xmlns>
-          <XmlnsUrl>http://www.europeanprofile.eu/ERP</XmlnsUrl>
+        <Codespace id="np">
+          <Xmlns>NP</Xmlns>
+          <XmlnsUrl>http://www.netex.org.uk/netex</XmlnsUrl>
         </Codespace>
       </codespaces>
       <FrameDefaults>
-        <DefaultCodespaceRef ref="erp"/>
+        <DefaultCodespaceRef ref="np"/>
       </FrameDefaults>
       <frames>
-        <ResourceFrame id="ERP:ResourceFrame:1" version="1">
+        <ResourceFrame id="NP:ResourceFrame:1" version="1">
           <organisations>
-            <Authority id="ERP:Authority:AUT_001" version="1">
+            <Authority id="NP:Authority:AUT_001" version="1">
               <Name>Example Authority</Name>
             </Authority>
-            <Operator id="ERP:Operator:OP_001" version="1">
+            <Operator id="NP:Operator:OP_001" version="1">
               <Name>Example Operator</Name>
             </Operator>
           </organisations>
         </ResourceFrame>
-        <ServiceCalendarFrame id="ERP:ServiceCalendarFrame:1" version="1">
+        <ServiceCalendarFrame id="NP:ServiceCalendarFrame:1" version="1">
           <dayTypes>
-            <DayType id="ERP:DayType:WKD" version="1">
+            <DayType id="NP:DayType:WKD" version="1">
               <Name>Weekdays</Name>
               <properties>
                 <PropertyOfDay>
@@ -36,23 +36,23 @@
             </DayType>
           </dayTypes>
         </ServiceCalendarFrame>
-        <ServiceFrame id="ERP:ServiceFrame:1" version="1">
+        <ServiceFrame id="NP:ServiceFrame:1" version="1">
           <lines>
-            <Line id="ERP:Line:L1" version="1">
+            <Line id="NP:Line:L1" version="1">
               <Name>Line 1</Name>
               <PublicCode>1</PublicCode>
-              <OperatorRef ref="ERP:Operator:OP_001"/>
+              <OperatorRef ref="NP:Operator:OP_001"/>
             </Line>
           </lines>
         </ServiceFrame>
-        <TimetableFrame id="ERP:TimetableFrame:1" version="1">
+        <TimetableFrame id="NP:TimetableFrame:1" version="1">
           <vehicleJourneys>
-            <ServiceJourney id="ERP:ServiceJourney:SJ_001" version="1">
+            <ServiceJourney id="NP:ServiceJourney:SJ_001" version="1">
               <Name>Morning departure</Name>
               <dayTypes>
-                <DayTypeRef ref="ERP:DayType:WKD"/>
+                <DayTypeRef ref="NP:DayType:WKD"/>
               </dayTypes>
-              <LineRef ref="ERP:Line:L1"/>
+              <LineRef ref="NP:Line:L1"/>
             </ServiceJourney>
           </vehicleJourneys>
         </TimetableFrame>

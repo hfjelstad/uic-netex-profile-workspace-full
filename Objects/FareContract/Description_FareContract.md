@@ -44,7 +44,7 @@ A **FareContract** models a customer-facing agreement for the right to travel an
 
 - **TypeOfFareContractRef is mandatory** — every FareContract must be classified.
 - **fareContractEntries must contain at least one entry** — an empty FareContract is invalid.
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:FareContract:FC_1`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:FareContract:FC_1`).
 
 ### 5c. Common Pitfalls
 

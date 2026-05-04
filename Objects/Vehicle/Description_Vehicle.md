@@ -38,7 +38,7 @@ A **Vehicle** represents a specific physical vehicle in the fleet used to operat
 ### 5b. Validation Requirements
 
 - **VehicleTypeRef is mandatory** — every Vehicle must reference a VehicleType.
-- **@id and @version are mandatory** — follow codespace conventions (e.g., `ERP:Vehicle:1001`).
+- **@id and @version are mandatory** — follow codespace conventions (e.g., `NP:Vehicle:1001`).
 
 ### 5c. Common Pitfalls
 

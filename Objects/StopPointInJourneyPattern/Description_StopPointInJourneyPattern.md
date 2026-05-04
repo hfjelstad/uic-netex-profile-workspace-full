@@ -72,7 +72,7 @@ StopPointInJourneyPattern
 ### 5d. Profile-Specific Notes
 
 - **Nordic Profile (NP):** All StopPointInJourneyPattern elements are required for timetable interchange; on-demand flexibility (RequestStop, FlexibleService) is optional.
-- **ERP:** More extensive booking and notice assignment support; SLO may require explicit notice chains for regulatory compliance.
+- **NP:** More extensive booking and notice assignment support; SLO may require explicit notice chains for regulatory compliance.
 
 ---
 
@@ -120,3 +120,14 @@ When converting NeTEx to EDIFACT (SKDUPD):
 - [JourneyPattern Description](../JourneyPattern/Description_JourneyPattern.md)
 - [ScheduledStopPoint Description](../ScheduledStopPoint/Description_ScheduledStopPoint.md)
 - [SKDUPD Converter Guide](../../Guides/SKDUPD/SKDUPD_Converter_Guide.md)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** uses `StopPointInJourneyPattern` as the *positional* element of a journey:
+> - Enumeration order (1-based) -> `POR.stop_number` in the SKDUPD output.
+> - `ForBoarding` / `ForAlighting` (default `true`) -> `POR.traffic_restriction_code` (`2` alight-only, `3` board-only, `4` pass-through, blank = normal).
+> - `ScheduledStopPointRef/@ref` is the join key out to the SSP/PSA/Quay/StopPlace chain that ultimately resolves the UIC.

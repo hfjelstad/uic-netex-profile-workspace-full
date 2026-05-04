@@ -1,6 +1,6 @@
-﻿# StopPlace
+# StopPlace
 
-> *→ [Glossary definition](../../Guides/Glossary/Glossary.md#stopplace)*
+> *? [Glossary definition](../../Guides/Glossary/Glossary.md#stopplace)*
 
 ## 1. Purpose
 The **StopPlace** represents a named physical or virtual location where passengers can board or alight from public transport. It is a core organizational entity that models the full spatial and administrative context of a passenger exchange point, from simple street-side bus stops to complex multimodal transport hubs. StopPlaces support both monomodal configurations (single transport mode) and multimodal hierarchies (multiple transport modes), enabling flexible modeling of diverse transport infrastructure.
@@ -8,39 +8,39 @@ The **StopPlace** represents a named physical or virtual location where passenge
 ## 2. Structure Overview
 ```text
 StopPlace (Monomodal)
- ├─ 📄 @id (1..1)
- ├─ 📄 @version (1..1)
- ├─ 📁 ValidBetween (0..1)
- │  └─ 📄 FromDate (1..1)
- ├─ 📁 keyList (0..1)
- │  └─ 📄 KeyValue (0..*)
- ├─ 📁 privateCodes (0..1)
- │  └─ 📄 PrivateCode @type (1..*)
- ├─ 📄 Name (1..1)
- ├─ 📁 Centroid (0..1)
- │  └─ 📁 Location (1..1)
- │     ├─ 📄 Longitude (1..1)
- │     └─ 📄 Latitude (1..1)
- ├─ 📁 AccessibilityAssessment (0..1)
- │  ├─ 📄 MobilityImpairedAccess (1..1)
- │  └─ 📁 limitations (0..1)
- │     └─ 📁 AccessibilityLimitation (1..n)
- │        ├─ 📄 WheelchairAccess (0..1)
- │        └─ 📄 StepFreeAccess (0..1)
- ├─ 🔗 TopographicPlaceRef/@ref (0..1)
- ├─ 🔗 ParentSiteRef/@ref (0..1)
- ├─ 📄 TransportMode (1..1)
- ├─ 📁 tariffZones (0..n)
- ├─ 📄 StopPlaceType (0..1)
- ├─ 📄 Weighting (0..1)
- └─ 📁 quays (1..n)
+ +- ?? @id (1..1)
+ +- ?? @version (1..1)
+ +- ?? ValidBetween (0..1)
+ ¦  +- ?? FromDate (1..1)
+ +- ?? keyList (0..1)
+ ¦  +- ?? KeyValue (0..*)
+ +- ?? privateCodes (0..1)
+ ¦  +- ?? PrivateCode @type (1..*)
+ +- ?? Name (1..1)
+ +- ?? Centroid (0..1)
+ ¦  +- ?? Location (1..1)
+ ¦     +- ?? Longitude (1..1)
+ ¦     +- ?? Latitude (1..1)
+ +- ?? AccessibilityAssessment (0..1)
+ ¦  +- ?? MobilityImpairedAccess (1..1)
+ ¦  +- ?? limitations (0..1)
+ ¦     +- ?? AccessibilityLimitation (1..n)
+ ¦        +- ?? WheelchairAccess (0..1)
+ ¦        +- ?? StepFreeAccess (0..1)
+ +- ?? TopographicPlaceRef/@ref (0..1)
+ +- ?? ParentSiteRef/@ref (0..1)
+ +- ?? TransportMode (1..1)
+ +- ?? tariffZones (0..n)
+ +- ?? StopPlaceType (0..1)
+ +- ?? Weighting (0..1)
+ +- ?? quays (1..n)
 
 StopPlace (Multimodal Parent)
- ├─ 📄 @id (1..1)
- ├─ 📄 @version (1..1)
- ├─ 📄 Name (1..1)
- ├─ 🔗 TopographicPlaceRef/@ref (0..1)
- └─ (NO quays; NO TransportMode)
+ +- ?? @id (1..1)
+ +- ?? @version (1..1)
+ +- ?? Name (1..1)
+ +- ?? TopographicPlaceRef/@ref (0..1)
+ +- (NO quays; NO TransportMode)
 ```
 
 ## 3. Key Elements
@@ -70,7 +70,7 @@ StopPlace (Multimodal Parent)
 - **Name is mandatory** – All StopPlaces must have a Name element for identification and display.
 - **TransportMode is mandatory for monomodal StopPlaces** – If the StopPlace contains Quays, TransportMode MUST be present; multimodal parents must NOT have TransportMode.
 - **StopPlaceType is required when Quays are present** – Functional classification enables downstream routing and service assignment.
-- **@id and @version are mandatory** – Follow codespace convention (e.g., `ERP:StopPlace:1001`); version typically "1" unless updated.
+- **@id and @version are mandatory** – Follow codespace convention (e.g., `NP:StopPlace:1001`); version typically "1" unless updated.
 - **ParentSiteRef cardinality** – If used, a child StopPlace references exactly one multimodal parent; no orphaned children or multiple parents allowed.
 - **Quay containment** – Multimodal parents must have zero Quays (cardinality 0); monomodal StopPlaces must have at least one Quay (cardinality 1..n).
 
@@ -86,4 +86,18 @@ StopPlace (Multimodal Parent)
 > **Centroid positioning**: For monomodal stops, place the Centroid centrally between all serving Quays. For multimodal parents, position it at the hub center — not at a single Quay.
 
 ## 6. Additional Information
-See [Table_StopPlace.md](Table_StopPlace.md) for detailed attribute specifications, cardinality rules, and the complete element structure. See [Example_StopPlace.xml](Example_StopPlace_ERP.xml) for examples of monomodal and multimodal StopPlace configurations with embedded Quays.
+See [Table_StopPlace.md](Table_StopPlace.md) for detailed attribute specifications, cardinality rules, and the complete element structure. See [Example_StopPlace.xml](Example_StopPlace_NP.xml) for examples of monomodal and multimodal StopPlace configurations with embedded Quays.
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** treats `StopPlace` as the anchor object for both deliveries:
+> - **TSDUPD (station register)**: emits one `ALS` segment per StopPlace - `Name`, `Centroid/Location` (decimal -> DMS), `ValidBetween/FromDate`/`ToDate`, and `privateCodes/PrivateCode[@type='uicCode']` -> ALS `uic_code`.
+> - **SKDUPD (timetable)**: indexes every StopPlace and its `Quay` children so each `POR` row can resolve a 9-digit UIC. A child StopPlace inherits the parent's `uicCode` via `ParentSiteRef` if its own is empty.
+>
+> A StopPlace without `privateCodes/PrivateCode[@type='uicCode']` (and no resolvable parent) is silently dropped from both outputs - it becomes invisible to MERITS.
+>
+> See [`netex2skdupd.py`](../../NeTEx2EDIFACT/converter/skdupd/netex2skdupd.py) (`_build_station_index`) and [`netex2tsdupd.py`](../../NeTEx2EDIFACT/converter/tsdupd/netex2tsdupd.py).

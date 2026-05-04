@@ -1,7 +1,5 @@
 # 🚀 Get Started with NeTEx
 
-![Parent and child waiting for a train](../../assets/images/Holding_Your_Hand.png)
-
 ## 1. 🎯 Introduction
 
 This guide is for anyone working with public transport data — whether you're a developer integrating timetable feeds, a data manager at a transport authority, or an analyst exploring how NeTEx structures information.
@@ -67,15 +65,14 @@ flowchart TD
     PD["<b>PublicationDelivery</b><br/><i>The envelope: who sent this, when?</i>"]
     DO["dataObjects"]
     CF["<b>CompositeFrame</b><br/><i>Groups all frames into one delivery</i>"]
-    CS["codespaces<br/><i>Declares namespace prefixes, e.g. ERP</i>"]
+    CS["codespaces<br/><i>Declares namespace prefixes, e.g. NP</i>"]
     FR["frames"]
 
     RF["🏢 <b>ResourceFrame</b><br/>Organizations, operators"]
     SF["📍 <b>SiteFrame</b><br/>Stop places, facilities"]
-    SCF["📅 <b>ServiceCalendarFrame</b><br/>Day types, calendars"]
+    SCF["📅 <b>ServiceCalendarFrame</b><br/>OperatingDays"]
     SVF["🚌 <b>ServiceFrame</b><br/>Lines, routes, patterns"]
     TF["🕐 <b>TimetableFrame</b><br/>Journeys, timetables"]
-    VSF["🚃 <b>VehicleScheduleFrame</b><br/>Vehicle blocks"]
     FF["💰 <b>FareFrame</b><br/>Fares and tariffs"]
 
     PD --> DO --> CF
@@ -86,7 +83,6 @@ flowchart TD
     FR --> SCF
     FR --> SVF
     FR --> TF
-    FR --> VSF
     FR --> FF
 
     style PD fill:#0D47A1,stroke:#0D47A1,color:#fff
@@ -99,7 +95,6 @@ flowchart TD
     style SCF fill:#42A5F5,stroke:#42A5F5,color:#fff
     style SVF fill:#42A5F5,stroke:#42A5F5,color:#fff
     style TF fill:#42A5F5,stroke:#42A5F5,color:#fff
-    style VSF fill:#42A5F5,stroke:#42A5F5,color:#fff
     style FF fill:#42A5F5,stroke:#42A5F5,color:#fff
 ```
 
@@ -123,18 +118,15 @@ Each frame type owns a specific domain of transport data. You only include the f
 |-------|-------------------|---------------|-----------------|
 | [ResourceFrame](../../Frames/ResourceFrame/Description_ResourceFrame.md) | Organizations | Shared resources used by all other frames | Operator, Authority, VehicleType |
 | [SiteFrame](../../Frames/SiteFrame/Description_SiteFrame.md) | Fixed Objects | Physical infrastructure | StopPlace, Quay, Parking |
-| [ServiceCalendarFrame](../../Frames/ServiceCalendarFrame/Description_ServiceCalendarFrame.md) | Calendar | When services operate | DayType, OperatingDay, OperatingPeriod |
+| [ServiceCalendarFrame](../../Frames/ServiceCalendarFrame/Description_ServiceCalendarFrame.md) | Calendar | When services operate (explicit dates) | OperatingDay, OperatingPeriod |
 | [ServiceFrame](../../Frames/ServiceFrame/Description_ServiceFrame.md) | Network | Route structure and stop assignments | Line, Route, JourneyPattern, ScheduledStopPoint |
 | [TimetableFrame](../../Frames/TimetableFrame/Description_TimetableFrame.md) | Timetable | Journey scheduling | ServiceJourney, DatedServiceJourney |
-| [VehicleScheduleFrame](../../Frames/VehicleScheduleFrame/Description_VehicleScheduleFrame.md) | Vehicle Planning | Vehicle assignments | Block, TrainBlock |
 | [FareFrame](../../Frames/FareFrame/Description_FareFrame.md) | Fares | Pricing and products | FareZone, TariffZone |
 
 > [!TIP]
 > You don't need all frames in every delivery. A stop registry might only use SiteFrame. A timetable exchange might use ServiceCalendarFrame + ServiceFrame + TimetableFrame. Include only what's relevant.
 
 ---
-
-![Getting on the bike](../../assets/images/getting_on_the_bike.png)
 
 ## 5. 🔍 Reading Your First Example
 
@@ -147,9 +139,9 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 ```xml
 <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
   <PublicationTimestamp>2026-03-18T00:00:00Z</PublicationTimestamp>
-  <ParticipantRef>EuPro</ParticipantRef>
+  <ParticipantRef>ENT</ParticipantRef>
   <dataObjects>
-    <CompositeFrame id="ERP:CompositeFrame:1" version="1">
+    <CompositeFrame id="NP:CompositeFrame:1" version="1">
 ```
 
 - `PublicationDelivery` — always the root element, with the NeTEx namespace
@@ -157,17 +149,17 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 - `CompositeFrame` — wraps all frames; the `id` uses the format `Codespace:Type:Identifier`
 
 > [!NOTE]
-> All NeTEx identifiers follow the pattern `Codespace:ObjectType:Identifier` — for example `ERP:DayType:WKD` or `NP:ServiceJourney:15044`. The codespace declares who owns the data. See the [NeTEx Conventions guide](../NeTExConventions/NeTEx_Conventions.md) for the full rules.
+> All NeTEx identifiers follow the pattern `Codespace:ObjectType:Identifier` — for example `NP:OperatingDay:20260318` or `NP:ServiceJourney:15044`. The codespace declares who owns the data.
 
 ### Shared Resources (ResourceFrame)
 
 ```xml
-<ResourceFrame id="ERP:ResourceFrame:1" version="1">
+<ResourceFrame id="NP:ResourceFrame:1" version="1">
   <organisations>
-    <Authority id="ERP:Authority:AUT_001" version="1">
+    <Authority id="NP:Authority:AUT_001" version="1">
       <Name>Example Authority</Name>
     </Authority>
-    <Operator id="ERP:Operator:OP_001" version="1">
+    <Operator id="NP:Operator:OP_001" version="1">
       <Name>Example Operator</Name>
     </Operator>
   </organisations>
@@ -180,33 +172,33 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 
 ### Calendar (ServiceCalendarFrame)
 
+This profile uses **explicit operating days** — each calendar day a service runs is modelled as an `OperatingDay`, and each journey on that day is modelled as a `DatedServiceJourney`. `DayType`-based derivation is not used.
+
 ```xml
-<ServiceCalendarFrame id="ERP:ServiceCalendarFrame:1" version="1">
-  <dayTypes>
-    <DayType id="ERP:DayType:WKD" version="1">
-      <Name>Weekdays</Name>
-      <properties>
-        <PropertyOfDay>
-          <DaysOfWeek>Monday Tuesday Wednesday Thursday Friday</DaysOfWeek>
-        </PropertyOfDay>
-      </properties>
-    </DayType>
-  </dayTypes>
+<ServiceCalendarFrame id="NP:ServiceCalendarFrame:1" version="1">
+  <operatingDays>
+    <OperatingDay id="NP:OperatingDay:20260318" version="1">
+      <CalendarDate>2026-03-18</CalendarDate>
+    </OperatingDay>
+    <OperatingDay id="NP:OperatingDay:20260319" version="1">
+      <CalendarDate>2026-03-19</CalendarDate>
+    </OperatingDay>
+  </operatingDays>
 </ServiceCalendarFrame>
 ```
 
-- **DayType** defines *when* services operate (Transmodel: DAY TYPE)
-- Journeys reference DayTypes to say "I run on weekdays" without hardcoding dates
+- **OperatingDay** is one concrete calendar date (Transmodel: OPERATING DAY)
+- Journeys reference `OperatingDay` indirectly via `DatedServiceJourney` — this gives the source authority full control over which dates run, including exceptions.
 
 ### Network (ServiceFrame)
 
 ```xml
-<ServiceFrame id="ERP:ServiceFrame:1" version="1">
+<ServiceFrame id="NP:ServiceFrame:1" version="1">
   <lines>
-    <Line id="ERP:Line:L1" version="1">
+    <Line id="NP:Line:L1" version="1">
       <Name>Line 1</Name>
       <PublicCode>1</PublicCode>
-      <OperatorRef ref="ERP:Operator:OP_001"/>
+      <OperatorRef ref="NP:Operator:OP_001"/>
     </Line>
   </lines>
 </ServiceFrame>
@@ -218,47 +210,54 @@ The best way to learn NeTEx is to read real XML. Let's walk through a minimal de
 ### Timetable (TimetableFrame)
 
 ```xml
-<TimetableFrame id="ERP:TimetableFrame:1" version="1">
+<TimetableFrame id="NP:TimetableFrame:1" version="1">
   <vehicleJourneys>
-    <ServiceJourney id="ERP:ServiceJourney:SJ_001" version="1">
+    <ServiceJourney id="NP:ServiceJourney:SJ_001" version="1">
       <Name>Morning departure</Name>
-      <dayTypes>
-        <DayTypeRef ref="ERP:DayType:WKD"/>
-      </dayTypes>
-      <LineRef ref="ERP:Line:L1"/>
+      <LineRef ref="NP:Line:L1"/>
     </ServiceJourney>
   </vehicleJourneys>
+  <datedServiceJourneys>
+    <DatedServiceJourney id="NP:DatedServiceJourney:DSJ_001_20260318" version="1">
+      <ServiceJourneyRef ref="NP:ServiceJourney:SJ_001"/>
+      <OperatingDayRef ref="NP:OperatingDay:20260318"/>
+    </DatedServiceJourney>
+  </datedServiceJourneys>
 </TimetableFrame>
 ```
 
-- **ServiceJourney** — a planned trip (Transmodel: SERVICE JOURNEY)
-- `DayTypeRef` links to the calendar, `LineRef` links to the network
+- **ServiceJourney** — the planned trip pattern (Transmodel: SERVICE JOURNEY)
+- **DatedServiceJourney** binds one `ServiceJourney` to one `OperatingDay` — a concrete trip on a concrete date
+- `LineRef` links to the network; the calendar link goes through `DatedServiceJourney → OperatingDayRef`
 - Everything connects through references, never by duplicating data
 
 ### How the References Connect
 
 ```mermaid
 flowchart LR
-    SJ["ServiceJourney"] -->|LineRef| L["Line"]
-    SJ -->|DayTypeRef| DT["DayType"]
+    DSJ["DatedServiceJourney"] -->|ServiceJourneyRef| SJ["ServiceJourney"]
+    DSJ -->|OperatingDayRef| OD["OperatingDay"]
+    SJ -->|LineRef| L["Line"]
     L -->|OperatorRef| OP["Operator"]
 
     subgraph TimetableFrame
+        DSJ
         SJ
     end
     subgraph ServiceFrame
         L
     end
     subgraph ServiceCalendarFrame
-        DT
+        OD
     end
     subgraph ResourceFrame
         OP
     end
 
+    style DSJ fill:#1565C0,stroke:#1565C0,color:#fff
     style SJ fill:#42A5F5,stroke:#42A5F5,color:#fff
     style L fill:#42A5F5,stroke:#42A5F5,color:#fff
-    style DT fill:#42A5F5,stroke:#42A5F5,color:#fff
+    style OD fill:#42A5F5,stroke:#42A5F5,color:#fff
     style OP fill:#42A5F5,stroke:#42A5F5,color:#fff
 ```
 
@@ -268,17 +267,26 @@ This is the core pattern in NeTEx: objects live in their own frame and connect t
 
 ## 6. 🧭 Where to Go Next
 
-You now have the foundation — here's where to go depending on what you need.
+You now have the foundation. The natural next step depends on what you're trying to do.
 
-**Deepen your understanding:**
+**Pick one of the deeper-dive guides:**
 
-- [NeTEx Conventions](../NeTExConventions/NeTEx_Conventions.md) — casing, IDs, versioning
-- [Separation of Concerns](../SeparationOfConcerns/SeparationOfConcerns.md) — how domains stay independent
-- [Calendar Guide](../Calendar/Calendar_Guide.md) — DayType, OperatingDay, exceptions
-- [Frames](../../Frames/CompositeFrame/Description_CompositeFrame.md) — browse frame-level documentation
-- [Objects](../../Objects/Line/Description_Line.md) — browse object-level documentation
+- [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) — the UIC requirement, `privateCodes/PrivateCode[@type='uicCode']`, the TSDUPD/SKDUPD delivery contract, and per-station Minimum Connection Time. Most readers should start here.
+- [Stable Identity Guide](../StableIdentity/StableIdentity_Guide.md) — why `id` is the long-term interoperability key and `uicCode` is intermediate; the three-layer model `id` / `privateCodes` / `Name`.
+- [TSDUPD Converter Guide](../TSDUPD/TSDUPD_Converter_Guide.md) — how station data (SiteFrame + MCT) is transformed into EDIFACT TSDUPD.
+- [SKDUPD Converter Guide](../SKDUPD/SKDUPD_Converter_Guide.md) — how ServiceJourney + DatedServiceJourney + OperatingDay become EDIFACT SKDUPD.
+- [Validation Guide](../Validation/Validation.md) — schema setup, the most common errors, and a pre-commit checklist.
+- [PrivateCode Type Conventions](../Validation/PrivateCode_Type_Conventions.md) — canonical `@type` tokens (`uicCode`, `reservationCode`, …).
+- [Tools Guide](../Tools/Tools_Guide.md) — editor setup, validators, useful XPath utilities.
+- [Glossary](../Glossary/Glossary.md) — quick lookup for terms.
 
-**Start working:**
+**Browse the reference material:**
 
-- [Tools Guide](../Tools/Tools_Guide.md) — editors, plugins, and validation setup
-- [Validation Guide](../Validation/Validation.md) — validate XML against the schema
+- [Frames](../../Frames/CompositeFrame/Description_CompositeFrame.md) — frame-level documentation
+- [Objects](../../Objects/Line/Description_Line.md) — object-level documentation
+
+**Topics worth a deeper look later:**
+
+- The lifecycle of a `DatedServiceJourney` and how operating-day bitmasks are built — see SKDUPD Converter Guide § 2.
+- Why platform-level (`Quay`) changes do not require a new TSDUPD baseline — see Location Handling Guide § 3.
+- The `SiteConnection` self-loop pattern for per-station MCT — see Location Handling Guide § 4.

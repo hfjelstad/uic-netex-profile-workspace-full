@@ -4,7 +4,7 @@
 
 ## 1. Purpose
 
-The **Codespace** defines the namespace used for all NeTEx `@id` and `@ref` values within a dataset. It ensures global uniqueness across deliveries by scoping identifiers with a short prefix (e.g., `ERP`, `NSR`), preventing collisions when data from multiple producers is exchanged or merged.
+The **Codespace** defines the namespace used for all NeTEx `@id` and `@ref` values within a dataset. It ensures global uniqueness across deliveries by scoping identifiers with a short prefix (e.g. `NP`, `NSR`), preventing collisions when data from multiple producers is exchanged or merged.
 
 ## 2. Structure Overview
 
@@ -18,7 +18,7 @@ The **Codespace** defines the namespace used for all NeTEx `@id` and `@ref` valu
 ## 3. Key Elements
 
 - **@id**: The short identifier for the codespace, used as the prefix in all `@id` and `@ref` values throughout the delivery.
-- **Xmlns**: The XML namespace prefix associated with this codespace (e.g., `ERP`, `NSR`).
+- **Xmlns**: The XML namespace prefix associated with this codespace (e.g. `NP`, `NSR`).
 - **XmlnsUrl**: The full URL identifying the namespace, providing a globally unique reference for the codespace.
 
 ## 4. References
@@ -42,7 +42,7 @@ The **Codespace** defines the namespace used for all NeTEx `@id` and `@ref` valu
 ### 5c. Common Pitfalls
 
 > [!WARNING]
-> - **Treating "ERP" as mandatory**: "ERP" is an example codespace; the actual value is designated by the data receiver.
+> - **Treating "" as mandatory**: "" is an example codespace; the actual value is designated by the data receiver.
 > - **ParticipantRef mismatch**: The `ParticipantRef` must equal the primary codespace prefix — do not include a trailing colon.
 > - **Changing LocalId across deliveries**: Use the `version` attribute for change tracking; keep `LocalId` stable.
 > - **Mixing codespaces without agreement**: Do not use multiple codespaces unless the receiver explicitly requires it.

@@ -276,8 +276,33 @@ def convert_uic_keyvalues(
     pad_uic_to_9: bool,
     use_typed_privatecodes_wrapper: bool,
 ) -> None:
-    """Convert keyList/KeyValue with Key='uicCode' into privateCodes/PrivateCode."""
+    """Convert keyList/KeyValue with Key='uicCode' (or 'iffCode') into privateCodes/PrivateCode.
+
+    Tiamat exports for Nordic neighbour stations (SE, DK) carry the UIC station
+    number under Key='iffCode' (typically a 7-digit value such as '7400044' for
+    Helsingborg C — country code 74 + station 00044, without the check digit).
+    We treat iffCode as a fallback UIC source and let the standard pad-to-9
+    rule prefix it with leading zeros so it lines up with the existing 9-digit
+    Norwegian uicCode values already present in the dataset.
+
+    When a StopPlace exposes BOTH uicCode and iffCode, uicCode wins (e.g.
+    Göteborg C: uicCode=7401318, iffCode=7400002 -> keep 007401318).
+    """
     parent_map = {child: parent for parent in root.iter() for child in list(parent)}
+
+    # First pass: record which StopPlaces already have a uicCode KeyValue so
+    # iffCode can be skipped for those owners.
+    stopplaces_with_uic: set = set()
+    for element in root.iter():
+        if local_name(element.tag) != "KeyValue":
+            continue
+        key_elem = first_child_by_localname(element, "Key")
+        if key_elem is None or (key_elem.text or "").strip() != "uicCode":
+            continue
+        key_list = parent_map.get(element)
+        owner = parent_map.get(key_list) if key_list is not None else None
+        if owner is not None and local_name(owner.tag) == "StopPlace":
+            stopplaces_with_uic.add(id(owner))
 
     for element in list(root.iter()):
         if local_name(element.tag) != "KeyValue":
@@ -288,7 +313,7 @@ def convert_uic_keyvalues(
         key_text = (key_elem.text or "").strip() if key_elem is not None else ""
         value_text = (value_elem.text or "").strip() if value_elem is not None else ""
 
-        if key_text != "uicCode":
+        if key_text not in {"uicCode", "iffCode"}:
             continue
 
         key_list = parent_map.get(element)
@@ -301,6 +326,15 @@ def convert_uic_keyvalues(
 
         # Keep uicCode only on StopPlace for schema-safe output.
         if local_name(owner.tag) != "StopPlace":
+            key_list.remove(element)
+            stats.removed_keyvalue_entries += 1
+            if local_name(key_list.tag) == "keyList" and len(list(key_list)) == 0:
+                owner.remove(key_list)
+                stats.removed_empty_keylists += 1
+            continue
+
+        # Skip iffCode if this StopPlace already has a (typically Norwegian) uicCode.
+        if key_text == "iffCode" and id(owner) in stopplaces_with_uic:
             key_list.remove(element)
             stats.removed_keyvalue_entries += 1
             if local_name(key_list.tag) == "keyList" and len(list(key_list)) == 0:

@@ -24,18 +24,22 @@ from __future__ import annotations
 import argparse
 import zipfile
 import xml.etree.ElementTree as ET
-from dataclasses import asdict, fields
 from datetime import date, timedelta, datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Type, TypeVar
+from typing import Dict, List, Optional, Tuple
 
-from merits.csvs_zip.rows import RowsInMemory
 from merits.skdupd.csv_model import Meta, Odi, Por, Relation, Train
 from merits.skdupd.csvs_to_edifact import CsvsToEdifact
 from merits.skdupd import definition
 
-NS = "http://www.netex.org.uk/netex"
-T = TypeVar("T")
+from netex_helpers import (
+    NS,
+    private_code,
+    ref as netex_ref,
+    rows_in_memory,
+    text as netex_text,
+    uic_code,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -72,22 +76,19 @@ def _tag(el) -> str:
 
 
 def _text(element, tag: str) -> str:
-    el = element.find(f"{{{NS}}}{tag}")
-    return el.text.strip() if el is not None and el.text else ""
+    return netex_text(element, tag)
 
 
 def _ref(element, tag: str) -> str:
-    el = element.find(f"{{{NS}}}{tag}")
-    return el.get("ref", "") if el is not None else ""
+    return netex_ref(element, tag)
 
 
-def _rows(instances: List[T], cls: Type[T]) -> RowsInMemory:
-    headers = [f.name for f in fields(cls)]
-    data = [
-        {k: ("" if v is None else str(v)) for k, v in asdict(obj).items()}
-        for obj in instances
-    ]
-    return RowsInMemory(data=data, headers=headers)
+def _private_code(element, type_attr: str) -> str:
+    return private_code(element, type_attr)
+
+
+def _rows(instances, cls):
+    return rows_in_memory(instances, cls)
 
 
 def _parse_time(t: str) -> Optional[str]:
@@ -129,14 +130,8 @@ def _traffic_restriction_code(for_boarding: bool, for_alighting: bool) -> Option
 # ---------------------------------------------------------------------------
 
 def _uic_from_stop_place(sp) -> str:
-    """
-    Extract UIC code from a StopPlace element.
-    Requires: privateCodes/PrivateCode[@type='uicCode'] with full 9-digit value.
-    """
-    for pc in sp.findall(f".//{{{NS}}}privateCodes/{{{NS}}}PrivateCode"):
-        if pc.get("type", "").lower() == "uiccode" and pc.text:
-            return pc.text.strip()
-    return ""
+    """Extract UIC code from a StopPlace element (typed PrivateCode only)."""
+    return uic_code(sp, accept_legacy=False)
 
 
 def _build_station_index(station_zip: Path) -> Dict[str, Tuple[str, str]]:
@@ -303,7 +298,13 @@ def build_trains_and_pors(
 
     for sj in tt.service_journeys():
         sj_id = sj.get("id", "")
-        train_number = _text(sj, "PrivateCode") or sj_id
+        # NeTEx 2.0: trainNumber lives in <privateCodes>/<PrivateCode type="trainNumber">
+        # Fallback to legacy direct-child <PrivateCode>, then to sj_id.
+        train_number = (
+            _private_code(sj, "trainNumber")
+            or _text(sj, "PrivateCode")
+            or sj_id
+        )
 
         # Operator code from OperatorRef (e.g. 'NSB:Operator:NSB' → 'NSB')
         op_ref_el = sj.find(f"{{{NS}}}OperatorRef")
@@ -397,7 +398,7 @@ def build_trains_and_pors(
                 check_in=None,
             ))
 
-    print(f\"Converted {len(trains)} trains, {len(pors)} stop-times ({skipped_stops} stops without UIC, {restricted_stops} with restrictions)\")
+    print(f"Converted {len(trains)} trains, {len(pors)} stop-times ({skipped_stops} stops without UIC, {restricted_stops} with restrictions)")
     return meta_list, trains, pors
 
 

@@ -14,110 +14,99 @@ Usage:
 Defaults:
   --input      ../Nordic source material/tiamat-export-RailStations-202604262300285592.trimmed.uic9.xml
   --output     ./NEW_TSDUPD/new_TSDUPD.r
-  --originator NSR
+  --originator (derived from <ParticipantRef> in the NeTEx file via PARTICIPANT_TO_RICS)
 """
 
 from __future__ import annotations
 
 import argparse
+import time
 import xml.etree.ElementTree as ET
-from dataclasses import asdict, fields
-from datetime import date
+import zipfile
+from datetime import date, datetime
 from pathlib import Path
-from typing import Iterable, List, Type, TypeVar
+from typing import List
 
-from merits.csvs_zip.rows import RowsInMemory
 from merits.tsdupd.csv_model import Footpath, Mct, Meta, Stop, Synonym
 from merits.tsdupd.csvs_to_edifact import CsvsToEdifact
 from merits.tsdupd import definition
 
-NS = "http://www.netex.org.uk/netex"
-T = TypeVar("T")
+from edifact_mappings import (
+    country_from_uic,
+    resolve_originator,
+    timezone_for_country,
+    to_ascii,
+)
+from netex_helpers import (
+    NS,
+    alt_names,
+    build_uic_to_mct,
+    coordinates,
+    participant_ref,
+    reservation_code,
+    rows_in_memory,
+    text as netex_text,
+    uic_code,
+    validity,
+)
 
 
 # ---------------------------------------------------------------------------
-# Helpers
+# EDIFACT-specific helpers (only what is unique to TSDUPD lives here)
 # ---------------------------------------------------------------------------
 
-def _text(element, tag: str) -> str:
-    el = element.find(f"{{{NS}}}{tag}")
-    return el.text.strip() if el is not None and el.text else ""
+def _to_dms(value: str, hemispheres: tuple, width: int) -> str:
+    """Convert a decimal-degree string to EDIFACT DMS form '[D]DDMMSS<H>'.
 
-
-def _uic_code(stop_place) -> str:
-    # Requires: privateCodes/PrivateCode[@type='uicCode'] with full 9-digit value.
-    for pc in stop_place.findall(f".//{{{NS}}}privateCodes/{{{NS}}}PrivateCode"):
-        if pc.get("type", "").lower() == "uiccode":
-            return pc.text.strip() if pc.text else ""
-    return ""
-
-
-def _reservation_code(stop_place) -> str:
-    for pc in stop_place.findall(f".//{{{NS}}}privateCodes/{{{NS}}}PrivateCode"):
-        if pc.get("type", "").lower() == "reservationcode":
-            return pc.text.strip() if pc.text else ""
-    return ""
-
-
-def _country_from_uic(uic: str) -> str:
-    return uic[:2] if len(uic) >= 2 else ""
-
-
-def _coordinates(stop_place):
-    lon_el = stop_place.find(f".//{{{NS}}}Centroid/{{{NS}}}Location/{{{NS}}}Longitude")
-    lat_el = stop_place.find(f".//{{{NS}}}Centroid/{{{NS}}}Location/{{{NS}}}Latitude")
-    lon = lon_el.text.strip() if lon_el is not None and lon_el.text else ""
-    lat = lat_el.text.strip() if lat_el is not None and lat_el.text else ""
-    return lat, lon
-
-
-def _validity(stop_place):
-    vb = stop_place.find(f"{{{NS}}}ValidBetween")
-    if vb is None:
-        return "", ""
-    from_el = vb.find(f"{{{NS}}}FromDate")
-    to_el = vb.find(f"{{{NS}}}ToDate")
-    return (
-        from_el.text[:10] if from_el is not None and from_el.text else "",
-        to_el.text[:10] if to_el is not None and to_el.text else "",
-    )
-
-
-def _alt_names(stop_place):
-    for an in stop_place.findall(f".//{{{NS}}}AlternativeName"):
-        name_el = an.find(f"{{{NS}}}Name")
-        lang = name_el.get("lang", "") if name_el is not None else ""
-        name = name_el.text.strip() if name_el is not None and name_el.text else ""
-        if name:
-            yield lang, name
-
-
-def _rows(instances: List[T], cls: Type[T]) -> RowsInMemory:
-    """Wrap a list of dataclass instances as RowsInMemory for MERITS."""
-    headers = [f.name for f in fields(cls)]
-    data = [
-        {k: ("" if v is None else str(v)) for k, v in asdict(obj).items()}
-        for obj in instances
-    ]
-    return RowsInMemory(data=data, headers=headers)
+    UIC TSDUPD ALS/6000 latitude is 6 digits + N/S (DDMMSS), longitude
+    is 7 digits + E/W (DDDMMSS). Returns '' if value is empty/invalid.
+    """
+    if not value:
+        return ""
+    try:
+        deg = float(value)
+    except ValueError:
+        return ""
+    hemi = hemispheres[0] if deg >= 0 else hemispheres[1]
+    deg = abs(deg)
+    d = int(deg)
+    m_full = (deg - d) * 60
+    m = int(m_full)
+    s = int(round((m_full - m) * 60))
+    if s == 60:
+        s = 0
+        m += 1
+    if m == 60:
+        m = 0
+        d += 1
+    return f"{d:0{width}d}{m:02d}{s:02d}{hemi}"
 
 
 # ---------------------------------------------------------------------------
 # Conversion
 # ---------------------------------------------------------------------------
 
-def convert(xml_path: Path, output_file: Path, originator: str) -> None:
+def convert(xml_path: Path, output_file: Path, originator: str | None) -> None:
     tree = ET.parse(xml_path)
     root = tree.getroot()
+    participant = participant_ref(root)
+    resolved_originator = resolve_originator(participant, originator)
+    print(f"ParticipantRef={participant!r} -> originator (RICS) {resolved_originator!r}")
     stop_places = root.findall(f".//{{{NS}}}StopPlace")
     print(f"Found {len(stop_places)} StopPlaces in {xml_path.name}")
+    uic_to_mct = build_uic_to_mct(root)
+    if uic_to_mct:
+        print(f"Found {len(uic_to_mct)} SiteConnection self-loops with MCT values")
 
     today = date.today().isoformat()
+    # MERITS expects `reference` to be a timestamp '%Y-%m-%dT%H%M%S' (15 chars).
+    # The HDR collector takes reference[:-2] as date_1 (YYYY-MM-DDThhmm, qualifier 45).
+    reference = datetime.now().strftime("%Y-%m-%dT%H%M%S")
     meta_list = [Meta(
-        reference=f"TSDUPD_{today}",
+        reference=reference,
         validity_first_date=today,
         validity_last_date=None,
-        originator=originator,
+        originator=resolved_originator,
     )]
 
     stops: List[Stop] = []
@@ -126,57 +115,80 @@ def convert(xml_path: Path, output_file: Path, originator: str) -> None:
     synonym_id = 0
 
     for sp in stop_places:
-        uic = _uic_code(sp)
+        uic = uic_code(sp)
         if not uic:
             continue
 
         stop_id += 1
-        name = _text(sp, "Name")
-        lat, lon = _coordinates(sp)
-        valid_from, valid_to = _validity(sp)
+        name = netex_text(sp, "Name")
+        lat, lon = coordinates(sp)
+        valid_from, valid_to = validity(sp)
+        country = country_from_uic(uic)
+        tz_zone, tz_variation = timezone_for_country(country)
 
         stops.append(Stop(
             stop_id=stop_id,
-            function_code="M",
+            function_code="29",  # UN/EDIFACT 3227: '29' = station / place of departure/arrival
             uic_code=uic,
-            location_name=name,
+            location_name=to_ascii(name),
             location_short_name=None,
-            latitude=lat or None,
-            longitude=lon or None,
+            latitude=_to_dms(lat, ("N", "S"), 2) or None,
+            longitude=_to_dms(lon, ("E", "W"), 3) or None,
             valid_from=valid_from or None,
             valid_to=valid_to or None,
-            default_transfer_time=None,
-            country=_country_from_uic(uic),
-            timezone_1=None,
-            timezone_2=None,
-            reservation_code=_reservation_code(sp) or None,
+            # POP+87 default transfer time uses EDIFACT period format HHMM
+            # (data element 2380), e.g. 8 minutes -> '0008', 75 min -> '0115'.
+            default_transfer_time=(
+                f"{uic_to_mct[uic] // 60:02d}{uic_to_mct[uic] % 60:02d}"
+                if uic in uic_to_mct else None
+            ),
+            country=country or None,
+            timezone_1=tz_zone,
+            timezone_2=tz_variation,
+            reservation_code=reservation_code(sp) or None,
         ))
 
-        for lang, alt_name in _alt_names(sp):
+        for lang, alt_name in alt_names(sp):
             synonym_id += 1
             synonyms.append(Synonym(
                 synonym_id=synonym_id,
                 stop_id=stop_id,
                 uic_code=uic,
                 language=lang,
-                synonym=alt_name,
+                synonym=to_ascii(alt_name),
             ))
 
     print(f"Converted {len(stops)} stops, {len(synonyms)} synonyms")
 
     converter = CsvsToEdifact()
     converter.load({
-        definition.META_FILE_NAME:     _rows(meta_list, Meta),
-        definition.STOP_FILE_NAME:     _rows(stops, Stop),
-        definition.SYNONYM_FILE_NAME:  _rows(synonyms, Synonym),
-        definition.MCT_FILE_NAME:      _rows([], Mct),
-        definition.FOOTPATH_FILE_NAME: _rows([], Footpath),
+        definition.META_FILE_NAME:     rows_in_memory(meta_list, Meta),
+        definition.STOP_FILE_NAME:     rows_in_memory(stops, Stop),
+        definition.SYNONYM_FILE_NAME:  rows_in_memory(synonyms, Synonym),
+        definition.MCT_FILE_NAME:      rows_in_memory([], Mct),
+        definition.FOOTPATH_FILE_NAME: rows_in_memory([], Footpath),
     })
     edifact_text = converter.get()
 
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    # Clean and recreate the output directory so reruns don't keep stale files.
+    output_dir = output_file.parent
+    if output_dir.exists():
+        for child in output_dir.iterdir():
+            if child.is_file():
+                child.unlink()
+    output_dir.mkdir(parents=True, exist_ok=True)
     output_file.write_text(edifact_text, encoding="utf-8")
     print(f"Written TSDUPD EDIFACT to {output_file}")
+
+    # Also produce a unix-timestamped .zip alongside the .r file. This matches
+    # the historical MERITS submission convention (Legacy/zipper.py): a single
+    # archive named "TSDUPD_<unix>.zip" containing the EDIFACT payload, ready
+    # for SFTP upload to MERITS test/prod.
+    unix_ts = int(time.time())
+    zip_path = output_dir / f"TSDUPD_{unix_ts}.zip"
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        zf.write(output_file, arcname=output_file.name)
+    print(f"Written TSDUPD ZIP to {zip_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -198,7 +210,12 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--originator",
-        default="NSR",
+        default=None,
+        help=(
+            "Override the EDIFACT ORG/3036 originator (4-digit UIC/RICS company code). "
+            "By default this is derived from <ParticipantRef> in the NeTEx file via "
+            "PARTICIPANT_TO_RICS in this script."
+        ),
     )
     return parser
 

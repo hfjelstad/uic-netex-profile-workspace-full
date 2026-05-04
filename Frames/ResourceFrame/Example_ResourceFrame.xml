@@ -3,21 +3,21 @@
   <PublicationTimestamp>2026-02-25T14:22:00Z</PublicationTimestamp>
   <ParticipantRef>EuPro</ParticipantRef>
   <dataObjects>
-    <ResourceFrame version="1" id="ERP:ResourceFrame:Core">
+    <ResourceFrame version="1" id="NP:ResourceFrame:Core">
       <organisations>
-        <Authority version="1" id="ERP:Authority:1">
+        <Authority version="1" id="NP:Authority:1">
           <Name>Example Authority</Name>
         </Authority>
-        <Operator version="1" id="ERP:Operator:1">
+        <Operator version="1" id="NP:Operator:1">
           <Name>Example Operator</Name>
         </Operator>
       </organisations>
       <vehicleTypes>
-        <VehicleType version="1" id="ERP:VehicleType:1"/>
+        <VehicleType version="1" id="NP:VehicleType:1"/>
       </vehicleTypes>
       <vehicles>
-        <Vehicle version="1" id="ERP:Vehicle:1">
-          <VehicleTypeRef ref="ERP:VehicleType:1" version="1"/>
+        <Vehicle version="1" id="NP:Vehicle:1">
+          <VehicleTypeRef ref="NP:VehicleType:1" version="1"/>
         </Vehicle>
       </vehicles>
     </ResourceFrame>

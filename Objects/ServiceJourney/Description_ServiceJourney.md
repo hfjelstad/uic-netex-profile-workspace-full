@@ -1,6 +1,6 @@
-﻿# ServiceJourney
+# ServiceJourney
 
-> *→ [Glossary definition](../../Guides/Glossary/Glossary.md#servicejourney)*
+> *? [Glossary definition](../../Guides/Glossary/Glossary.md#servicejourney)*
 
 ## 1. Purpose
 
@@ -9,31 +9,33 @@ A **ServiceJourney** represents a planned trip in the timetable operating on a r
 ## 2. Structure Overview
 
 ```text
-📄 @id (1..1)
-📄 @version (1..1)
-📄 Name (0..1)
-📁 privateCodes (0..1)
-   └── 📄 PrivateCode @type (1..n)
-📄 PrivateCode (0..1)             ← legacy single-code pattern
-📄 Description (0..1)
-📁 TransportMode (0..1)
-📁 TransportSubmode (0..1)
-📁 dayTypes (0..1)
-   └── 🔗 DayTypeRef/@ref (0..n)
-🔗 JourneyPatternRef/@ref (1..1)
-🔗 OperatorRef/@ref (0..1)
-🔗 LineRef/@ref (0..1)
-🔗 FlexibleLineRef/@ref (0..1)
-📁 passingTimes (1..1)
-   └── 📄 TimetabledPassingTime (1..n)
-       ├── 🔗 StopPointInJourneyPatternRef/@ref (1..1)
-       ├── 📄 ArrivalTime (0..1)
-       ├── 📄 DepartureTime (0..1)
-       └── 📄 ArrivalDayOffset / DepartureDayOffset (0..1)
-📁 keyList (0..1)
-   └── 📄 KeyValue (0..n)
-📁 parts (0..1)
-🔗 BlockRef/@ref (0..1)
+ServiceJourney
+├── 📄 @id (1..1)
+├── 📄 @version (1..1)
+├── 📁 privateCodes (0..1)
+│   └── 📄 PrivateCode @type (1..n)         ← preferred typed-code container (e.g. trainNumber)
+├── 📄 PrivateCode (0..1)                    ← legacy single-code pattern (deprecated)
+├── 📄 Name (0..1)
+├── 📄 Description (0..1)
+├── 📄 TransportMode (0..1)
+├── 📁 TransportSubmode (0..1)
+│   └── 📄 RailSubmode | BusSubmode | …      (single typed child, e.g. nightRail)
+├── 📁 dayTypes (0..1)
+│   └── 🔗 DayTypeRef/@ref (0..n)
+├── 🔗 JourneyPatternRef/@ref (1..1)
+├── 🔗 OperatorRef/@ref (0..1)
+├── 🔗 LineRef/@ref (0..1)
+├── 🔗 FlexibleLineRef/@ref (0..1)
+├── 📁 passingTimes (1..1)
+│   └── 📄 TimetabledPassingTime (1..n)
+│       ├── 🔗 StopPointInJourneyPatternRef/@ref (1..1)
+│       ├── 📄 ArrivalTime (0..1)
+│       ├── 📄 DepartureTime (0..1)
+│       └── 📄 ArrivalDayOffset / DepartureDayOffset (0..1)
+├── 📁 keyList (0..1)
+│   └── 📄 KeyValue (0..n)
+├── 📁 parts (0..1)
+└── 🔗 BlockRef/@ref (0..1)
 ```
 
 ## 3. Key Elements
@@ -68,4 +70,20 @@ A **ServiceJourney** represents a planned trip in the timetable operating on a r
 
 For a complete list of all elements, attributes, cardinalities, and data types, see [Table — ServiceJourney](Table_ServiceJourney.md).
 
-Example XML: [Example_ServiceJourney.xml](Example_ServiceJourney_ERP.xml) and [Example_ServiceJourney_MIN.xml](Example_ServiceJourney_ERP.xml)
+Example XML: [Example_ServiceJourney.xml](Example_ServiceJourney_NP.xml) and [Example_ServiceJourney_MIN.xml](Example_ServiceJourney_NP.xml)
+
+
+---
+
+## 7. Converter usage (NeTEx -> EDIFACT)
+
+> [!NOTE]
+> The **NeTEx -> EDIFACT converter** treats `ServiceJourney` as the SKDUPD train entity (one `PRD` segment per SJ):
+> - `privateCodes/PrivateCode[@type='trainNumber']` -> `PRD` service number (with fallback to legacy direct `<PrivateCode>` and finally the SJ `@id`).
+> - `OperatorRef/@ref` (last segment) -> `PRD` service provider via the RICS lookup table.
+> - `TransportMode` -> `PRD` service mode (`rail`=37, `bus`=32 ...).
+> - `TransportSubmode/RailSubmode` -> `ODI/PDT` brand code via `Configuration/mapping_brand.txt` (e.g. `nightRail` -> 101 - drives MERITS sleeper rules).
+> - `TimetabledPassingTime` children -> ordered `POR` segments.
+> - Linked via `DatedServiceJourney` to operating dates (POP bitmask).
+>
+> Journeys with fewer than 2 UIC-resolvable stops are discarded; non-rail modes are skipped for SKDUPD entirely.

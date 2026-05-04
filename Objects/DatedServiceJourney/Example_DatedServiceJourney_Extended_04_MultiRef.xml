@@ -5,7 +5,7 @@
   Purpose:
     - Demonstrates multiple DatedVehicleJourneyRef entries (0..*) inside replacedJourneys
     - Shows reinforcement that targets more than one base instance
-    - Keeps identifier format (refers to ERP:DatedServiceJourney:*)
+    - Keeps identifier format (refers to NP:DatedServiceJourney:*)
   Diff vs minimal (Example_DatedServiceJourney.xml):
     + replacedJourneys / DatedVehicleJourneyRef (new)
     + Multiple references (0..*)
@@ -15,16 +15,16 @@
     <PublicationTimestamp>2026-03-01T10:00:00Z</PublicationTimestamp>
     <ParticipantRef>EuPro</ParticipantRef>   
     <dataObjects>
-        <TimetableFrame version="1" id="ERP:TimetableFrame:1">
+        <TimetableFrame version="1" id="NP:TimetableFrame:1">
             <vehicleJourneys>
-                <DatedServiceJourney version="2" id="ERP:DatedServiceJourney:MultiRef04">
+                <DatedServiceJourney version="2" id="NP:DatedServiceJourney:MultiRef04">
                     <ServiceAlteration>extraJourney</ServiceAlteration>
-                    <ServiceJourneyRef ref="ERP:ServiceJourney:Core"/>
+                    <ServiceJourneyRef ref="NP:ServiceJourney:Core"/>
                     <replacedJourneys>
-                        <DatedVehicleJourneyRef ref="ERP:DatedServiceJourney:Core"/>
-                        <DatedVehicleJourneyRef ref="ERP:DatedServiceJourney:SpecialEvent"/>
+                        <DatedVehicleJourneyRef ref="NP:DatedServiceJourney:Core"/>
+                        <DatedVehicleJourneyRef ref="NP:DatedServiceJourney:SpecialEvent"/>
                     </replacedJourneys>
-                    <OperatingDayRef ref="ERP:OperatingDay:2026-03-07"/>
+                    <OperatingDayRef ref="NP:OperatingDay:2026-03-07"/>
                 </DatedServiceJourney>
             </vehicleJourneys>
         </TimetableFrame>

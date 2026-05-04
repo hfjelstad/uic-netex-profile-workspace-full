@@ -39,7 +39,7 @@ A **GroupOfLines** organizes multiple Line objects into a logical set within a S
 ### 5a. Consistency Rules
 
 - All Lines referenced by LineRef must be defined in the same ServiceFrame before being referenced.
-- Use consistent codespace conventions for all identifiers (e.g., `ERP:GroupOfLines:1`).
+- Use consistent codespace conventions for all identifiers (e.g., `NP:GroupOfLines:1`).
 
 ### 5b. Validation Requirements
 

@@ -48,7 +48,7 @@ Authority
 
 - Name must be present and non-empty.
 - If ResponsibilitySetRef is used, it must point to an existing ResponsibilitySet object.
-- All identifiers must follow the codespace naming convention (e.g., `ERP:Authority:AUTH1`).
+- All identifiers must follow the codespace naming convention (e.g., `NP:Authority:AUTH1`).
 
 ### 5c. Common Pitfalls
 
@@ -62,5 +62,5 @@ Authority
 
 For a complete list of all elements, attributes, cardinalities, and data types, see [Table — Authority](Table_Authority.md).
 
-Example XML: [Example_Authority.xml](Example_Authority_ERP.xml)
+Example XML: [Example_Authority.xml](Example_Authority_NP.xml)
 
