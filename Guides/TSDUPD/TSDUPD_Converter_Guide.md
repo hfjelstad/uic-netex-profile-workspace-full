@@ -8,7 +8,11 @@ In this guide you will learn:
 - 🎯 Why TSDUPD is separated from SKDUPD in this repository
 - 🧩 How station data is extracted from NeTEx SiteFrame
 - 🗂️ How UIC, names, and coordinates map into EDIFACT fields
+- ⏱️ How per-station Minimum Connection Time (MCT) flows from `SiteConnection` self-loops to `TSDUPD_MCT.csv`
 - 📝 Which profile and converter decisions reduce downstream ambiguity
+
+> [!NOTE]
+> The UIC requirement, the typed `privateCodes/PrivateCode[@type='uicCode']` form, and the per-station MCT model used by this converter are defined in the [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md). Read that guide first if you need the contract — this guide focuses on how the converter consumes it.
 
 ## 2. 🧠 Core Concepts
 
@@ -365,6 +369,37 @@ This intermediate format allows you to:
 - Verify synonym coverage by language
 - Detect data quality issues before EDIFACT serialization
 
+### Minimum Connection Time (MCT)
+
+Per-station MCT is published in `TSDUPD_MCT.csv` from `SiteConnection` self-loops. The model and rationale live in the [Location Handling Guide — §4 MCT](../LocationHandling/LocationHandling_Guide.md#4-️-minimum-connection-time-mct); this section shows what the converter consumes and produces.
+
+**NeTEx input** (sibling `ServiceFrame` in the same delivery as the SiteFrame):
+
+```xml
+<ServiceFrame id="NSR:ServiceFrame:mct" version="1">
+  <connections>
+    <SiteConnection id="NSR:SiteConnection:007600100-mct" version="1">
+      <Name>MERITS Default Transfer Time</Name>
+      <TransferDuration>
+        <DefaultDuration>PT8M</DefaultDuration>
+      </TransferDuration>
+      <BothWays>true</BothWays>
+      <From><StopPlaceRef ref="NSR:StopPlace:59977" version="1"/></From>
+      <To>  <StopPlaceRef ref="NSR:StopPlace:59977" version="1"/></To>
+    </SiteConnection>
+  </connections>
+</ServiceFrame>
+```
+
+**Converter behaviour** — `build_uic_to_mct` walks every `SiteConnection`, keeps only self-loops, parses `TransferDuration/DefaultDuration` as ISO 8601 (`PTnM`), and keys the result by the resolved StopPlace's 9-digit `uicCode`.
+
+**TSDUPD_MCT.csv output:**
+
+```
+uic_code;mct_minutes
+007600100;8
+```
+
 ## 5. ✅ Best Practices
 
 > [!TIP]
@@ -381,8 +416,10 @@ This intermediate format allows you to:
 
 ### Guides
 
+- [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) — UIC requirement, typed `privateCodes` form, MCT model
 - [Get Started Guide](../GetStarted/GetStarted_Guide.md)
 - [Validation Guide](../Validation/Validation.md)
+- [PrivateCode Type Conventions](../Validation/PrivateCode_Type_Conventions.md)
 
 ### Frames and Objects
 

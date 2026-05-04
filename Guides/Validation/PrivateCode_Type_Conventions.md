@@ -13,10 +13,10 @@ Use controlled tokens in lowerCamelCase and keep them stable over time.
 
 Preferred core types:
 - `uicCode`: UIC station/location code used for cross-file matching.
+- `reservationCode`: Reservation/operational code (e.g., passenger booking reference).
 - `lineCode`: Operator/internal line code.
 - `serviceCode`: Operator/internal service journey code.
 - `quayLocalCode`: Local quay/platform code.
-- `eraCode`: ERA identifier when present.
 
 ## About names like uic:LocationCode
 You can use a prefixed style, but it is not necessary and can be confused with XML namespace prefixes.
@@ -53,11 +53,13 @@ Rules:
 
 ## Example
 ```xml
-<StopPlace id="NSR:StopPlace:337" version="1">
+<StopPlace id="NSR:StopPlace:59977" version="1">
   <privateCodes>
     <PrivateCode type="uicCode">007600100</PrivateCode>
-    <PrivateCode type="eraCode">ERA:station:0076:OsloS</PrivateCode>
+    <PrivateCode type="reservationCode">OSL</PrivateCode>
   </privateCodes>
-  <Name lang="no">Oslo S</Name>
+  <Name lang="nor">Oslo S</Name>
 </StopPlace>
 ```
+
+See the [Location Handling Guide](../LocationHandling/LocationHandling_Guide.md) for the full UIC requirement and the TSDUPD/SKDUPD delivery contract that depends on `uicCode`.

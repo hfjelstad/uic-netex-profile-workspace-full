@@ -224,8 +224,8 @@ Before committing XML changes:
 
 - [ ] Run `./scripts/validate-xml.sh --changed` (or validate specific files)
 - [ ] All files pass with 0 errors
-- [ ] `ParticipantRef` is `EuPro` (not `ENTUR` or ``)
-- [ ] Codespace matches the profile: `NP:` for Nordic Profile, `NP:` for Nordic Profile
+- [ ] `ParticipantRef` is `ENT` (not `ENTUR`, `EuPro`, or empty)
+- [ ] Codespace matches the profile: `NP:` for Nordic Profile
 - [ ] No `version` attributes on references to external objects
 
 ---
