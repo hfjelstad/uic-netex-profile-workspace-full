@@ -72,3 +72,5 @@ jobs:
       - name: Run converter smoke tests
         run: python -m pytest tests/ -v
         working-directory: NeTEx2EDIFACT
+        env:
+          PYTHONPATH: ${{ github.workspace }}/NeTEx2EDIFACT
