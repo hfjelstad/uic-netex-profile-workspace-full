@@ -9,8 +9,8 @@ on:
 jobs:
   # ─────────────────────────────────────────────────────────────────────────
   # 1. Validate NeTEx XML examples against the official NeTEx XSD
-  #    validate-xml.sh clones to netex-xsd/ if the folder is not already
-  #    present, so we just need xmllint and the repo checked out.
+  #    validate-xml.sh now prefers XSD/ (committed, pinned v2.0.0) so no
+  #    clone is needed and CI always uses the same schema version as local.
   # ─────────────────────────────────────────────────────────────────────────
   validate-xml:
     name: Validate NeTEx XML
@@ -58,7 +58,9 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install merits pytest
+        run: |
+          pip install pytest
+          pip install git+https://github.com/UnionInternationalCheminsdeFer/MERITS-open-source-tools.git || echo "merits not available; smoke tests will be skipped"
         working-directory: NeTEx2EDIFACT
 
       - name: Syntax check all .py files
