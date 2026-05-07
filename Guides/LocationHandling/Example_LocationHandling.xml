@@ -92,7 +92,7 @@
 
     <!-- =====================================================================
          Per-station Minimum Connection Time (MCT)
-         ---------------------------------------------------------------------
+         =====================================================================
          In NeTEx 2.0 the SiteConnection element (substitution group Transfer)
          lives under ServiceFrame/connections — NOT under SiteFrame.
 

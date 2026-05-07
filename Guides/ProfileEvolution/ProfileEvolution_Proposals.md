@@ -321,3 +321,102 @@ which already handle the data side.
      ForAdvertisement/ForProduction was confirmed to cover the same
      distinction without a profile extension. -->
 
+---
+
+## P-005 · Through coaches modelled as passenger opportunity, not coach attachment
+
+**Current Nordic practice.** The profile does not currently commit to a
+through-coach model. The obvious route — mirroring UIC EDIFACT 916-1
+mode 31 with a "host train" back-reference from the coach's
+ServiceJourney to the train's, as MERITS does with the `_KW_` brand —
+has been avoided because it imports vehicle-centric semantics that
+downstream consumers then have to undo.
+
+**Proposed change.** Model through coaches as **one passenger journey,
+not as a coach attached to host trains**:
+
+1. **One `ServiceJourney` per traveller opportunity** — origin to
+   destination, unified `passingTimes`, single primary identity
+   (`DatedServiceJourney` for the dated instance, P-004 `ServiceNumber`
+   for the customer-facing number).
+2. **`JourneyPart` for operational segmentation** — boundaries placed
+   only where operational identity genuinely changes (loco/crew swap,
+   operator change, IM-assigned path number change). Per-leg train
+   numbers go on `JourneyPart/privateCodes/PrivateCode[@type='trainNumber']`
+   (per P-001), per-leg responsibility on
+   `JourneyPart/responsibilitySetRef` (per P-002).
+3. **`JourneyPartCouple` for shared-consist sections** — when two
+   distinct ServiceJourneys (e.g. coach 406 and coach 416) run coupled
+   for a stretch, both keep their own identity, schedule and tickets;
+   the couple records the shared track relationship.
+4. **`Block` / `BlockPart` for wagon lifecycle** (in a
+   `VehicleScheduleFrame`) — only when a producer needs to expose the
+   physical coach's path across multiple ServiceJourneys. Optional, not
+   the primary identity.
+5. **No "host train" relationship as a first-class profile concept.**
+   The host train is a fact about the wagon, not about the journey;
+   exposing it in the journey model leaks vehicle-centric semantics
+   into a passenger-centric profile.
+
+**Why it matters.**
+
+- **Answers the traveller's question.** "Can I stay seated München →
+  Warszawa?" is one query against one `ServiceJourney`, not a graph
+  walk over join/split events between coach groups and host trains.
+- **Survives reality.** A through coach can have **zero, one, or many**
+  host trains along its route, and the host can change at every
+  border. Anchoring on a single host introduces a primary key that
+  does not exist; anchoring on per-event relationships (which is what
+  EDIFACT actually does, with Group 8 repeatable up to 99 per stop)
+  is data-faithful but not what most consumers want to read.
+- **Multi-operator clean.** Combined with P-002, per-leg operator and
+  RICS live on the JourneyPart's `responsibilitySetRef`. No special
+  "wagon owner" or "host RU" concept is needed.
+- **Lossy projection is honest.** EDIFACT export becomes a
+  *projection* with a documented policy choice, not a reverse-mapping
+  of a vehicle-centric source.
+
+**Cost.** Exporters must implement an explicit projection policy
+(below) rather than a 1:1 mapping. Importers from EDIFACT mode 31 must
+infer the passenger-opportunity grouping rather than read it
+directly — non-trivial when a feed contains coach groups without
+explicit operational grouping.
+
+**Migration.**
+
+- New feeds: model directly as one `ServiceJourney` per opportunity
+  with `JourneyPart`s and (optional) `JourneyPartCouple` /
+  `Block`/`BlockPart`.
+- Existing EDIFACT-derived feeds: at import, group `PRD+...:31`
+  records that share host-train references and timing into a single
+  `ServiceJourney`. Where grouping is ambiguous, fall back to one SJ
+  per coach group with a `Note` describing the ambiguity.
+- Document the chosen export projection (see below) per consumer.
+
+### EDIFACT projection policy (export-time choice)
+
+Projecting a passenger-centric NeTEx model to EDIFACT 916-1 is
+inherently lossy. Three projections are valid:
+
+| Option | EDIFACT encoding | Trade-off |
+|---|---|---|
+| **A · Per-leg mode 37** | One `PRD+...:37+...` per `JourneyPart`, with `RFR+AUE` + `RLS+13+8`/`+11` join/split between consecutive PRDs | Preserves per-leg train numbers and operator change; passenger "single journey" view requires the consumer to follow the join/split chain. |
+| **B · Mode 31 (UIC default)** | `PRD+...:31+...` per coach group, with `RFR+AUE` per join/split event in Group 8 | Round-trips cleanly with MERITS and `_KW_` consumers. Vehicle-centric semantics travel along; the passenger-opportunity grouping is implicit. |
+| **C · Single mode 37** | One `PRD+...:37+...` for the whole journey, using the customer-facing service number; per-leg numbers dropped | Cleanest passenger view; loses per-leg train number / operator change information. Suitable for journey-planner consumers, not for operational consumers. |
+
+The profile does not mandate a single projection. Producers MUST
+declare which projection a given feed uses. Most timetable consumers
+will want B for compatibility with the MERITS ecosystem; multimodal
+journey planners may prefer C; operational consumers needing per-leg
+train numbers will want A.
+
+**Origin.** Polish through-coaches case study
+(`CaseStudies/polish_edgecase_ThroughCoaches/`) and analysis of UIC
+documentation provided April 2026
+(`CaseStudies/UIC - Documentation/`). The 916-1 spec confirms Group 8
+(`RFR+AUE` + `RLS`) is **Conditional, repeatable up to 99 per stop**
+for mode-31 services — there is no single "main host train" requirement
+in EDIFACT either; the vehicle-centric framing comes from how the
+mode is named and from MERITS UI conventions, not from a hard schema
+constraint.
+

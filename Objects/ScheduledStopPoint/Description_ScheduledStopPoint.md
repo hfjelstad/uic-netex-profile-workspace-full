@@ -15,6 +15,9 @@ A **ScheduledStopPoint** represents a logical stopping point in the timetable, u
   ├─ 📁 ValidBetween (0..1)
   │  └─ 📄 FromDate (0..1)
   ├─ 📄 Name (0..1)
+  ├─ 📁 privateCodes (0..1)
+  │  └─ 📄 PrivateCode @type (1..n)
+  ├─ 📄 PrivateCode (0..1)
   └─ 📄 TimingPointStatus (0..1)
 ```
 

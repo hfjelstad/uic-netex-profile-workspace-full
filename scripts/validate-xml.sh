@@ -10,8 +10,16 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SCHEMA_DIR="$REPO_ROOT/netex-xsd/xsd"
-SCHEMA_FILE="$SCHEMA_DIR/NeTEx_publication.xsd"
+
+# Prefer the committed XSD copy (XSD/xsd/) so CI and local runs use the same
+# pinned schema version. Fall back to netex-xsd/ (legacy local clone) or clone
+# from the official repo if neither is present.
+if [ -f "$REPO_ROOT/XSD/xsd/NeTEx_publication.xsd" ]; then
+  SCHEMA_FILE="$REPO_ROOT/XSD/xsd/NeTEx_publication.xsd"
+else
+  SCHEMA_DIR="$REPO_ROOT/netex-xsd/xsd"
+  SCHEMA_FILE="$SCHEMA_DIR/NeTEx_publication.xsd"
+fi
 
 # ── Check xmllint ──
 if ! command -v xmllint &>/dev/null; then
@@ -97,12 +105,12 @@ for file in "${FILES[@]}"; do
   REL="${file#"$REPO_ROOT/"}"
   if xmllint --schema "$SCHEMA_ABS" --noout "$file" 2>/dev/null; then
     echo "  ✅ $REL"
-    ((PASS++))
+    PASS=$((PASS + 1))
   else
     echo "  ❌ $REL"
     # Show error details
     xmllint --schema "$SCHEMA_ABS" --noout "$file" 2>&1 | grep -i 'error' | head -5 | sed 's/^/     /'
-    ((FAIL++))
+    FAIL=$((FAIL + 1))
     FAILED_FILES+=("$REL")
   fi
 done
