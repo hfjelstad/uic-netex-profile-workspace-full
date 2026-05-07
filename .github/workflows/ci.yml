@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1. Validate NeTEx XML examples against the official NeTEx XSD
+  #    validate-xml.sh clones to netex-xsd/ if the folder is not already
+  #    present, so we just need xmllint and the repo checked out.
+  # ─────────────────────────────────────────────────────────────────────────
+  validate-xml:
+    name: Validate NeTEx XML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+
+      - name: Validate all XML in Objects/ and Frames/
+        run: bash scripts/validate-xml.sh
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 2. Doc consistency: Structure Overviews match XML examples
+  #    check-doc-consistency.py uses XSD/ which is committed to the repo.
+  # ─────────────────────────────────────────────────────────────────────────
+  doc-consistency:
+    name: Doc consistency check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lxml (needed by check-doc-consistency.py for XSD validation)
+        run: pip install lxml
+
+      - name: Run doc consistency checks
+        run: python scripts/check-doc-consistency.py
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 3. Python: syntax + converter smoke tests
+  # ─────────────────────────────────────────────────────────────────────────
+  python-checks:
+    name: Python checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install merits pytest
+        working-directory: NeTEx2EDIFACT
+
+      - name: Syntax check all .py files
+        run: |
+          find . -name "*.py" -not -path '*/__pycache__/*' \
+            -exec python -m py_compile {} +
+        working-directory: NeTEx2EDIFACT
+
+      - name: Run converter smoke tests
+        run: python -m pytest tests/ -v
+        working-directory: NeTEx2EDIFACT
