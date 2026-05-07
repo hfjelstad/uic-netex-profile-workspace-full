@@ -105,12 +105,12 @@ for file in "${FILES[@]}"; do
   REL="${file#"$REPO_ROOT/"}"
   if xmllint --schema "$SCHEMA_ABS" --noout "$file" 2>/dev/null; then
     echo "  ✅ $REL"
-    ((PASS++))
+    PASS=$((PASS + 1))
   else
     echo "  ❌ $REL"
     # Show error details
     xmllint --schema "$SCHEMA_ABS" --noout "$file" 2>&1 | grep -i 'error' | head -5 | sed 's/^/     /'
-    ((FAIL++))
+    FAIL=$((FAIL + 1))
     FAILED_FILES+=("$REL")
   fi
 done
