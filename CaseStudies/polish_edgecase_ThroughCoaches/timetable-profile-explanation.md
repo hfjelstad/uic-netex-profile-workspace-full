@@ -223,6 +223,7 @@ This timetable profile works in conjunction with the location profile
 ## References
 
 - **NeTEx Specification**: http://www.netex.org.uk/
-- **Original MERITS data**: `wagony_bezposrednie_2026-04-23.xml`
+- **Provided NeTEx example**: `wagony_bezposrednie_2026-04-23.xml` (NeTEx XML
+  derived from a MERITS EDIFACT export of 2026-04-21; not the EDIFACT itself)
 - **Canonical profile output**: `timetable-profile-standalone-servicejourneys.xml`
 - **Sub-profile sample**: `timetable-profile-sj406.xml` (single-service excerpt)

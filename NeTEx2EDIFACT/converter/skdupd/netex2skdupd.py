@@ -21,6 +21,11 @@ Usage:
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+# Ensure the project root is on sys.path when this script is run directly
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import argparse
 import zipfile
 import xml.etree.ElementTree as ET
@@ -32,7 +37,7 @@ from merits.skdupd.csv_model import Meta, Odi, Por, Relation, Train
 from merits.skdupd.csvs_to_edifact import CsvsToEdifact
 from merits.skdupd import definition
 
-from converter.shared.netex_helpers import (
+from Converter.Shared.netex_helpers import (
     NS,
     private_code,
     ref as netex_ref,
@@ -40,7 +45,7 @@ from converter.shared.netex_helpers import (
     text as netex_text,
     uic_code,
 )
-from converter.shared.edifact_mappings import PARTICIPANT_TO_RICS, resolve_originator
+from Converter.Shared.edifact_mappings import PARTICIPANT_TO_RICS, resolve_originator
 
 
 # ---------------------------------------------------------------------------
@@ -61,7 +66,7 @@ def load_mapping(path: Path) -> Dict[str, str]:
             continue
         if ":" in line:
             key, _, value = line.partition(":")
-            mapping[key.strip()] = value.strip()
+            mapping[key.strip()] = value.split("#")[0].strip()
     return mapping
 
 

@@ -60,7 +60,7 @@ def load_mapping(path: Path) -> Dict[str, str]:
             continue
         if ":" in line:
             key, _, value = line.partition(":")
-            mapping[key.strip()] = value.strip()
+            mapping[key.strip()] = value.split("#")[0].strip()
     return mapping
 
 
@@ -126,6 +126,80 @@ def _traffic_restriction_code(for_boarding: bool, for_alighting: bool) -> Option
 
 
 # ---------------------------------------------------------------------------
+# Facility code resolution
+# ---------------------------------------------------------------------------
+
+_FACILITY_LIST_TAGS: Tuple[str, ...] = (
+    "CateringFacilityList",
+    "FareClasses",
+    "MobilityFacilityList",
+    "AccommodationFacilityList",
+    "LuggageCarriageFacilityList",
+    "PassengerCommsFacilityList",
+    "ServiceReservationFacilityList",
+)
+
+
+def _get_fac_set_refs(element: ET.Element) -> List[str]:
+    """Return ServiceFacilitySetRef/@ref values from ./facilities/ container or as direct children."""
+    refs: List[str] = []
+    fac_container = element.find(f"{{{NS}}}facilities")
+    if fac_container is not None:
+        for r in fac_container.findall(f"{{{NS}}}ServiceFacilitySetRef"):
+            ref = r.get("ref", "")
+            if ref:
+                refs.append(ref)
+    for r in element.findall(f"{{{NS}}}ServiceFacilitySetRef"):
+        ref = r.get("ref", "")
+        if ref:
+            refs.append(ref)
+    return refs
+
+
+def _resolve_facility_codes(
+    fac_set: ET.Element, facility_map: Dict[str, str]
+) -> Tuple[List[str], Optional[str]]:
+    """
+    Read all facility list tokens from a ServiceFacilitySet element and map them.
+
+    Returns:
+      (odi_codes, reservation)
+
+      odi_codes    — deduplicated list of "S{n}" or "F{n}" strings:
+                       S{n}  → Odi.tff_or_asd_or_ser  → ASD+{n}  (code list 7161)
+                       F{n}  → Odi.tff_or_asd_or_ser  → SER+{n}  (code list 9039)
+      reservation  — numeric string from the first R-code found, or None.
+                     Goes into Odi.reservation → ASD/SER reservation subfield
+                     (code list 7037).  NOT emitted as a standalone segment.
+    """
+    odi_codes: List[str] = []
+    reservation: Optional[str] = None
+    seen: set = set()
+    for tag in _FACILITY_LIST_TAGS:
+        el = fac_set.find(f"{{{NS}}}{tag}")
+        if el is None or not el.text:
+            continue
+        for token in el.text.split():
+            raw = facility_map.get(token, "")
+            if not raw or len(raw) < 2:
+                continue
+            prefix, num = raw[0], raw[1:]
+            if prefix == "S":
+                odi_code = f"S{num}"
+                if odi_code not in seen:
+                    odi_codes.append(odi_code)
+                    seen.add(odi_code)
+            elif prefix == "F":
+                odi_code = f"F{num}"
+                if odi_code not in seen:
+                    odi_codes.append(odi_code)
+                    seen.add(odi_code)
+            elif prefix == "R" and reservation is None:
+                reservation = num  # first R-code wins; attached as qualifier
+    return odi_codes, reservation
+
+
+# ---------------------------------------------------------------------------
 # Station file index
 # ---------------------------------------------------------------------------
 
@@ -179,6 +253,10 @@ class TimetableData:
         self.spijp_order: Dict[str, int] = {}            # SPiJP id → stop_number
         self.spijp_restrictions: Dict[str, Tuple[bool, bool]] = {}  # SPiJP id → (ForBoarding, ForAlighting)
         self._build_journey_lookups()
+
+        # Facility sets (indexed from all loaded files)
+        self.facility_sets: Dict[str, ET.Element] = {}
+        self._build_facility_index()
 
     def _load(self, timetable_zip: Path) -> None:
         with zipfile.ZipFile(timetable_zip) as z:
@@ -234,6 +312,15 @@ class TimetableData:
                         self.spijp_order[spijp_id] = order
                         self.spijp_restrictions[spijp_id] = (for_boarding, for_alighting)
 
+    def _build_facility_index(self) -> None:
+        """Index all ServiceFacilitySet elements by id across shared and journey files."""
+        all_roots = ([self.shared_root] if self.shared_root is not None else []) + self.journey_roots
+        for root in all_roots:
+            for fac in root.findall(f".//{{{NS}}}ServiceFacilitySet"):
+                fac_id = fac.get("id", "")
+                if fac_id:
+                    self.facility_sets[fac_id] = fac
+
     def service_journeys(self):
         """Yield all ServiceJourney elements from journey files."""
         for root in self.journey_roots:
@@ -268,9 +355,10 @@ def build_trains_and_pors(
     quay_index: Dict[str, Tuple[str, str]],
     originator: str,
     brand_map: Optional[Dict[str, str]] = None,
+    facility_map: Optional[Dict[str, str]] = None,
     train_id_offset: int = 0,
     por_id_offset: int = 0,
-) -> Tuple[List[Meta], List[Train], List[Por]]:
+) -> Tuple[List[Meta], List[Train], List[Por], List[Odi]]:
     """
     Convert parsed timetable + quay index into MERITS dataclass instances.
     Shared between the direct (netex2skdupd) and CSV-intermediate (netex2skdupd_csv) paths.
@@ -289,8 +377,10 @@ def build_trains_and_pors(
 
     trains: List[Train] = []
     pors: List[Por] = []
+    odis: List[Odi] = []
     train_id = train_id_offset
     por_id = por_id_offset
+    odi_id = 0
     skipped_stops = 0
     restricted_stops = 0  # Count stops with boarding/alighting restrictions
 
@@ -353,10 +443,14 @@ def build_trains_and_pors(
 
         passing_times_sorted = sorted(passing_times, key=stop_order)
 
+        ssp_to_stop_num: Dict[str, int] = {}  # SSP id → 1-based stop position (for JourneyPart range resolution)
+
         for stop_num, tp in enumerate(passing_times_sorted, start=1):
             spijp_ref_el = tp.find(f"{{{NS}}}StopPointInJourneyPatternRef")
             spijp_ref = spijp_ref_el.get("ref", "") if spijp_ref_el is not None else ""
             ssp_id = tt.spijp_to_ssp.get(spijp_ref, "")
+            if ssp_id:
+                ssp_to_stop_num[ssp_id] = stop_num
             quay_id = tt.ssp_to_quay.get(ssp_id, "")
             uic, platform = quay_index.get(quay_id, ("", ""))
 
@@ -398,8 +492,55 @@ def build_trains_and_pors(
                 check_in=None,
             ))
 
-    print(f"Converted {len(trains)} trains, {len(pors)} stop-times ({skipped_stops} stops without UIC, {restricted_stops} with restrictions)")
-    return meta_list, trains, pors
+        # --- Facility sets → ODI rows ---
+        total_stops = len(passing_times_sorted)
+        if facility_map and total_stops > 0:
+            # JourneyPart-level facility sets (per-segment stop range)
+            for jp in sj.findall(f".//{{{NS}}}JourneyPart"):
+                jp_fac_ids = _get_fac_set_refs(jp)
+                if not jp_fac_ids:
+                    continue
+                from_ssp_el = jp.find(f"{{{NS}}}FromStopPointRef")
+                to_ssp_el = jp.find(f"{{{NS}}}ToStopPointRef")
+                from_ssp = from_ssp_el.get("ref", "") if from_ssp_el is not None else ""
+                to_ssp = to_ssp_el.get("ref", "") if to_ssp_el is not None else ""
+                from_num = ssp_to_stop_num.get(from_ssp, 1)
+                to_num = ssp_to_stop_num.get(to_ssp, total_stops)
+                for fac_id in jp_fac_ids:
+                    fac_el = tt.facility_sets.get(fac_id)
+                    if fac_el is None:
+                        continue
+                    odi_codes, reservation = _resolve_facility_codes(fac_el, facility_map)
+                    for edi_code in odi_codes:
+                        odi_id += 1
+                        odis.append(Odi(
+                            odi_id=odi_id,
+                            train_id=train_id,
+                            from_stop_number=str(from_num),
+                            to_stop_number=str(to_num),
+                            tff_or_asd_or_ser=edi_code,
+                        ))
+            # SJ-level facility set (whole train)
+            for fac_id in _get_fac_set_refs(sj):
+                fac_el = tt.facility_sets.get(fac_id)
+                if fac_el is None:
+                    continue
+                odi_codes, reservation = _resolve_facility_codes(fac_el, facility_map)
+                for edi_code in odi_codes:
+                    odi_id += 1
+                    odis.append(Odi(
+                        odi_id=odi_id,
+                        train_id=train_id,
+                        from_stop_number="1",
+                        to_stop_number=str(total_stops),
+                        tff_or_asd_or_ser=edi_code,
+
+                    ))
+
+    print(f"Converted {len(trains)} trains, {len(pors)} stop-times "
+          f"({skipped_stops} stops without UIC, {restricted_stops} with restrictions), "
+          f"{len(odis)} ODI facility entries")
+    return meta_list, trains, pors, odis
 
 
 # ---------------------------------------------------------------------------
@@ -417,6 +558,9 @@ def convert(
     brand_map = load_mapping(cfg_dir / "mapping_brand.txt")
     if brand_map:
         print(f"  Loaded brand map: {len(brand_map)} entries")
+    facility_map = load_mapping(cfg_dir / "mapping_facility.txt")
+    if facility_map:
+        print(f"  Loaded facility map: {len(facility_map)} entries")
 
     print(f"Loading station index from {station_zip.name} ...")
     quay_index = _build_station_index(station_zip)
@@ -428,7 +572,7 @@ def convert(
     print(f"  {len(tt.spijp_to_ssp)} StopPointInJourneyPattern entries")
     print(f"  {sum(len(v) for v in tt.dated_journeys_by_sj().values())} DatedServiceJourney entries")
 
-    meta_list, trains, pors = build_trains_and_pors(tt, quay_index, originator, brand_map=brand_map)
+    meta_list, trains, pors, odis = build_trains_and_pors(tt, quay_index, originator, brand_map=brand_map, facility_map=facility_map)
 
     converter = CsvsToEdifact()
     converter.load({
@@ -436,7 +580,7 @@ def convert(
         definition.TRAIN_FILE_NAME:    _rows(trains, Train),
         definition.POR_FILE_NAME:      _rows(pors, Por),
         definition.RELATION_FILE_NAME: _rows([], Relation),
-        definition.ODI_FILE_NAME:      _rows([], Odi),
+        definition.ODI_FILE_NAME:      _rows(odis, Odi),
     })
     edifact_text = converter.get()
 

@@ -1,0 +1,392 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="2.0">
+  <PublicationTimestamp>2026-04-29T10:56:01Z</PublicationTimestamp>
+  <ParticipantRef>UIC-PE</ParticipantRef>
+  <dataObjects>
+    <ResourceFrame id="PE:ResourceFrame:ThroughCoaches:Codespace" version="1">
+      <codespaces>
+        <Codespace id="PE:Codespace:PE">
+          <Xmlns>PE</Xmlns>
+          <XmlnsUrl>urn:uic:codespace:PE</XmlnsUrl>
+          <Description>Codespace for Polish through-coaches profile examples</Description>
+        </Codespace>
+      </codespaces>
+    </ResourceFrame>
+    <SiteFrame id="PE:SiteFrame:ThroughCoaches:Locations" version="1">
+      <stopPlaces>
+        <StopPlace id="PE:StopPlace:sp001" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005510033</PrivateCode>
+          </privateCodes>
+          <Name>Budapest-Nyugati</Name>
+          <Centroid>
+            <Location>
+              <Longitude>19.0574804</Longitude>
+              <Latitude>47.5107203</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay001" version="1"><Name>Budapest-Nyugati platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp002" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005510447</PrivateCode>
+          </privateCodes>
+          <Name>VÃ¡c</Name>
+          <Centroid>
+            <Location>
+              <Longitude>19.1330097</Longitude>
+              <Latitude>47.7827191</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay002" version="1"><Name>VÃ¡c platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp003" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005613526</PrivateCode>
+          </privateCodes>
+          <Name>Å tÃºrovo</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay003" version="1"><Name>Å tÃºrovo platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp004" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005613436</PrivateCode>
+          </privateCodes>
+          <Name>NovÃ© ZÃ¡mky</Name>
+          <Centroid>
+            <Location>
+              <Longitude>18.1734243</Longitude>
+              <Latitude>47.9955497</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay004" version="1"><Name>NovÃ© ZÃ¡mky platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp005" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005613206</PrivateCode>
+          </privateCodes>
+          <Name>Bratislava hl.st.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay005" version="1"><Name>Bratislava hl.st. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp006" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005613016</PrivateCode>
+          </privateCodes>
+          <Name>KÃºty</Name>
+          <Centroid>
+            <Location>
+              <Longitude>17.0474640</Longitude>
+              <Latitude>48.6619514</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay006" version="1"><Name>KÃºty platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp007" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005433425</PrivateCode>
+          </privateCodes>
+          <Name>Breclav</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay007" version="1"><Name>Breclav platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp008" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008103171</PrivateCode>
+          </privateCodes>
+          <Name>Graz Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay008" version="1"><Name>Graz Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp009" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008103107</PrivateCode>
+          </privateCodes>
+          <Name>Wien Meidling</Name>
+          <Centroid>
+            <Location>
+              <Longitude>16.3339652</Longitude>
+              <Latitude>48.1745297</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay009" version="1"><Name>Wien Meidling platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp010" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008101003</PrivateCode>
+          </privateCodes>
+          <Name>Wien Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay010" version="1"><Name>Wien Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp011" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005433295</PrivateCode>
+          </privateCodes>
+          <Name>Brno hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay011" version="1"><Name>Brno hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp012" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005457076</PrivateCode>
+          </privateCodes>
+          <Name>Praha hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay012" version="1"><Name>Praha hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp013" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005455659</PrivateCode>
+          </privateCodes>
+          <Name>DÄ›Ã­n hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay013" version="1"><Name>DÄ›Ã­n hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp014" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008006050</PrivateCode>
+          </privateCodes>
+          <Name>Dresden Hbf</Name>
+          <Centroid>
+            <Location>
+              <Longitude>13.7320768</Longitude>
+              <Latitude>51.0402452</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay014" version="1"><Name>Dresden Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp015" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008031922</PrivateCode>
+          </privateCodes>
+          <Name>Berlin Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay015" version="1"><Name>Berlin Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp016" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008020347</PrivateCode>
+          </privateCodes>
+          <Name>MÃ¼nchen Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay016" version="1"><Name>MÃ¼nchen Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp017" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008101114</PrivateCode>
+          </privateCodes>
+          <Name>Salzburg Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay017" version="1"><Name>Salzburg Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp018" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">008101073</PrivateCode>
+          </privateCodes>
+          <Name>Linz Hbf</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay018" version="1"><Name>Linz Hbf platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp019" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005434364</PrivateCode>
+          </privateCodes>
+          <Name>Ostrava hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay019" version="1"><Name>Ostrava hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp020" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005434124</PrivateCode>
+          </privateCodes>
+          <Name>BohumÃ­n</Name>
+          <Centroid>
+            <Location>
+              <Longitude>18.3595973</Longitude>
+              <Latitude>49.9007495</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay020" version="1"><Name>BohumÃ­n platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp021" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005107331</PrivateCode>
+          </privateCodes>
+          <Name>Katowice</Name>
+          <Centroid>
+            <Location>
+              <Longitude>19.0171456</Longitude>
+              <Latitude>50.2576071</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay021" version="1"><Name>Katowice platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp022" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005103360</PrivateCode>
+          </privateCodes>
+          <Name>Warszawa Centralna</Name>
+          <Centroid>
+            <Location>
+              <Longitude>21.0031600</Longitude>
+              <Latitude>52.2288207</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay022" version="1"><Name>Warszawa Centralna platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp023" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005103865</PrivateCode>
+          </privateCodes>
+          <Name>Warszawa Wschodnia</Name>
+          <Centroid>
+            <Location>
+              <Longitude>21.0523678</Longitude>
+              <Latitude>52.2515889</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay023" version="1"><Name>Warszawa Wschodnia platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp024" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005108041</PrivateCode>
+          </privateCodes>
+          <Name>KrakÃ³w GÅ‚Ã³wny</Name>
+          <Centroid>
+            <Location>
+              <Longitude>19.9478862</Longitude>
+              <Latitude>50.0684238</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay024" version="1"><Name>KrakÃ³w GÅ‚Ã³wny platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp025" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005108266</PrivateCode>
+          </privateCodes>
+          <Name>RzeszÃ³w GÅ‚Ã³wny</Name>
+          <Centroid>
+            <Location>
+              <Longitude>22.0060864</Longitude>
+              <Latitude>50.0429915</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay025" version="1"><Name>RzeszÃ³w GÅ‚Ã³wny platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp026" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005108440</PrivateCode>
+          </privateCodes>
+          <Name>PrzemyÅ›l GÅ‚Ã³wny</Name>
+          <Centroid>
+            <Location>
+              <Longitude>22.7801519</Longitude>
+              <Latitude>49.7836100</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay026" version="1"><Name>PrzemyÅ›l GÅ‚Ã³wny platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp027" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005453913</PrivateCode>
+          </privateCodes>
+          <Name>ÄŒeskÃ¡ TÅ™ebovÃ¡</Name>
+          <Centroid>
+            <Location>
+              <Longitude>16.4466776</Longitude>
+              <Latitude>49.8970763</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay027" version="1"><Name>ÄŒeskÃ¡ TÅ™ebovÃ¡ platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp028" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005453613</PrivateCode>
+          </privateCodes>
+          <Name>Pardubice hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay028" version="1"><Name>Pardubice hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp029" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005434362</PrivateCode>
+          </privateCodes>
+          <Name>Olomouc hl.n.</Name>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay029" version="1"><Name>Olomouc hl.n. platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp030" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005618115</PrivateCode>
+          </privateCodes>
+          <Name>ÄŒadca</Name>
+          <Centroid>
+            <Location>
+              <Longitude>18.7869396</Longitude>
+              <Latitude>49.4452459</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay030" version="1"><Name>ÄŒadca platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp031" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005617915</PrivateCode>
+          </privateCodes>
+          <Name>Å½ilina</Name>
+          <Centroid>
+            <Location>
+              <Longitude>18.7468252</Longitude>
+              <Latitude>49.2270928</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay031" version="1"><Name>Å½ilina platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp032" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005613600</PrivateCode>
+          </privateCodes>
+          <Name>KoÅ¡ice</Name>
+          <Centroid>
+            <Location>
+              <Longitude>21.2692121</Longitude>
+              <Latitude>48.7220196</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay032" version="1"><Name>KoÅ¡ice platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+        <StopPlace id="PE:StopPlace:sp033" version="1">
+          <privateCodes>
+            <PrivateCode type="uicCode">005616040</PrivateCode>
+          </privateCodes>
+          <Name>HumennÃ©</Name>
+          <Centroid>
+            <Location>
+              <Longitude>21.8990739</Longitude>
+              <Latitude>48.9294820</Latitude>
+            </Location>
+          </Centroid>
+          <TransportMode>rail</TransportMode>
+          <StopPlaceType>railStation</StopPlaceType>
+        <quays><Quay id="PE:Quay:quay033" version="1"><Name>HumennÃ© platform</Name><PublicCode>1</PublicCode></Quay></quays></StopPlace>
+      </stopPlaces>
+    </SiteFrame>
+  </dataObjects>
+</PublicationDelivery>

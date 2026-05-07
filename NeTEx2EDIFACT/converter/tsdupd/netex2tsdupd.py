@@ -2,42 +2,53 @@
 """
 netex2tsdupd.py
 ~~~~~~~~~~~~~~~
-Convert a trimmed NeTEx SiteFrame XML (NSR rail stations) directly to a
-TSDUPD EDIFACT file, bypassing the CSV intermediate step.
+Convert a NeTEx SiteFrame (NSR rail stations) directly to a TSDUPD EDIFACT
+file, bypassing the CSV intermediate step.
 
 Uses MERITS RowsInMemory to feed dataclass instances straight into the
 CsvsToEdifact converter.
 
 Usage:
-  python netex2tsdupd.py [--input <xml>] [--output <.r file>] [--originator <code>]
+  python netex2tsdupd.py [--input-dir <folder>] [--output <.r file>] [--originator <code>]
 
 Defaults:
-  --input      ../Nordic source material/tiamat-export-RailStations-202604262300285592.trimmed.uic9.xml
+  --input-dir  ../../Source/TSDUPD          (scans for newest *.zip or *.xml)
   --output     ./NEW_TSDUPD/new_TSDUPD.r
   --originator (derived from <ParticipantRef> in the NeTEx file via PARTICIPANT_TO_RICS)
+
+Drop a Tiamat export (e.g. tiamat-export-RailStations-*.zip or *.xml) into
+the input folder and run without arguments. MCT values are read from
+Configuration/merits_mct_lookup.csv when present.
 """
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+# Ensure the project root is on sys.path when this script is run directly
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import argparse
+import csv
+import io
 import time
 import xml.etree.ElementTree as ET
 import zipfile
 from datetime import date, datetime
 from pathlib import Path
-from typing import List
+from typing import Dict, List, Optional, Tuple
 
 from merits.tsdupd.csv_model import Footpath, Mct, Meta, Stop, Synonym
 from merits.tsdupd.csvs_to_edifact import CsvsToEdifact
 from merits.tsdupd import definition
 
-from converter.shared.edifact_mappings import (
+from Converter.Shared.edifact_mappings import (
     country_from_uic,
     resolve_originator,
     timezone_for_country,
     to_ascii,
 )
-from converter.shared.netex_helpers import (
+from Converter.Shared.netex_helpers import (
     NS,
     alt_names,
     build_uic_to_mct,
@@ -50,10 +61,78 @@ from converter.shared.netex_helpers import (
     validity,
 )
 
+# Configuration/ is three levels up from converter/tsdupd/
+_CONF_DIR = Path(__file__).resolve().parent.parent.parent / "Configuration"
+_MCT_CSV  = _CONF_DIR / "merits_mct_lookup.csv"
+
+
+# ---------------------------------------------------------------------------
+# Input resolution helpers
+# ---------------------------------------------------------------------------
+
+def _find_newest(input_dir: Path, *patterns: str) -> Optional[Path]:
+    """Return the newest file in *input_dir* matching any of *patterns*, or None."""
+    candidates = [p for pat in patterns for p in input_dir.glob(pat) if p.is_file()]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda p: p.stat().st_mtime)
+
+
+def _load_xml(source: Path) -> Tuple[ET.ElementTree, str]:
+    """Parse NeTEx XML from *source* (plain XML or zip containing one XML).
+
+    Returns ``(ElementTree, display_name)``.
+    """
+    if source.suffix.lower() == ".zip":
+        with zipfile.ZipFile(source) as zf:
+            xml_names = [n for n in zf.namelist() if n.lower().endswith(".xml")]
+            if not xml_names:
+                raise FileNotFoundError(f"No XML file found inside {source.name}")
+            xml_name = xml_names[0]
+            with zf.open(xml_name) as fh:
+                return ET.parse(io.BytesIO(fh.read())), f"{source.name}/{xml_name}"
+    return ET.parse(source), source.name
+
+
+def _load_mct_csv(csv_path: Path) -> Dict[str, int]:
+    """Load ``{uic_code: minutes}`` from a ``;``-delimited CSV with headers
+    ``uic_code;mct_minutes``. Rows with missing/invalid data are skipped.
+    """
+    out: Dict[str, int] = {}
+    with csv_path.open(encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh, delimiter=";"):
+            uic = (row.get("uic_code") or "").strip()
+            try:
+                minutes = int((row.get("mct_minutes") or "").strip())
+            except ValueError:
+                continue
+            if uic and minutes > 0:
+                out[uic] = minutes
+    return out
+
 
 # ---------------------------------------------------------------------------
 # EDIFACT-specific helpers (only what is unique to TSDUPD lives here)
 # ---------------------------------------------------------------------------
+
+# UN/EDIFACT code list 3227 — location function qualifier
+_MODE_TO_FUNCTION_CODE: Dict[str, str] = {
+    "rail":      "29",  # Station/terminal
+    "metro":     "29",
+    "tram":      "29",
+    "water":     "50",  # Port/ferry terminal
+    "bus":       "21",  # Bus station
+    "coach":     "21",
+    "telecabin": "29",
+    "funicular": "29",
+}
+_DEFAULT_FUNCTION_CODE = "29"
+
+
+def _location_function_code(stop_place: ET.Element) -> str:
+    """Map NeTEx TransportMode to UN/EDIFACT 3227 location function code."""
+    mode = (stop_place.findtext(f"{{{NS}}}TransportMode") or "").strip().lower()
+    return _MODE_TO_FUNCTION_CODE.get(mode, _DEFAULT_FUNCTION_CODE)
 
 def _to_dms(value: str, hemispheres: tuple, width: int) -> str:
     """Convert a decimal-degree string to EDIFACT DMS form '[D]DDMMSS<H>'.
@@ -86,17 +165,30 @@ def _to_dms(value: str, hemispheres: tuple, width: int) -> str:
 # Conversion
 # ---------------------------------------------------------------------------
 
-def convert(xml_path: Path, output_file: Path, originator: str | None) -> None:
-    tree = ET.parse(xml_path)
+def convert(input_dir: Path, output_file: Path, originator: str | None) -> None:
+    source = _find_newest(input_dir, "*.zip", "*.xml")
+    if source is None:
+        raise FileNotFoundError(
+            f"No *.zip or *.xml found in {input_dir}. "
+            "Drop a NeTEx export there and try again."
+        )
+
+    tree, display_name = _load_xml(source)
     root = tree.getroot()
     participant = participant_ref(root)
     resolved_originator = resolve_originator(participant, originator)
+    print(f"Input:          {source}")
     print(f"ParticipantRef={participant!r} -> originator (RICS) {resolved_originator!r}")
     stop_places = root.findall(f".//{{{NS}}}StopPlace")
-    print(f"Found {len(stop_places)} StopPlaces in {xml_path.name}")
-    uic_to_mct = build_uic_to_mct(root)
-    if uic_to_mct:
-        print(f"Found {len(uic_to_mct)} SiteConnection self-loops with MCT values")
+    print(f"Found {len(stop_places)} StopPlaces in {display_name}")
+
+    if _MCT_CSV.exists():
+        uic_to_mct = _load_mct_csv(_MCT_CSV)
+        print(f"MCT: {len(uic_to_mct)} entries from {_MCT_CSV.name}")
+    else:
+        uic_to_mct = build_uic_to_mct(root)
+        if uic_to_mct:
+            print(f"MCT: {len(uic_to_mct)} SiteConnection self-loops")
 
     today = date.today().isoformat()
     # MERITS expects `reference` to be a timestamp '%Y-%m-%dT%H%M%S' (15 chars).
@@ -128,7 +220,7 @@ def convert(xml_path: Path, output_file: Path, originator: str | None) -> None:
 
         stops.append(Stop(
             stop_id=stop_id,
-            function_code="29",  # UN/EDIFACT 3227: '29' = station / place of departure/arrival
+            function_code=_location_function_code(sp),
             uic_code=uic,
             location_name=to_ascii(name),
             location_short_name=None,
@@ -203,15 +295,17 @@ def convert(xml_path: Path, output_file: Path, originator: str | None) -> None:
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="netex2tsdupd",
-        description="Convert trimmed NeTEx SiteFrame directly to TSDUPD EDIFACT.",
+        description="Convert NeTEx SiteFrame (NSR rail stations) to TSDUPD EDIFACT.",
     )
+    _root = Path(__file__).resolve().parent.parent.parent
     parser.add_argument(
-        "--input",
-        default="../Nordic source material/tiamat-export-RailStations-202604262300285592.trimmed.uic9.xml",
+        "--input-dir",
+        default=str(_root / "Source" / "TSDUPD"),
+        help="Folder containing the NeTEx export (*.zip or *.xml). Newest file is used.",
     )
     parser.add_argument(
         "--output",
-        default="./NEW_TSDUPD/new_TSDUPD.r",
+        default=str(_root / "NEW_TSDUPD" / "new_TSDUPD.r"),
     )
     parser.add_argument(
         "--originator",
@@ -228,7 +322,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 def main() -> None:
     args = _build_arg_parser().parse_args()
     convert(
-        xml_path=Path(args.input),
+        input_dir=Path(args.input_dir),
         output_file=Path(args.output),
         originator=args.originator,
     )

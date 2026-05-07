@@ -2,13 +2,14 @@
 
 This case study captures a demanding NeTEx scenario: through coaches with
 coupling/splitting at transfer hubs, on the night of April 23/24, 2026.
-Source data is the MERITS EDIFACT export `wagony_bezposrednie_2026-04-23.xml`.
+Source data is the provided NeTEx example `wagony_bezposrednie_2026-04-23.xml`,
+derived from a MERITS EDIFACT export of 2026-04-21.
 
 ## Contents
 
 ### Source data
-- `wagony_bezposrednie_2026-04-23.xml` — original MERITS EDIFACT export
-  used as the canonical input.
+- `wagony_bezposrednie_2026-04-23.xml` — provided NeTEx example
+  (derived from a MERITS EDIFACT export of 2026-04-21), used as the canonical input.
 
 ### Profiled NeTEx 2.0 (XSD-validated)
 - `timetable-profile-standalone-servicejourneys.xml` — full profile of the

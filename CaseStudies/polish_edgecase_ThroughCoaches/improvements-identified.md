@@ -5,7 +5,7 @@ profiled NeTEx 2.0 files in this case study.
 
 ## 1. Explicit train number per JourneyPart
 
-**Problem.** The original `wagony_bezposrednie_2026-04-23.xml` models
+**Problem.** The provided NeTEx example `wagony_bezposrednie_2026-04-23.xml` models
 `ServiceJourney` with `JourneyPart` but does not state the operational
 train number per leg. EDIFACT/MERITS consumers cannot tell which train
 number applies on each segment of a through-coach service.
