@@ -21,9 +21,7 @@
             <BusSubmode>regionalBus</BusSubmode>
           </TransportSubmode>
           <PublicCode>100</PublicCode>
-          <privateCodes>
-            <PrivateCode type="lineCode">100</PrivateCode>
-          </privateCodes>
+          <PrivateCode type="lineCode">100</PrivateCode>
           <OperatorRef ref="NP:Operator:923"/>
           <RepresentedByGroupRef ref="NP:Network:AKTNett"/>
           <Presentation>

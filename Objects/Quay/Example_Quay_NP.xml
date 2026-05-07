@@ -28,9 +28,7 @@
           <quays>
             <Quay id="NSR:Quay:107401" version="2">
               <Name lang="nor">Spor 1</Name>
-              <privateCodes>
-                <PrivateCode type="quayLocalCode">1</PrivateCode>
-              </privateCodes>
+              <PrivateCode type="quayLocalCode">1</PrivateCode>
               <Centroid>
                 <Location>
                   <Longitude>10.752300</Longitude>

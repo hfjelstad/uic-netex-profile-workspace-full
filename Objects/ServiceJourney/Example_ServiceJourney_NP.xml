@@ -24,9 +24,7 @@
       <vehicleJourneys>
         <ServiceJourney id="NP:ServiceJourney:15044_371" version="2">
           <Name>Arendal bussterminal -> Kristiansand rutebilstasjon</Name>
-          <privateCodes>
-            <PrivateCode type="serviceCode">371</PrivateCode>
-          </privateCodes>
+          <PrivateCode type="serviceCode">371</PrivateCode>
           <dayTypes>
             <DayTypeRef ref="NP:DayType:9_1"/>
           </dayTypes>
