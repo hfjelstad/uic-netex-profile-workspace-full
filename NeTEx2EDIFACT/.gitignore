@@ -16,6 +16,7 @@ NETEX/
 # Generated outputs
 NEW_SKDUPD/
 NEW_TSDUPD/
+Output/
 
 # Input data (too large / not committed)
 CSV/

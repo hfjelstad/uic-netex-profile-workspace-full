@@ -150,6 +150,13 @@ Input: NeTEx XML
 
 ### Running Converters
 
+**Quickstart (zero-config):**
+1. Place NeTEx files in `NeTEx2EDIFACT/Source/`
+2. Run `convert.bat` (Windows) or `python convert.py`
+3. Collect EDIFACT from `NeTEx2EDIFACT/Output/`
+
+**Advanced usage (CLI with full control):**
+
 ```bash
 # Single operator timetable → SKDUPD
 python NeTEx2EDIFACT/netex2skdupd.py \
