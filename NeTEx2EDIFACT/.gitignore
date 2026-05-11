@@ -16,11 +16,13 @@ NETEX/
 # Generated outputs
 NEW_SKDUPD/
 NEW_TSDUPD/
-Output/
+Output/*
+!Output/.gitkeep
 
 # Input data (too large / not committed)
 CSV/
 Source/TSDUPD/
-Source/
+Source/*
+!Source/.gitkeep
 tmp_vyg/
 scripts/
