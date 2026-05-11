@@ -19,10 +19,17 @@ NEW_TSDUPD/
 Output/*
 !Output/.gitkeep
 
+# Archived runs
+Archive/
+
+# Validation cache (auto-generated from TTL)
+**/.validation_rules_cache.json
+
 # Input data (too large / not committed)
 CSV/
 Source/TSDUPD/
 Source/*
 !Source/.gitkeep
-tmp_vyg/
-scripts/
+
+# Legacy folder (deprecated scripts, temp outputs)
+Legacy/

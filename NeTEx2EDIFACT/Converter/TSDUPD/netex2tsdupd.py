@@ -165,8 +165,12 @@ def _to_dms(value: str, hemispheres: tuple, width: int) -> str:
 # Conversion
 # ---------------------------------------------------------------------------
 
-def convert(input_dir: Path, output_file: Path, originator: str | None) -> None:
-    source = _find_newest(input_dir, "*.zip", "*.xml")
+def convert(input_dir: Path, output_file: Path, originator: str | None,
+            *, input_file: Path | None = None) -> None:
+    if input_file is not None:
+        source = input_file
+    else:
+        source = _find_newest(input_dir, "*.zip", "*.xml")
     if source is None:
         raise FileNotFoundError(
             f"No *.zip or *.xml found in {input_dir}. "

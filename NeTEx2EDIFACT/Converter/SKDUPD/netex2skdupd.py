@@ -385,6 +385,7 @@ def build_trains_and_pors(
     # indicate genuine data problems) can be distinguished from skipped
     # buses or coaches (which are expected for SKDUPD).
     skipped_by_mode: Dict[str, int] = {}
+    converted_by_mode: Dict[str, int] = {}
     skipped_rail_details: List[Tuple[str, str, int, int]] = []  # (sj_id, train_number, total_pt, valid_stops)
 
     sj_dates = tt.dated_journeys_by_sj()
@@ -453,16 +454,18 @@ def build_trains_and_pors(
         # Skip journeys that collapse to <2 UIC-resolvable stops; the
         # accompanying ODIs are also suppressed because no Train is emitted.
         if total_stops < 2:
-            skipped_trains += 1
             mode_key = tm_value or "(none)"
             skipped_by_mode[mode_key] = skipped_by_mode.get(mode_key, 0) + 1
             if tm_value == "rail":
+                skipped_trains += 1
                 skipped_rail_details.append(
                     (sj_id, train_number, len(passing_times_sorted), total_stops)
                 )
             continue
 
         train_id += 1
+        conv_mode_key = tm_value or "(none)"
+        converted_by_mode[conv_mode_key] = converted_by_mode.get(conv_mode_key, 0) + 1
         trains.append(Train(
             train_id=train_id,
             service_number=train_number,
@@ -551,13 +554,19 @@ def build_trains_and_pors(
                 check_in=None,
             ))
 
-    print(f"Converted {len(trains)} trains, {len(pors)} stop-times "
+    non_rail_skipped = sum(n for m, n in skipped_by_mode.items() if m != "rail")
+    non_rail_converted = sum(n for m, n in converted_by_mode.items() if m != "rail")
+    unit = "journeys" if non_rail_converted else "trains"
+    print(f"Converted {len(trains)} {unit}, {len(pors)} stop-times "
           f"({skipped_stops} stops without UIC, {restricted_stops} with restrictions"
-          + (f", {skipped_trains} trains skipped (<2 valid stops)" if skipped_trains else "")
+          + (f", {skipped_trains} rail journeys skipped (<2 valid stops)" if skipped_trains else "")
           + ")")
-    if skipped_by_mode:
-        breakdown = ", ".join(f"{m}={n}" for m, n in sorted(skipped_by_mode.items(), key=lambda kv: -kv[1]))
-        print(f"  Skipped by TransportMode: {breakdown}")
+    if non_rail_converted:
+        conv_breakdown = ", ".join(f"{m}={n}" for m, n in sorted(converted_by_mode.items(), key=lambda kv: -kv[1]))
+        print(f"  Converted by mode: {conv_breakdown}")
+    if non_rail_skipped:
+        skip_breakdown = ", ".join(f"{m}={n}" for m, n in sorted(skipped_by_mode.items(), key=lambda kv: -kv[1]) if m != "rail")
+        print(f"  Skipped non-rail modes: {skip_breakdown}")
     if skipped_rail_details:
         rail_n = len(skipped_rail_details)
         print(f"  WARNING: {rail_n} rail journey(s) skipped due to <2 UIC-resolvable stops:")

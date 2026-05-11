@@ -840,5 +840,137 @@ uic:MigrationGuide a doc:Guide ;
     skos:definition "Step-by-step guide for migrating from UIC EDIFACT (SKDUPD/TSDUPD) to NeTEx XML" .
 
 ## =================================================================
+## VALIDATION RULES
+## =================================================================
+## Machine-readable pre-flight checks for NeTEx files before
+## EDIFACT conversion. The converter reads these rules at startup
+## and reports human-readable errors if violations are found.
+##
+## Rule structure:
+##   profile:appliesTo   — which message type (SKDUPD, TSDUPD, or both)
+##   profile:xpath       — XPath expression to evaluate (NeTEx namespace)
+##   profile:severity    — "error" (blocks conversion) or "warning" (advisory)
+##   profile:check       — "exists" | "count_gte" | "matches" | "unique"
+##   profile:threshold   — numeric threshold (for count_gte)
+##   profile:pattern     — regex pattern (for matches)
+##   profile:message     — Human-readable error message (shown to user)
+## =================================================================
+
+profile:ValidationRule a owl:Class ;
+    rdfs:label "Validation Rule" ;
+    skos:definition "A pre-flight check applied to NeTEx input files before EDIFACT conversion." .
+
+## --- Rules for TSDUPD (station files) ---
+
+profile:Rule_TSDUPD_HasStopPlaces a profile:ValidationRule ;
+    rdfs:label "Station file must contain StopPlace elements" ;
+    profile:appliesTo uic:TSDUPD ;
+    profile:xpath ".//netex:StopPlace" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <StopPlace> elements found. A TSDUPD station file must contain at least one StopPlace." .
+
+profile:Rule_TSDUPD_HasQuays a profile:ValidationRule ;
+    rdfs:label "StopPlaces must have Quay children" ;
+    profile:appliesTo uic:TSDUPD ;
+    profile:xpath ".//netex:StopPlace/netex:quays/netex:Quay" ;
+    profile:check "exists" ;
+    profile:severity "warning" ;
+    profile:message "No <Quay> elements found inside StopPlaces. TSDUPD output will lack platform data." .
+
+profile:Rule_TSDUPD_HasParticipant a profile:ValidationRule ;
+    rdfs:label "Station file must have ParticipantRef" ;
+    profile:appliesTo uic:TSDUPD ;
+    profile:xpath ".//netex:ParticipantRef" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <ParticipantRef> found. Cannot determine the originator (RICS code) for the EDIFACT message. Add a ParticipantRef to your PublicationDelivery." .
+
+profile:Rule_TSDUPD_StopHasName a profile:ValidationRule ;
+    rdfs:label "StopPlaces must have a Name" ;
+    profile:appliesTo uic:TSDUPD ;
+    profile:xpath ".//netex:StopPlace" ;
+    profile:childXpath "netex:Name" ;
+    profile:check "all_have_child" ;
+    profile:severity "warning" ;
+    profile:message "One or more StopPlaces lack a <Name> element. Station names will be empty in TSDUPD output." .
+
+profile:Rule_TSDUPD_StopHasUIC a profile:ValidationRule ;
+    rdfs:label "StopPlaces should have a UIC code" ;
+    profile:appliesTo uic:TSDUPD ;
+    profile:xpath ".//netex:StopPlace/netex:privateCodes/netex:PrivateCode" , ".//netex:StopPlace/netex:PrivateCode" ;
+    profile:check "exists" ;
+    profile:severity "warning" ;
+    profile:message "Some StopPlaces may be missing a PrivateCode (uicCode). TSDUPD requires UIC codes -- stations without one will be skipped." .
+
+## --- Rules for SKDUPD (timetable files) ---
+
+profile:Rule_SKDUPD_HasServiceJourney a profile:ValidationRule ;
+    rdfs:label "Timetable file must contain ServiceJourney" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:ServiceJourney" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <ServiceJourney> elements found. A timetable file must contain at least one ServiceJourney for SKDUPD conversion." .
+
+profile:Rule_SKDUPD_HasParticipant a profile:ValidationRule ;
+    rdfs:label "Timetable file must have ParticipantRef" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:ParticipantRef" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <ParticipantRef> found. Cannot determine the originator (RICS code). Add a ParticipantRef to your PublicationDelivery." .
+
+profile:Rule_SKDUPD_HasPassingTimes a profile:ValidationRule ;
+    rdfs:label "ServiceJourneys must have passing times" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:ServiceJourney/netex:passingTimes/netex:TimetabledPassingTime" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <TimetabledPassingTime> elements found inside ServiceJourneys. SKDUPD cannot produce POR segments without stop times." .
+
+profile:Rule_SKDUPD_HasJourneyPattern a profile:ValidationRule ;
+    rdfs:label "Must have JourneyPattern" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:JourneyPattern" ;
+    profile:check "exists" ;
+    profile:severity "error" ;
+    profile:message "No <JourneyPattern> found. SKDUPD needs JourneyPatterns to determine stop sequences and boarding restrictions." .
+
+profile:Rule_SKDUPD_HasDayType a profile:ValidationRule ;
+    rdfs:label "Must have operating calendar" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:DayType" , ".//netex:OperatingDay" , ".//netex:DatedServiceJourney" ;
+    profile:check "any_exists" ;
+    profile:severity "error" ;
+    profile:message "No operating calendar found (DayType, OperatingDay, or DatedServiceJourney). SKDUPD requires a POP segment -- add calendar data." .
+
+profile:Rule_SKDUPD_HasLine a profile:ValidationRule ;
+    rdfs:label "Should have Line definition" ;
+    profile:appliesTo uic:SKDUPD ;
+    profile:xpath ".//netex:Line" ;
+    profile:check "exists" ;
+    profile:severity "warning" ;
+    profile:message "No <Line> element found. Service name in SKDUPD PRD segment will be empty." .
+
+## --- Rules for BOTH (common) ---
+
+profile:Rule_Common_WellFormedXML a profile:ValidationRule ;
+    rdfs:label "File must be well-formed XML" ;
+    profile:appliesTo uic:SKDUPD , uic:TSDUPD ;
+    profile:check "wellformed" ;
+    profile:severity "error" ;
+    profile:message "File is not well-formed XML. Check for encoding issues, unclosed tags, or invalid characters." .
+
+profile:Rule_Common_IsNeTEx a profile:ValidationRule ;
+    rdfs:label "Root must be NeTEx PublicationDelivery" ;
+    profile:appliesTo uic:SKDUPD , uic:TSDUPD ;
+    profile:xpath "." ;
+    profile:check "root_tag" ;
+    profile:rootTag "PublicationDelivery" ;
+    profile:severity "error" ;
+    profile:message "Root element is not <PublicationDelivery>. This does not appear to be a NeTEx file." .
+
+## =================================================================
 ## END OF ONTOLOGY
 ## =================================================================
