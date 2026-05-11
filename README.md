@@ -155,20 +155,17 @@ Input: NeTEx XML
 python NeTEx2EDIFACT/netex2skdupd.py \
   --timetable "path/to/timetable.zip" \
   --stations "path/to/stations.zip" \
-  --output "output.r" \
-  --originator NSR
+  --output "output.r"
 
 # Single operator stations → TSDUPD
 python NeTEx2EDIFACT/netex2tsdupd.py \
   --input "path/to/stations.zip" \
-  --output "output.r" \
-  --originator NSR
+  --output "output.r"
 
 # Batch: all operators in Source/ → single SKDUPD
 python NeTEx2EDIFACT/run_conversion.py \
   --source-dir Source/ \
-  --output "output.r" \
-  --originator NSR
+  --output "output.r"
 ```
 
 See [NeTEx2EDIFACT/README.md](NeTEx2EDIFACT/README.md) for detailed examples.

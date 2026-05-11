@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-netex2skdupd.py  —  Mode 1: NeTEx timetable + NAP station file → SKDUPD EDIFACT
+netex2skdupd.py  —  Mode 1: NeTEx timetable + station file → SKDUPD EDIFACT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Converts a Nordic NeTEx timetable ZIP together with a station ZIP from a NAP
-(e.g. NSR/Entur RailStations export) directly to a SKDUPD EDIFACT file.
+Converts a NeTEx timetable ZIP together with a station ZIP directly to a
+SKDUPD EDIFACT file.
 
 Lookup chain:
   ServiceJourney.PrivateCode          → Train.service_number
   DatedServiceJourney → OperatingDay  → Train.first_day / last_day / operation_days
-  TimetabledPassingTime → SPiJP → SSP → station file PSA → NSR Quay
+  TimetabledPassingTime → SPiJP → SSP → station file PSA → Quay
                                        → parent StopPlace.PrivateCode → Por.uic
                                        → Quay.PublicCode              → Por.arrival/departure_platform
 
 Usage:
-  python netex2skdupd.py --timetable Source/flb_2024-12-05T14_37_53.106.zip
-                         --stations  Source/RailStations_latest.zip
+  python netex2skdupd.py --timetable Source/timetable.zip
+                         --stations  Source/stations.zip
                          --output    NEW_SKDUPD/new_SKDUPD.r
-                         --originator FLB
+
+The originator (EDIFACT ORG/3036 RICS code) is derived automatically from
+<ParticipantRef> in the NeTEx file. Use --originator to override.
 """
 
 from __future__ import annotations
@@ -39,6 +41,7 @@ from merits.skdupd import definition
 
 from Converter.Shared.netex_helpers import (
     NS,
+    participant_ref,
     private_code,
     ref as netex_ref,
     rows_in_memory,
@@ -163,10 +166,8 @@ def _build_station_index(station_path: Path) -> Dict[str, Tuple[str, str]]:
     """
     Returns quay_id → (uic_code, platform_public_code)
     by reading StopPlace UIC and nested Quay/PublicCode from a station NeTEx
-    source.  Accepts either a ZIP archive of XML files (e.g. NSR
-    RailStations_latest.zip) or a single .xml document
-    (e.g. nsr_railstations_with_mct.xml that includes Nordic neighbour
-    stations such as Göteborg, Helsingborg).
+    source.  Accepts either a ZIP archive of XML files or a single .xml
+    document.
 
     Child StopPlaces (those with a ParentSiteRef) inherit the parent's UIC
     code when their own privateCodes/uicCode is empty.  This pattern is
@@ -232,7 +233,7 @@ def _build_station_index(station_path: Path) -> Dict[str, Tuple[str, str]]:
 # ---------------------------------------------------------------------------
 
 class TimetableData:
-    """Parses a Nordic NeTEx timetable ZIP (shared file + one or more journey files)."""
+    """Parses a NeTEx timetable ZIP (shared file + one or more journey files)."""
 
     def __init__(self, timetable_zip: Path):
         self.shared_root: Optional[ET.Element] = None
@@ -240,7 +241,7 @@ class TimetableData:
         self._load(timetable_zip)
 
         # Lookups built from shared file
-        self.ssp_to_quay: Dict[str, str] = {}          # SSP id → Quay id (NSR)
+        self.ssp_to_quay: Dict[str, str] = {}          # SSP id → Quay id
         self.od_to_date: Dict[str, date] = {}           # OperatingDay id → date
         self._build_shared_lookups()
 
@@ -575,7 +576,7 @@ def convert(
     timetable_zip: Path,
     station_zip: Path,
     output_file: Path,
-    originator: str,
+    originator: str | None = None,
     config_dir: Optional[Path] = None,
 ) -> None:
     cfg_dir = config_dir or DEFAULT_CONFIG_DIR
@@ -586,9 +587,6 @@ def convert(
     if service_mode_map:
         print(f"  Loaded service-mode map: {len(service_mode_map)} entries")
 
-    resolved_originator = resolve_originator(originator, None)
-    print(f"Originator {originator!r} -> RICS {resolved_originator!r}")
-
     print(f"Loading station index from {station_zip.name} ...")
     quay_index = _build_station_index(station_zip)
     print(f"  {len(quay_index)} quays indexed")
@@ -598,6 +596,11 @@ def convert(
     print(f"  {len(tt.ssp_to_quay)} SSP→Quay assignments")
     print(f"  {len(tt.spijp_to_ssp)} StopPointInJourneyPattern entries")
     print(f"  {sum(len(v) for v in tt.dated_journeys_by_sj().values())} DatedServiceJourney entries")
+
+    # Resolve originator: CLI override > ParticipantRef in NeTEx file
+    participant = participant_ref(tt.shared_root) if tt.shared_root is not None else ""
+    resolved_originator = resolve_originator(participant, originator)
+    print(f"  Originator: {resolved_originator!r} (ParticipantRef={participant!r})")
 
     meta_list, trains, pors = build_trains_and_pors(
         tt, quay_index, resolved_originator,
@@ -635,17 +638,17 @@ def convert(
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="netex2skdupd",
-        description="Convert NeTEx timetable + NAP station file to SKDUPD EDIFACT (Mode 1).",
+        description="Convert NeTEx timetable + station file to SKDUPD EDIFACT.",
     )
     parser.add_argument(
         "--timetable",
         required=True,
-        help="Path to timetable NeTEx ZIP (e.g. Source/flb_2024-12-05T14_37_53.106.zip).",
+        help="Path to timetable NeTEx ZIP.",
     )
     parser.add_argument(
         "--stations",
         required=True,
-        help="Path to station NeTEx ZIP from NAP (e.g. Source/RailStations_latest.zip).",
+        help="Path to station NeTEx ZIP.",
     )
     parser.add_argument(
         "--output",
@@ -653,7 +656,8 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--originator",
-        default="NSR",
+        default=None,
+        help="Override EDIFACT ORG/3036 RICS code. Auto-derived from ParticipantRef when omitted.",
     )
     return parser
 

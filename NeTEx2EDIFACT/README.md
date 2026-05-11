@@ -1,14 +1,14 @@
 # NeTEx2EDIFACT
 
-Converts **NeTEx Nordic profile** data to **MERITS EDIFACT** format (both TSDUPD and SKDUPD).
+Converts **NeTEx** data to **MERITS EDIFACT** format (both TSDUPD and SKDUPD).
 
 ## Documentation
 
 - [TSDUPD Converter Guide](../Guides/TSDUPD/TSDUPD_Converter_Guide.md) - station/location conversion design, profile rationale, and pipeline choices.
 - [SKDUPD Converter Guide](../Guides/SKDUPD/SKDUPD_Converter_Guide.md) - timetable conversion design, calendar logic, ODI handling, and converter trade-offs.
 
-Source data is the Norwegian national access point (NSR/Entur):
-- Station/stop place data — exported from Tiamat as a NeTEx `SiteFrame`
+Source data is a NeTEx export conforming to the UIC profile:
+- Station/stop place data — a NeTEx `SiteFrame` (ZIP or XML)
 - Timetable data — operator NeTEx ZIPs containing `ServiceFrame` + `TimetableFrame`
 
 Both message types are supported with two pipeline variants: a **direct** path (NeTEx → EDIFACT in one step) and a **CSV intermediate** path (NeTEx → CSV → EDIFACT) for inspection and manual correction.
@@ -55,7 +55,7 @@ Place source NeTEx ZIP files in `Source/`:
 
 | File | Content |
 |------|---------|
-| `RailStations_latest.zip` | NSR Tiamat rail station export (`SiteFrame`) — used as NAP station reference |
+| `RailStations_latest.zip` | Station export (`SiteFrame`) — used as station reference |
 | `<operator>_<date>.zip`   | Operator timetable NeTEx ZIP with a shared file (`_*.xml`) and one or more journey files |
 
 ## TSDUPD — Station location messages
@@ -70,8 +70,7 @@ re-sent when station data changes.
 ```bash
 python run.py tsdupd \
   --input  "Source/RailStations_latest.zip" \
-  --output NEW_TSDUPD/new_TSDUPD.r \
-  --originator NSR
+  --output NEW_TSDUPD/new_TSDUPD.r
 ```
 
 Outputs:
@@ -84,8 +83,7 @@ Outputs:
 # Step 1 — produce CSV files in CSV/
 python run.py tsdupd \
   --input      "Source/RailStations_latest.zip" \
-  --csv-dir    ./CSV \
-  --originator NSR
+  --csv-dir    ./CSV
 
 # Step 2 — build EDIFACT from CSV
 python run.py tsdupd --csv-dir ./CSV --output NEW_TSDUPD/new_TSDUPD.r
@@ -99,11 +97,11 @@ CSV files written to `CSV/`:
 | `TSDUPD_STOP.csv` | One row per station: UIC code, name, coordinates, country |
 | `TSDUPD_SYNONYM.csv` | Alternative names by language (populated if source has `AlternativeName`) |
 | `TSDUPD_MCT.csv` | Minimum connection times (populated from `SiteConnection` self-loops) |
-| `TSDUPD_FOOTPATH.csv` | Inter-station footpaths (empty — not modelled in NSR) |
+| `TSDUPD_FOOTPATH.csv` | Inter-station footpaths (empty if not modelled in source) |
 
 ### UIC code resolution (station file)
 
-The converter handles three encoding variants found in NSR exports:
+The converter handles three encoding variants found in NeTEx exports:
 
 | Pattern           | Location                                              | Notes |
 |-------------------|-------------------------------------------------------|-------|
@@ -115,12 +113,12 @@ The converter handles three encoding variants found in NSR exports:
 
 SKDUPD carries the full timetable: trains, stop-times, platforms, and operating days.
 
-UIC codes and platform numbers are resolved via the NAP station file:
+UIC codes and platform numbers are resolved via the station file:
 
 ```
 ScheduledStopPoint
   → PassengerStopAssignment (timetable shared file)
-      → NSR Quay (station file)
+      → Quay (station file)
           → parent StopPlace/PrivateCode  →  Por.uic
           → Quay/PublicCode               →  Por.arrival_platform / departure_platform
 ```
@@ -129,10 +127,9 @@ ScheduledStopPoint
 
 ```bash
 python run.py skdupd \
-  --timetable  "Source/flb_2024-12-05T14_37_53.106.zip" \
-  --stations   "Source/RailStations_latest.zip" \
-  --output     NEW_SKDUPD/new_SKDUPD.r \
-  --originator FLB
+  --timetable  "Source/timetable.zip" \
+  --stations   "Source/stations.zip" \
+  --output     NEW_SKDUPD/new_SKDUPD.r
 ```
 
 ### Via CSV intermediate
@@ -140,10 +137,9 @@ python run.py skdupd \
 ```bash
 # Step 1
 python run.py skdupd \
-  --timetable  "Source/flb_2024-12-05T14_37_53.106.zip" \
-  --stations   "Source/RailStations_latest.zip" \
-  --csv-dir    ./CSV \
-  --originator FLB
+  --timetable  "Source/timetable.zip" \
+  --stations   "Source/stations.zip" \
+  --csv-dir    ./CSV
 
 # Step 2
 python run.py skdupd --csv-dir ./CSV --output NEW_SKDUPD/new_SKDUPD.r
@@ -169,8 +165,7 @@ and builds ODI records from `ServiceFacilitySet` data where available.
 ```bash
 python run.py skdupd --batch \
   --source-dir Source/ \
-  --output     NEW_SKDUPD/new_SKDUPD_batch.r \
-  --originator NSR
+  --output     NEW_SKDUPD/new_SKDUPD_batch.r
 ```
 
 Station ZIP is auto-detected from `--source-dir` (any file matching `RailStations*.zip`).
