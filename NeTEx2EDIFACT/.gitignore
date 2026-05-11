@@ -20,3 +20,6 @@ NEW_TSDUPD/
 # Input data (too large / not committed)
 CSV/
 Source/TSDUPD/
+Source/
+tmp_vyg/
+scripts/

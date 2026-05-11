@@ -19,8 +19,10 @@ scripts/enrich_stopplaces_with_mct.py
 scripts/data/
 
 # Local working data
-Nordic source material/Locations_*.csv
-Nordic source material/nsr_railstations_with_mct.xml
+Nordic source material/
 
 # Case studies (local working files)
 CaseStudies/
+scripts/f4_stops_analysis.py
+scripts/generate_f4_bus_stops.py
+scripts/stream_extract_uic_stops.py
