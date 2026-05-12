@@ -167,7 +167,7 @@ changes operator three times (DB → ČD → PKP) within one ServiceJourney.
 |-------|----------------------------------------------------------------------|-------------------------------------|
 | P-001 | Mandatory `type` attribute on `PrivateCode`                          | proposed                            |
 | P-002 | `GeneralOrganisation` + `ResponsibilitySet` instead of `OperatorRef` | proposed                            |
-| P-004 | Mode-neutral `ServiceNumber` as co-equal alias to `TrainNumber`      | upstream proposal — onboarding window |
+| P-004 | Mode-neutral `ServiceNumber` as co-equal alias to `TrainNumber`      | withdrawn — superseded by P-001 + P-002 + `PublicCode` |
 
 **Status vocabulary:**
 
@@ -183,10 +183,26 @@ changes operator three times (DB → ČD → PKP) within one ServiceJourney.
 
 ## P-004 · Mode-neutral `ServiceNumber` as a co-equal alias to `TrainNumber` (NeTEx core)
 
-**Status.** Upstream proposal — onboarding window. Not a change to this
-profile in isolation; this is a proposal to NeTEx core (CEN) to be
-raised during the current onboarding window, *combined with* a
-profile-level policy that picks the alias.
+**Status.** ~~Upstream proposal — onboarding window.~~ **Withdrawn** (2026-05-12).
+
+**Reason for withdrawal.** The problem P-004 addressed — mode-specific
+naming and conflation of commercial/operational numbers — is fully
+covered by existing NeTEx elements without a schema change:
+
+- **Commercial identity** → `PublicCode` on `ServiceJourney` (already
+  mode-neutral, already in schema).
+- **Per-leg commercial number** (if it differs) →
+  `PrivateCode[@type='CommercialTrainNumber']` on `JourneyPart` (P-001).
+- **Operational/path number** → `Block`/`BlockPart` in
+  `VehicleScheduleFrame` (existing schema, lays foundation for future
+  PathAllocationFrame).
+- **Per-leg operator** → `responsibilitySetRef` on `JourneyPart` (P-002).
+
+No CEN proposal needed. The onboarding window can be used for other
+items if desired.
+
+<details>
+<summary>Original proposal (archived)</summary>
 
 **Scope.** This is the *only* proposal in this document that targets
 NeTEx core rather than profile practice. P-001 and P-002 require no
@@ -320,6 +336,8 @@ which already handle the data side.
      superseded by P-004 once the native TrainNumber object with
      ForAdvertisement/ForProduction was confirmed to cover the same
      distinction without a profile extension. -->
+
+</details>
 
 ---
 

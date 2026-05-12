@@ -36,23 +36,11 @@ the current onboarding window — yes/no, and with what scope.
 
 | ID    | Decision needed                                                                              | Blocker? | Forum             |
 |-------|----------------------------------------------------------------------------------------------|----------|-------------------|
-| P-004 | Introduce `ServiceNumber` as co-equal alias to `TrainNumber` with soft deprecation marker    | Yes      | CEN onboarding WG |
+| ~~P-004~~ | ~~Introduce `ServiceNumber` as co-equal alias to `TrainNumber`~~ | ~~Yes~~ | ~~CEN onboarding WG~~ |
 
-**Why blocker:** the onboarding window is the cheap moment. Missing it
-means a 3–5 year revision cycle for the same change. Decision needed
-before next CEN meeting.
-
-**Open sub-questions for P-004:**
-
-1. Final name — `ServiceNumber` vs alternatives? (Recommendation:
-   `ServiceNumber`.)
-2. Alias mechanics — substitution group, shared abstract base type, or
-   simple parallel element? (Recommendation: substitution group with
-   shared base, so `ServiceNumberRef`/`TrainNumberRef` resolve to the
-   same target.)
-3. Deprecation strength — soft note vs explicit `-vX.X` marker?
-   (Recommendation: explicit marker, otherwise the deprecation track
-   is not real.)
+**No blocker-level items remain.** P-004 was withdrawn 2026-05-12 —
+the use cases are covered by `PublicCode` + P-001 + P-002 +
+Block/BlockPart without a schema change.
 
 ---
 
@@ -124,6 +112,12 @@ Date · ID · Decision · Forum.
   proposal — onboarding window"** on the strength of the
   onboarding-window argument (alias + soft deprecation is a normal CEN
   pattern; cost lower now than later). · Internal review.
+- 2026-05-12 · P-004 · **Withdrawn.** Superseded by existing schema
+  elements: `PublicCode` on ServiceJourney (commercial identity),
+  `PrivateCode[@type='CommercialTrainNumber']` on JourneyPart (per-leg
+  override per P-001), Block/BlockPart (operational/path numbers), and
+  `responsibilitySetRef` on JourneyPart (per-leg operator per P-002).
+  No CEN schema change needed. · Internal review.
 
 ---
 
